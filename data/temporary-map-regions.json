@@ -1,0 +1,56 @@
+{
+  "updatedAt": "2026-08-12T15:15:24.576Z",
+  "updatedBy": "zsmith",
+  "regions": [
+    {
+      "id": "meso-wyoming",
+      "label": "Wyoming",
+      "bbox": [
+        -111.61,
+        40.36,
+        -103.56,
+        45.53
+      ],
+      "west": -111.61,
+      "south": 40.36,
+      "east": -103.56,
+      "north": 45.53,
+      "displayBounds": {
+        "west": -115.14453332707103,
+        "south": 40.36,
+        "east": -100.02546667292899,
+        "north": 45.53
+      },
+      "expiresAt": "2026-09-01T06:00:00.000Z",
+      "fallback": "",
+      "domain": "MESO1",
+      "domains": [
+        "MESO1"
+      ]
+    },
+    {
+      "id": "meso-severe-weather-1",
+      "label": "Severe Weather 1",
+      "bbox": [
+        -92.16,
+        38.05,
+        -82.16,
+        44.47
+      ],
+      "west": -92.16,
+      "south": 38.05,
+      "east": -82.16,
+      "north": 44.47,
+      "displayBounds": {
+        "west": -96.3010585073904,
+        "south": 38.05,
+        "east": -78.0189414926096,
+        "north": 44.47
+      },
+      "expiresAt": "2026-08-13T05:59:00.000Z",
+      "fallback": "",
+      "domain": "",
+      "domains": []
+    }
+  ]
+}

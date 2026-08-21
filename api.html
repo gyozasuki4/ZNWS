@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Weather API · ZASNet Weather Service</title>
+  <meta name="description" content="Developer documentation for the ZASNet Weather Service public alerts API.">
+  <link rel="stylesheet" href="/api-docs.css?v=20260813">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/"><img src="/ZNWS.png" alt=""><span>ZASNet <b>Weather API</b></span></a>
+    <nav><a href="#endpoints">Endpoints</a><a href="#filters">Filters</a><a href="#schema">Schema</a><a href="/api/openapi.json">OpenAPI</a><a href="/public.html">Alerts map</a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">Developer documentation</p><h1>Weather alerts,<br><em>built for software.</em></h1><p class="lede">Query active ZASNet watches, warnings, and advisories as GeoJSON. No API key is required.</p><div class="hero-actions"><a class="primary" href="/api/public/alerts/active">View live response</a><a href="/api/openapi.json">OpenAPI 3.1 specification</a></div></div>
+      <div class="quickstart"><div class="code-head"><span>Quick start</span><button data-copy="#quick-code">Copy</button></div><pre id="quick-code"><code>curl "<span data-origin></span>/api/public/alerts/active?area=TN"</code></pre><p>Returns a GeoJSON FeatureCollection containing active alerts in Tennessee.</p></div>
+    </section>
+
+    <div class="layout">
+      <aside aria-label="On this page"><strong>On this page</strong><a href="#overview">Overview</a><a href="#endpoints">Endpoints</a><a href="#filters">Query filters</a><a href="#examples">Examples</a><a href="#schema">Alert schema</a><a href="#pagination">Pagination</a><a href="#errors">Errors and limits</a><a href="#legacy">Existing formats</a></aside>
+      <article>
+        <section id="overview"><p class="kicker">Overview</p><h2>A familiar alerts interface</h2><p>The API is a read-only view of currently active, non-practice ZASNet products. Responses use GeoJSON and include CAP-style status, urgency, severity, certainty, event text, geocodes, timing, instructions, and geometry.</p><div class="notice"><strong>Important</strong><p>This is an unofficial ZASNet service. For life-safety decisions, follow official warnings and local emergency instructions.</p></div><dl class="facts"><div><dt>Base URL</dt><dd><code data-base-url></code></dd></div><div><dt>Authentication</dt><dd>None</dd></div><div><dt>Response format</dt><dd>GeoJSON / JSON</dd></div><div><dt>CORS</dt><dd>Allowed from all origins</dd></div><div><dt>Cache lifetime</dt><dd>15 seconds</dd></div><div><dt>Maximum page size</dt><dd>500 alerts</dd></div></dl></section>
+
+        <section id="endpoints"><p class="kicker">Reference</p><h2>Endpoints</h2>
+          <div class="endpoint"><div><span class="method">GET</span><code>/api/public/alerts/active</code></div><p>List active alerts. Apply query parameters to filter the collection.</p></div>
+          <div class="endpoint"><div><span class="method">GET</span><code>/api/public/alerts/active/area/{state}</code></div><p>Active alerts for a two-letter state or territory code.</p></div>
+          <div class="endpoint"><div><span class="method">GET</span><code>/api/public/alerts/active/zone/{zone}</code></div><p>Active alerts for a UGC county or forecast-zone identifier.</p></div>
+          <div class="endpoint"><div><span class="method">GET</span><code>/api/public/alerts/active/count</code></div><p>Small JSON summary grouped by event name.</p></div>
+          <div class="endpoint"><div><span class="method">GET</span><code>/api/public/alerts/{id}</code></div><p>Retrieve one active alert by its internal ID or product ID.</p></div>
+          <div class="endpoint"><div><span class="method">GET</span><code>/api/public/alerts/{id}.txt</code></div><p>Retrieve the complete plain-text warning bulletin.</p></div>
+        </section>
+
+        <section id="filters"><p class="kicker">Query parameters</p><h2>Filter active alerts</h2><div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Value</th><th>Description</th></tr></thead><tbody>
+          <tr><td><code>area</code></td><td><code>TN</code></td><td>Two-letter state or territory. Comma-separated values are accepted.</td></tr>
+          <tr><td><code>zone</code></td><td><code>TN006</code></td><td>UGC county or forecast-zone identifier.</td></tr>
+          <tr><td><code>point</code></td><td><code>36.16,-86.78</code></td><td>Latitude and longitude. Returns alerts whose geometry contains the point.</td></tr>
+          <tr><td><code>event</code></td><td><code>Tornado Warning</code></td><td>Exact event name, case-insensitive.</td></tr>
+          <tr><td><code>code</code></td><td><code>TOR</code></td><td>ZASNet/AWIPS product code.</td></tr>
+          <tr><td><code>severity</code></td><td><code>Severe</code></td><td>Extreme, Severe, Moderate, Minor, or Unknown.</td></tr>
+          <tr><td><code>urgency</code></td><td><code>Immediate</code></td><td>Immediate, Expected, Future, Past, or Unknown.</td></tr>
+          <tr><td><code>certainty</code></td><td><code>Observed</code></td><td>Observed, Likely, Possible, Unlikely, or Unknown.</td></tr>
+          <tr><td><code>limit</code></td><td><code>100</code></td><td>Results per page, from 1 through 500.</td></tr>
+          <tr><td><code>cursor</code></td><td><code>100</code></td><td>Result offset supplied by <code>pagination.next</code>.</td></tr>
+        </tbody></table></div><p>Repeat a parameter or use comma-separated values to request multiple matches. Different filters are combined with AND.</p></section>
+
+        <section id="examples"><p class="kicker">Recipes</p><h2>Example requests</h2>
+          <div class="tabs" role="tablist"><button class="active" data-example="curl">cURL</button><button data-example="js">JavaScript</button><button data-example="python">Python</button></div>
+          <div class="example active" data-panel="curl"><button data-copy="[data-panel='curl'] pre">Copy</button><pre><code>curl "<span data-origin></span>/api/public/alerts/active?event=Tornado%20Warning&amp;area=TN"</code></pre></div>
+          <div class="example" data-panel="js"><button data-copy="[data-panel='js'] pre">Copy</button><pre><code>const url = new URL("<span data-origin></span>/api/public/alerts/active");
+url.searchParams.set("point", "36.16,-86.78");
+
+const response = await fetch(url);
+if (!response.ok) throw new Error(`API ${response.status}`);
+const alerts = await response.json();
+console.log(alerts.features);</code></pre></div>
+          <div class="example" data-panel="python"><button data-copy="[data-panel='python'] pre">Copy</button><pre><code>import requests
+
+response = requests.get(
+    "<span data-origin></span>/api/public/alerts/active",
+    params={"area": "TN", "severity": "Severe"},
+    timeout=20,
+)
+response.raise_for_status()
+alerts = response.json()["features"]</code></pre></div>
+        </section>
+
+        <section id="schema"><p class="kicker">Data model</p><h2>Alert feature</h2><p>Every collection member is a GeoJSON Feature. Polygon or MultiPolygon geometry describes the alert area; <code>geometry</code> may be null when no usable area is available.</p><div class="schema-grid"><div><code>id</code><p>Canonical URL for this alert.</p></div><div><code>geometry</code><p>GeoJSON Polygon or MultiPolygon.</p></div><div><code>properties.id</code><p>Stable ZASNet alert identifier.</p></div><div><code>properties.event</code><p>Human-readable hazard name.</p></div><div><code>properties.areaDesc</code><p>Plain-language affected area.</p></div><div><code>properties.geocode</code><p>SAME/FIPS and UGC identifiers.</p></div><div><code>properties.sent / effective / onset / expires / ends</code><p>ISO 8601 lifecycle times.</p></div><div><code>properties.status</code><p>CAP status; public products are Actual.</p></div><div><code>properties.severity / urgency / certainty</code><p>CAP-style hazard classification.</p></div><div><code>properties.headline / description / instruction</code><p>Human-readable alert content.</p></div><div><code>properties.sender / senderName</code><p>Issuing office identity.</p></div><div><code>properties.parameters</code><p>Product code, product ID, and state metadata.</p></div></div><p class="spec-link">For exact types and enumerations, use the <a href="/api/openapi.json">OpenAPI 3.1 document</a>.</p></section>
+
+        <section id="pagination"><p class="kicker">Collections</p><h2>Pagination</h2><p>Set <code>limit</code> to control page size. When more results exist, the response contains a complete URL in <code>pagination.next</code>. Follow that URL as provided. A null value means the final page has been reached.</p><pre><code>{
+  "pagination": {
+    "next": "<span data-origin></span>/api/public/alerts/active?limit=100&amp;cursor=100"
+  }
+}</code></pre></section>
+
+        <section id="errors"><p class="kicker">Operations</p><h2>Errors, caching, and use</h2><ul><li><strong>200</strong> — request succeeded, including an empty collection.</li><li><strong>404</strong> — an individual alert does not exist or is no longer active.</li><li><strong>5xx</strong> — service-side failure; retry with exponential backoff.</li></ul><p>Collection responses advertise <code>Cache-Control: public, max-age=15</code>. Clients should honor that cache window and avoid aggressive polling. Cross-origin GET, HEAD, and OPTIONS requests are supported without credentials.</p></section>
+
+        <section id="legacy"><p class="kicker">Compatibility</p><h2>Existing response formats</h2><p>Clients built for the original ZASNet API can continue using these routes:</p><ul><li><code>/api/public/alerts</code> — compact ZASNet JSON</li><li><code>/api/public/alerts?format=geojson</code> — map-oriented GeoJSON</li><li><code>/api/public/alerts?format=catalog</code> — lightweight product catalog</li><li><code>/api/public/summary</code> — active product summary</li></ul></section>
+      </article>
+    </div>
+  </main>
+  <footer><span>ZASNet Weather Service</span><p>Public data interface · For situational awareness</p><a href="/">Weather home</a></footer>
+  <script src="/api-docs.js?v=20260813"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+.map-workstation-page main{width:min(1560px,calc(100% - 32px));margin-inline:auto}
+.map-workstation-page .outlook-studio{display:grid;grid-template-columns:minmax(0,1fr);margin-top:10px;overflow:hidden;border:1px solid #3d4d39;border-radius:9px;background:#0d130e;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.map-workstation-page .outlook-viewer{min-width:0}
+.map-workstation-page .outlook-viewer>header{display:block;padding:10px 12px;border-bottom:1px solid #263023;background:#141b13}
+.map-workstation-page .viewer-controls{display:flex;align-items:flex-end;gap:14px;width:100%;flex-wrap:wrap}
+.map-workstation-page .viewer-controls .control-group,.map-workstation-page .viewer-region-control,.map-workstation-page #forecastTimeControl{display:grid;min-width:0;gap:5px;padding:0;border:0;background:transparent}
+.map-workstation-page .viewer-controls .control-group>span,.map-workstation-page .viewer-controls .product-picker>label,.map-workstation-page .viewer-region-control>span:first-child,.map-workstation-page #forecastTimeControl>span{color:#899685;font-size:.55rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+.map-workstation-page .viewer-controls select{min-height:40px;padding:8px 11px;border:1px solid #3e493a;border-radius:5px;color:#eff4eb;background:#1b231a;font-size:.78rem;font-weight:700}
+.map-workstation-page .viewer-controls select:hover{border-color:#687960;background:#202a1e}
+.map-workstation-page .viewer-controls select:focus{outline:2px solid rgba(156,175,139,.32);outline-offset:1px}
+.map-workstation-page .viewer-controls optgroup{color:#9caf88;font-weight:800}
+.map-workstation-page .viewer-controls option{color:#eef2ea;background:#10120f}
+.map-workstation-page .viewer-heading{display:none}
+.map-workstation-page .image-frame{position:relative;min-height:clamp(300px,calc(100vh - 255px),650px);border-bottom:1px solid #263023;background:radial-gradient(circle at 50% 35%,#263323 0,#121a12 55%,#090d09 100%)}
+.map-workstation-page .image-frame img{width:100%;max-height:calc(100vh - 255px);object-fit:contain;filter:drop-shadow(0 10px 20px rgba(0,0,0,.22))}
+.map-workstation-page .image-status{z-index:2;padding:10px 13px;border:1px solid #44543e;border-radius:8px;background:rgba(12,18,11,.92);box-shadow:0 10px 30px #0006}
+.map-workstation-page .outlook-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 16px;background:#111811}
+.map-workstation-page .outlook-footer-meta{display:flex;align-items:center;gap:10px;min-width:0}
+.map-workstation-page .outlook-footer-meta p{overflow:hidden;margin:0;color:#b8c3b3;white-space:nowrap;text-overflow:ellipsis}
+.map-workstation-page .outlook-footer-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.map-workstation-page .outlook-footer-actions button,.map-workstation-page .outlook-footer-actions a{display:inline-flex;align-items:center;min-height:34px;padding:8px 12px;border:1px solid #52624c;border-radius:6px;color:#e4ebdf;background:#222d20;font-size:.68rem;font-weight:850;line-height:1;text-decoration:none}
+.map-workstation-page .outlook-footer-actions button:hover,.map-workstation-page .outlook-footer-actions a:hover{border-color:#91a782;background:#34412f}
+.map-workstation-page .viewer-status{margin:0;border-color:rgba(143,172,114,.45);border-radius:4px;color:#c7d9b5;background:#1c2718;white-space:nowrap}
+
+/* Override the Weather Maps page's legacy fixed-height workstation. */
+.weather-maps-page.map-workstation-page .outlook-viewer{min-height:0}
+.weather-maps-page.map-workstation-page .outlook-viewer .image-frame{min-height:clamp(300px,calc(100vh - 255px),650px)}
+.weather-maps-page.map-workstation-page .outlook-viewer .image-frame img{width:100%;height:auto;max-height:calc(100vh - 255px);object-fit:contain}
+
+.severe-outlooks-page .viewer-controls{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(430px,1.6fr) minmax(210px,.8fr)}
+.severe-outlooks-page .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.severe-outlooks-page .hazard-control .choices{grid-template-columns:repeat(5,1fr)}
+.severe-outlooks-page .choices button{min-height:40px;padding:7px 10px;border:1px solid #3e493a;border-radius:5px;color:#b8c3b3;background:#1b231a;font-size:.72rem;font-weight:750;cursor:pointer}
+.severe-outlooks-page .choices button:hover{border-color:#687960;background:#202a1e}
+.severe-outlooks-page .choices button.is-active{border-color:#91a782;color:#f3f7ef;background:#3b4a35}
+.severe-outlooks-page .region-select select{width:100%}
+
+@media(max-width:1050px){
+  .map-workstation-page .viewer-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .map-workstation-page .viewer-controls select{width:100%!important}
+  .severe-outlooks-page .viewer-controls{grid-template-columns:1fr 1fr}
+  .severe-outlooks-page .hazard-control{grid-column:1/-1;grid-row:2}
+  .map-workstation-page .image-frame{min-height:clamp(280px,calc(100vh - 330px),560px)}
+  .map-workstation-page .image-frame img{max-height:calc(100vh - 330px)}
+  .weather-maps-page.map-workstation-page .outlook-viewer .image-frame{min-height:clamp(280px,calc(100vh - 330px),560px)}
+  .weather-maps-page.map-workstation-page .outlook-viewer .image-frame img{max-height:calc(100vh - 330px)}
+}
+@media(max-width:700px){
+  .map-workstation-page main{width:min(100% - 18px,1560px)}
+  .map-workstation-page .viewer-controls,.severe-outlooks-page .viewer-controls{grid-template-columns:1fr}
+  .severe-outlooks-page .hazard-control{grid-column:auto;grid-row:auto}
+  .severe-outlooks-page .hazard-control .choices{grid-template-columns:repeat(3,1fr)}
+  .map-workstation-page .image-frame{min-height:240px}
+  .map-workstation-page .image-frame img{max-height:none}
+  .weather-maps-page.map-workstation-page .outlook-viewer .image-frame{min-height:240px}
+  .weather-maps-page.map-workstation-page .outlook-viewer .image-frame img{max-height:none}
+  .map-workstation-page .outlook-footer{align-items:flex-start;flex-direction:column}
+  .map-workstation-page .outlook-footer-actions{width:100%}
+  .map-workstation-page .outlook-footer-actions>*{flex:1;justify-content:center;text-align:center}
+}

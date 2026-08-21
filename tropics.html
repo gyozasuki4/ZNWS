@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="color-scheme" content="dark light">
+    <title>ZASNet · Tropical Weather Center</title>
+    <meta name="description" content="Active tropical cyclones, official NHC outlooks, and basin-wide tropical intelligence.">
+    <link rel="icon" href="/ZNWS.png">
+    <link rel="stylesheet" href="/severe-weather.css">
+    <link rel="stylesheet" href="/public-brand.css">
+    <link rel="stylesheet" href="/public-v2.css">
+    <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+    <link rel="stylesheet" href="/tropics-site.css?v=20260815-unified-4">
+  </head>
+  <body class="public-severe new-severe-site public-tropics tropics-center map-workstation-page">
+    <header class="site-header">
+      <a class="brand" href="/"><img src="/ZNWS.png" alt=""><span>ZASNet<small>Weather Service</small></span></a>
+      <nav aria-label="Primary navigation"><a href="/">Live weather</a><a href="/severe-weather">Severe outlooks</a><a href="/weather-maps">Weather maps</a><a href="/models">Models</a><a class="active" href="/tropics">Tropics</a></nav>
+    </header>
+    <main>
+      <h1 class="visually-hidden">Tropical weather</h1>
+
+      <section class="tc-command" aria-labelledby="overviewTitle">
+        <header class="tc-section-head">
+          <div class="tc-status" aria-live="polite"><span class="tc-status-dot"></span><div><strong id="systemCount">Checking the basins…</strong><small id="dataTime">Connecting to NHC</small></div></div>
+          <div class="tc-tabs" role="tablist" aria-label="Tropical graphic">
+            <button role="tab" aria-selected="true" data-view="overview">Current systems</button>
+            <button role="tab" aria-selected="false" data-view="atlantic">Atlantic outlook</button>
+            <button role="tab" aria-selected="false" data-view="east-pacific">East Pacific outlook</button>
+            <button role="tab" aria-selected="false" data-view="west-pacific">West Pacific outlook</button>
+          </div>
+          <div class="source-stamp"><span>Source</span><strong>NHC + JTWC</strong></div>
+        </header>
+        <div class="tc-viewer">
+          <div class="tc-viewer-stage">
+            <div class="tc-loading" id="graphicStatus"><span></span>Loading operational graphic</div>
+            <img id="tropicalGraphic" alt="Current tropical systems across the NHC area of responsibility">
+          </div>
+          <footer>
+            <div><span class="tc-live-pill">Live product</span><p id="graphicCaption">Current tropical systems · NHC + CPHC</p></div>
+            <div class="tc-viewer-actions"><time id="graphicTime">Latest available</time><a id="openGraphic" target="_blank" rel="noopener">Open full size ↗</a></div>
+          </footer>
+        </div>
+      </section>
+
+      <section class="tc-systems" aria-labelledby="systemsTitle">
+        <header class="tc-section-head"><div><p class="tc-kicker">Official NHC advisories</p><h2 id="systemsTitle">Active systems</h2></div><p>Storm position and intensity reflect the latest published advisory.</p></header>
+        <div id="storms" class="tc-storm-grid" aria-live="polite"><article class="tc-empty tc-skeleton">Retrieving active systems…</article></div>
+      </section>
+
+      <section class="tc-basin-strip" aria-label="Basin outlook shortcuts">
+        <article><span>01</span><div><p>Atlantic basin</p><strong>Formation outlook</strong></div><button data-jump="atlantic">View product →</button></article>
+        <article><span>02</span><div><p>Eastern Pacific</p><strong>Formation outlook</strong></div><button data-jump="east-pacific">View product →</button></article>
+        <article><span>03</span><div><p>Western Pacific</p><strong>Formation outlook</strong></div><button data-jump="west-pacific">View product →</button></article>
+        <article><span>04</span><div><p>Official sources</p><strong>NHC + JTWC</strong></div><a href="https://www.metoc.navy.mil/jtwc/jtwc.html" target="_blank" rel="noopener">Visit JTWC ↗</a></article>
+      </section>
+
+      <aside class="tc-safety"><strong>Forecasts evolve.</strong><p>Use official watches, warnings, and instructions from local authorities when making safety decisions.</p><a href="https://www.nhc.noaa.gov/prepare/ready.php" target="_blank" rel="noopener">Hurricane preparedness ↗</a></aside>
+      <footer class="public-footer tc-footer"><span>ZASNet Weather Service</span><p>Official tropical sources include NOAA, NHC, CPHC, and JTWC.</p><a href="/">Live weather</a></footer>
+    </main>
+    <script src="/public-menu.js?v=20260815-black-theme-8"></script>
+    <script src="/tropics.js?v=20260815-rebuild-1"></script>
+  </body>
+</html>

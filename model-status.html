@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="Live ZASNetwork WRF model run, product, and forecast-frame availability.">
+  <title>ZASNet · Model Data Status</title>
+  <link rel="icon" href="/ZNWS.png">
+  <link rel="stylesheet" href="/public-brand.css">
+  <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+  <link rel="stylesheet" href="/model-status.css?v=20260724-production-board">
+  <link rel="stylesheet" href="/model-status-board.css?v=20260808-prewarm-status">
+</head>
+<body class="model-status-page">
+  <header class="site-header">
+    <a class="brand" href="/"><img src="/ZNWS.png" alt=""><span>ZASNet<small>Weather Service</small></span></a>
+    <nav aria-label="Primary navigation"><a href="/">Live weather</a><a href="/weather-maps">Weather maps</a><a href="/models">Models</a><a class="active" href="/model-status">Model status</a></nav>
+  </header>
+  <main>
+    <section class="status-hero">
+      <div class="hero-copy"><span class="eyebrow">ZASNetwork WRF · public operations</span><h1>Model data status</h1><p>Live publication status for every retained mesoscale run and forecast product.</p></div>
+      <div class="overall-state" id="overallState"><i></i><div><strong id="overallStatus">Checking inventories</strong><span id="lastChecked">Connecting to model services…</span></div><button id="refreshStatus" type="button">Refresh</button></div>
+    </section>
+    <section class="summary-strip" aria-label="Model data summary">
+      <div><span>Domains online</span><strong id="domainsOnline">—</strong></div>
+      <div><span>Retained runs</span><strong id="retainedRuns">—</strong></div>
+      <div><span>Published files</span><strong id="publishedFiles">—</strong></div>
+      <div><span>Active schedules</span><strong id="activeSchedules">—</strong></div>
+    </section>
+    <div class="status-toolbar"><span>Live operational view · refreshes every minute</span><label class="time-toggle"><input id="utcTimes" type="checkbox"> Show UTC</label></div>
+    <section class="prewarm-board" aria-labelledby="prewarmTitle">
+      <header><div><span class="eyebrow">Public viewer cache</span><h2 id="prewarmTitle">Model frame pre-generation</h2></div><span class="board-state scheduled" id="prewarmState">Checking</span></header>
+      <div class="prewarm-summary">
+        <div><span>Frames remaining</span><strong id="prewarmRemaining">—</strong></div>
+        <div><span>Current batch</span><strong id="prewarmProcessed">—</strong></div>
+        <div><span>Generation rate</span><strong id="prewarmRate">—</strong></div>
+        <div><span>Estimated completion</span><strong id="prewarmEta">—</strong></div>
+        <div><span>Failures</span><strong id="prewarmFailures">—</strong></div>
+        <div><span>Storage available</span><strong id="prewarmStorage">—</strong></div>
+      </div>
+      <div class="prewarm-progress" role="progressbar" aria-label="Current pre-generation batch progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="prewarmProgressBar"></i></div>
+      <div class="prewarm-current"><span>Current frame</span><strong id="prewarmCurrent">Waiting for worker status…</strong><small id="prewarmUpdated">—</small></div>
+      <div class="prewarm-detail-grid">
+        <article><span>Queue by model</span><div id="prewarmSources" class="prewarm-chips"><i>Awaiting scan…</i></div></article>
+        <article><span>Largest product queues</span><div id="prewarmProducts" class="prewarm-chips"><i>Awaiting scan…</i></div></article>
+        <article><span>Generation scope</span><p id="prewarmScope">HRRR uses every configured region. WRF uses only its explicitly linked temporary sector.</p></article>
+      </div>
+      <details class="prewarm-regions"><summary><span>Region completion detail</span><i>Show regions</i></summary><div id="prewarmRegionGrid"><p>Awaiting the next worker inventory scan…</p></div></details>
+    </section>
+    <section class="production-board" aria-labelledby="productionBoardTitle">
+      <header><div><span class="eyebrow">Current production suite</span><h2 id="productionBoardTitle">WRF production board</h2></div><p id="boardValidTime">Valid at —</p></header>
+      <div class="board-scroll"><table><thead><tr><th>Domain</th><th>Latest initialization</th><th>State</th><th>Forecast coverage</th><th>Products</th><th>Last publication</th><th></th></tr></thead><tbody id="productionRows"><tr><td colspan="7">Checking production status…</td></tr></tbody></table></div>
+      <div class="status-legend" aria-label="Status legend"><span><i class="scheduled"></i>Scheduled</span><span><i class="running"></i>Publishing</span><span><i class="complete"></i>Complete</span><span><i class="delayed"></i>Attention</span><span><i class="unavailable"></i>Unavailable</span></div>
+    </section>
+    <section class="schedule-board" aria-labelledby="executionTitle"><header><div><span class="eyebrow">Execution scheduler</span><h2 id="executionTitle">WRF compute lane</h2></div></header><div id="laneRows" class="schedule-rows"><p>Checking active execution…</p></div></section>
+    <section class="schedule-board" aria-labelledby="scheduleTitle"><header><div><span class="eyebrow">Recurring requests</span><h2 id="scheduleTitle">Scheduled model runs</h2></div></header><div id="scheduleRows" class="schedule-rows"><p>Checking schedules…</p></div></section>
+    <aside class="status-note"><strong>Experimental guidance</strong><span>This board reports publication and scheduling health—not forecast accuracy. Continue to use official NOAA/NWS guidance for decisions.</span></aside>
+    <details class="inventory-disclosure">
+      <summary><span><b>Published product inventory</b><small>Retained runs, individual products, forecast frames, and usable grid bounds</small></span><i>Show details</i></summary>
+      <div class="inventory-tools"><span>Filter retained runs</span><div class="domain-filter" id="domainFilter" role="group" aria-label="Filter domains"><button class="active" data-domain="all">All domains</button><button data-domain="MESO1">MESO1</button><button data-domain="MESO2">MESO2</button><button data-domain="MESO3">MESO3</button></div></div>
+      <section id="domainStatus" class="domain-grid" aria-live="polite"><div class="loading-card"><i></i><span>Loading WRF inventories…</span></div></section>
+    </details>
+    <footer class="status-footer"><span>Automatic refresh every 60 seconds</span><div><a href="/models">Open model viewer</a><a href="/weather-maps">Weather maps</a></div></footer>
+  </main>
+  <script src="/public-menu.js?v=20260815-black-theme-8"></script>
+  <script src="/model-status.js?v=20260808-gfs-cloud-pwat"></script>
+</body>
+</html>

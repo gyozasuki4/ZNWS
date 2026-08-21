@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="color-scheme" content="dark light">
+    <title>ZASNet Weather Service</title>
+    <meta name="description" content="Live ZASNet weather alerts, local forecasts, and severe-weather outlooks.">
+    <meta property="og:title" content="ZASNet Weather Service"><meta property="og:description" content="Live active weather intelligence and local forecast-office views."><meta property="og:image" content="/ZNWS.png">
+    <link rel="icon" href="/ZNWS.png">
+    <link rel="stylesheet" href="/alerts-graphic.css"><link rel="stylesheet" href="/alerts-enhancements.css"><link rel="stylesheet" href="/public-brand.css"><link rel="stylesheet" href="/public-v2.css"><link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored"><link rel="stylesheet" href="/public-site.css?v=20260722-sage-theme"><link rel="stylesheet" href="/public-home-ops.css?v=20260724-live-homepage"><link rel="stylesheet" href="/public-blue.css?v=20260810-light-restored"><link rel="stylesheet" href="/weather-icons.css?v=20260805-home-layout">
+  </head>
+  <body class="public-alerts new-public-site">
+    <header class="site-nav">
+      <a class="brand" href="/"><img src="/znwsnew.png?v=20260817-header-length-fix" alt="ZASNet Weather Service" width="300" height="75" style="width:clamp(190px,25vw,300px)!important;height:auto!important;max-height:84px!important;object-fit:contain!important"><span hidden>ZASNet<small>Weather Service</small></span></a>
+      <nav aria-label="Primary navigation"><a class="active" href="/">Live weather</a><a href="/severe-weather">Severe outlooks</a><a href="/weather-maps">Weather maps</a><a href="/models">Models</a><a href="/tropics">Tropics</a></nav>
+    </header>
+    <main>
+      <h1 class="visually-hidden">Active weather overview</h1>
+      <a class="model-sector-notice" id="activeModelSectors" href="/model-operations" hidden><div><small>ZNWS-WRF experimental operations</small><strong>Mesoscale model sectors are active</strong></div><span>View active sectors →</span></a>
+
+      <section class="weather-workspace" aria-label="Active weather workspace">
+        <aside class="workspace-rail">
+          <div class="rail-intro"><p class="eyebrow">Explore the map</p><h2>Active weather</h2><p>Select a forecast office to open its local alerts and point forecast.</p></div>
+          <label class="map-search"><span>Find an office</span><input id="wfoSearch" autocomplete="off" placeholder="City or office code"><div id="wfoSearchResults" hidden></div></label>
+          <div class="rail-summary"><p>Current issuance</p><div class="summary" id="alertSummary"><span>Loading product summary…</span></div></div>
+          <div class="map-actions"><a class="map-button-link" href="/live-map">Interactive map</a><button id="refreshMap" type="button">Refresh</button><button id="fullscreenMap" type="button">Full screen</button></div>
+          <p class="rail-help">Colored areas show active products. Office boundaries open local detail.</p>
+        </aside>
+        <section class="local-weather home-local-panel" id="localWeather" aria-labelledby="localWeatherTitle">
+          <header><div><p class="eyebrow">Weather where you are</p><h2 id="localWeatherTitle">Your local weather</h2><p class="local-weather-intro">Current conditions, alerts, and the next forecast periods in one place.</p></div><div class="local-weather-actions"><a id="localAlertCounter" class="local-alert-counter" hidden><strong>0</strong><span>Active alerts</span></a><button type="button" id="useMyLocation" aria-label="Use my location"><span aria-hidden="true">◎</span></button></div></header>
+          <form id="homeLocationForm" role="search"><label for="homeLocationSearch">City or ZIP code</label><div><input id="homeLocationSearch" type="search" autocomplete="postal-code" placeholder="City or ZIP"><button type="submit">Search</button></div><div id="homeLocationResults" class="local-search-results" hidden></div></form>
+          <div class="local-weather-status" id="localWeatherStatus">Choose a location for conditions, forecast, and alerts.</div>
+          <div class="local-weather-content" id="localWeatherContent" hidden></div>
+        </section>
+        <div class="workspace-map">
+          <div class="map-heading"><div><span>United States</span><h2>Live alert map</h2></div><span class="map-live"><i></i>Live</span></div>
+          <section class="graphic-card" id="mapCard"><div id="graphic" class="graphic" aria-live="polite"><p>Building the national weather picture…</p></div></section>
+        </div>
+      </section>
+
+      <section class="product-panel"><div><p class="eyebrow">Product details</p><h2 id="productTitle">Select an alert</h2><p id="productDetail">Choose an active product on the map to see its location, timing, and full issued text.</p></div><a id="wfoLink" hidden>Open local office →</a><pre id="productText" hidden></pre></section>
+      <footer class="site-footer"><span>ZASNet Weather Service</span><p>For situational awareness. Follow official National Weather Service warnings and local emergency instructions.</p><a href="https://www.weather.gov/" target="_blank" rel="noopener">Official NWS</a></footer>
+    </main>
+    <script src="/public-menu.js?v=20260815-black-theme-9"></script><script src="/alerts-graphic.js?v=20260817-visible-basemap"></script><script src="/weather-icons.js?v=20260805-night-all"></script><script src="/public-home.js?v=20260805-home-icon-layout"></script>
+  </body>
+</html>

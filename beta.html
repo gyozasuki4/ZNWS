@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>ZASNetwork · Public Beta</title>
+    <link href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="/beta.css"><link rel="stylesheet" href="/public-v2.css"><link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+  </head>
+  <body class="public-beta">
+    <main class="beta-shell">
+      <header class="beta-header">
+        <a class="brand" href="/public.html" aria-label="Back to Public Alerts">
+          <img class="brand-mark" src="/znwswide0.png" alt="">
+          <span><small>ZASNet Weather Service</small><strong>Public weather</strong></span>
+        </a>
+        <div class="beta-title"><span>Beta</span><p>Experimental public map</p></div>
+        <a class="stable-link" href="/severe-weather.html">Severe outlooks</a>
+        <a class="stable-link" href="/public.html">Stable page</a>
+      </header>
+
+      <section class="beta-panel" aria-label="Map controls">
+        <p class="panel-kicker">Try things out</p>
+        <h1>Live weather alerts</h1>
+        <p class="panel-copy">This is a public test space. Layers and presentation may change while we evaluate them.</p>
+        <label class="switch"><input id="officialToggle" type="checkbox" checked><span>Official NWS alerts</span></label>
+        <label class="switch"><input id="issuedToggle" type="checkbox" checked><span>ZASNet issued products</span></label>
+        <label class="switch"><input id="radarToggle" type="checkbox" checked><span>Radar composite</span></label>
+        <div class="legend" aria-label="Alert legend">
+          <p>Map legend</p>
+          <span><i class="severe"></i>Severe / tornado</span>
+          <span><i class="flood"></i>Flood</span>
+          <span><i class="other"></i>Other alerts</span>
+          <span><i class="issued"></i>Issued here</span>
+        </div>
+        <p class="update" id="updateLine" aria-live="polite">Loading alerts…</p>
+      </section>
+
+      <div id="betaMap" class="beta-map" role="application" aria-label="Experimental public weather map"></div>
+      <aside class="detail-card" id="detailCard" aria-live="polite">
+        <p class="detail-label">Select an alert</p>
+        <h2>Explore the map</h2>
+        <p>Click an alert area to view its status, timing, and source.</p>
+      </aside>
+    </main>
+    <script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
+    <script src="/public-tracking.js?v=20260806-sitewide" data-public-tracking="true"></script>
+    <script src="/beta.js"></script>
+  </body>
+</html>

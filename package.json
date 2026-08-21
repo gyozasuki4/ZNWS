@@ -1,0 +1,71 @@
+{
+  "name": "zncave-weather-operations",
+  "version": "1.0.0",
+  "private": true,
+  "main": "desktop/main.js",
+  "description": "ZASNet Hive Beta desktop — same UI as the web Hive Beta client.",
+  "scripts": {
+    "test:flood-watch-timing": "node scripts/test-flood-watch-timing.js",
+    "test:flood-watch-cause": "node scripts/test-flood-watch-cause.js",
+    "test:awips-product-parser": "node scripts/test-awips-product-parser.js",
+    "prepare:places": "python3 scripts/prepare-place-labels.py",
+    "prepare:places:census-only": "SKIP_GNIS=1 python3 scripts/prepare-place-labels.py",
+    "start": "node server.js",
+    "start:ops": "node server.js",
+    "desktop:dev": "electron desktop/main.js",
+    "desktop:dev:local": "HIVE_SERVER_URL=http://127.0.0.1:8080/hive-beta electron desktop/main.js",
+    "desktop:linux": "electron-builder --linux AppImage deb",
+    "desktop:windows": "electron-builder --win nsis",
+    "desktop:mac": "electron-builder --mac dmg",
+    "desktop:provision": "node scripts/provision-desktop-workstation.js",
+    "desktop:revoke": "node scripts/revoke-desktop-workstation.js",
+    "test:awips-gfe-publication": "node scripts/test-awips-gfe-publication.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "sharp": "^0.35.3"
+  },
+  "build": {
+    "appId": "com.zasnet.hivebeta",
+    "productName": "ZASNet Hive Beta",
+    "asar": true,
+    "files": [
+      "desktop/**/*",
+      "znws-map-mark.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist-desktop"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "icon": "znws-map-mark.png",
+      "artifactName": "ZASNet-Hive-Beta-${version}-linux-x86_64.${ext}"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "ZASNet-Hive-Beta-${version}-windows.${ext}"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.weather",
+      "artifactName": "ZASNet-Hive-Beta-${version}-macOS-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^41.7.1",
+    "electron-builder": "^26.15.3"
+  }
+}

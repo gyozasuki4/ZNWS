@@ -1,0 +1,177 @@
+/* User-selectable public-site theme. The dark palette is intentionally black,
+   while maps, radar, satellite imagery, and forecast graphics retain their colors. */
+.public-theme-toggle{display:inline-grid;width:34px;height:34px;flex:0 0 34px;place-items:center;margin-left:4px;border:1px solid #c8dce9;border-radius:7px;padding:0;color:#526d81;background:#fff;font:inherit;cursor:pointer;transition:color .15s,border-color .15s,background .15s}.public-theme-toggle span{font-size:1rem;line-height:1}.public-theme-toggle:hover{border-color:#5599c9;color:#103b67;background:#eaf5fd}.public-theme-toggle:focus-visible{outline:2px solid #187bc1;outline-offset:2px}
+
+html[data-theme="dark"]{--nv-bg:#050505;--nv-paper:#0b0b0b;--nv-paper-soft:#121212;--nv-ink:#f4f4f4;--nv-panel:#0d0d0d;--nv-panel-raised:#151515;--nv-line:#303030;--nv-muted:#aaa;--nv-accent:#66bfff;--nv-accent-soft:#b6e2ff;--nv-green:#55d991;color-scheme:dark;background:#050505}
+html[data-theme="dark"] body,html[data-theme="dark"] body.public-home,html[data-theme="dark"] body.public-tropics,html[data-theme="dark"] body.new-public-site{color:#f4f4f4!important;background:linear-gradient(180deg,#000 0,#090909 360px,#050505 100%)!important}
+html[data-theme="dark"] body:before{background:linear-gradient(90deg,#ffffff08 1px,transparent 1px),linear-gradient(#ffffff08 1px,transparent 1px)!important}
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header){border-color:#292929!important;background:#050505f5!important;box-shadow:0 5px 22px #000a!important}
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header) nav{border-color:#292929!important;background:#0d0d0d!important}
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header) nav a{color:#bbb!important}
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header) nav a:hover{color:#fff!important;background:#202020!important}
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header) nav a.active{color:#fff!important;background:#1769aa!important;box-shadow:none!important}
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header) nav .ops-link{color:#d9efff!important;background:#111!important;box-shadow:inset 0 0 0 1px #47677c!important}
+html[data-theme="dark"] .public-theme-toggle{border-color:#333;color:#ddd;background:transparent}
+html[data-theme="dark"] .public-theme-toggle:hover{border-color:#66bfff;color:#fff;background:#1a1a1a}
+html[data-theme="dark"] :where(h1,h2,h3,.rail-intro h2,.map-heading h2,.section-heading h2,.viewer>header h2){color:#f5f5f5!important}
+html[data-theme="dark"] :where(.weather-workspace,.workspace-rail,.workspace-map,.home-local-panel,.local-current,.local-forecast,.product-panel,.graphic-card,.map-card,.forecast-map-card,.conditions,.forecast-day,.feature-card,.storms article,.spc-brief,.risk-guide,.notice,.outlook-studio,.outlook-viewer,.viewer>header,.map-tools,.toolbar){border-color:#303030!important;color:#eee!important;background:#0d0d0d!important;box-shadow:0 12px 30px #0008!important}
+html[data-theme="dark"] :where(.workspace-rail,.viewer>header,.outlook-viewer>header,.forecast-day>header,.home-local-panel,.local-weather-status,.local-condition-row span,.local-periods article){border-color:#303030!important;background:#121212!important}
+html[data-theme="dark"] :where(p,.rail-help,.local-weather-intro,.viewer-status,.source-stamp){color:#aaa}
+html[data-theme="dark"] :where(input,select,textarea,.map-actions button,.choices button,.chart-controls button){border-color:#444!important;color:#f4f4f4!important;background:#171717!important}
+html[data-theme="dark"] :where(input,textarea)::placeholder{color:#858585}
+html[data-theme="dark"] :where(.summary span,.local-links a,.public-paths>a,.public-paths>div){border-color:#303030!important;color:#e8e8e8!important;background:#101010!important}
+html[data-theme="dark"] :where(.public-paths,.site-footer,.public-footer,.outlook-footer){border-color:#303030!important}
+html[data-theme="dark"] :where(.eyebrow,a,.site-footer a,.public-footer a){color:#7ac9ff}
+html[data-theme="dark"] .map-button-link{border-color:#2387cb!important;color:#fff!important;background:#1769aa!important}
+html[data-theme="dark"] .model-sector-notice{border-color:#31566f!important;color:#dff3ff!important;background:linear-gradient(105deg,#102331,#0b0b0b)!important;box-shadow:0 8px 22px #0008!important}
+html[data-theme="dark"] .quick-product-dialog{border-color:#3d3d3d;color:#eee;background:#0b0b0b}
+html[data-theme="dark"] .quick-product-dialog>header,html[data-theme="dark"] .quick-product-list section>button{border-color:#333;color:#eee;background:#151515}
+@media(max-width:760px){.public-theme-toggle{display:flex;width:100%;height:48px;flex:0 0 auto;align-items:center;justify-content:flex-start;gap:10px;margin:3px 0 0;padding:0 14px;border-radius:8px}.public-theme-toggle:after{content:"Appearance";font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.public-menu-toggle{margin-left:auto!important}html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header)>nav{border-color:#333!important;background:#090909!important}}
+
+/* Homepage-specific rules need to outrank its late light-theme stylesheet. */
+html[data-theme="dark"] body.new-public-site .site-nav{border-bottom-color:#292929!important;background:#030303f7!important;box-shadow:0 5px 22px #000b!important}
+html[data-theme="dark"] body.new-public-site .site-nav .brand img,
+html[data-theme="dark"] :where(.topbar,.site-nav,header.site-header,body.public-tropics>header) .brand img{filter:grayscale(1) brightness(0) invert(1)!important}
+html[data-theme="dark"] body.new-public-site .site-nav nav{border-color:#303030!important;background:#0c0c0c!important}
+html[data-theme="dark"] body.new-public-site .site-nav nav a{color:#bbb!important}
+html[data-theme="dark"] body.new-public-site .site-nav nav a:hover{color:#fff!important;background:#202020!important}
+html[data-theme="dark"] body.new-public-site .site-nav nav .active{color:#fff!important;background:#1769aa!important}
+html[data-theme="dark"] body.new-public-site .site-nav nav .ops-link{color:#ddd!important;background:#111!important;box-shadow:inset 0 0 0 1px #444!important}
+html[data-theme="dark"] body.new-public-site .weather-workspace{border-color:#303030!important;background:#090909!important;box-shadow:0 14px 34px #000a!important}
+html[data-theme="dark"] body.new-public-site .workspace-rail{border-color:#303030!important;background:#0d0d0d!important}
+html[data-theme="dark"] body.new-public-site .workspace-map{background:#090909!important}
+html[data-theme="dark"] body.new-public-site :where(.rail-summary,.map-heading,.workspace-rail .rail-help){border-color:#292929!important}
+html[data-theme="dark"] body.new-public-site :where(.rail-summary>p,.map-heading span){color:#aaa!important}
+html[data-theme="dark"] body.new-public-site :where(.workspace-rail .map-search input,.workspace-rail .summary span,.map-actions button){border-color:#3b3b3b!important;color:#eee!important;background:#171717!important}
+html[data-theme="dark"] body.new-public-site .workspace-rail .summary strong{color:#7ac9ff!important}
+html[data-theme="dark"] body.new-public-site .map-actions button:hover{border-color:#66bfff!important;color:#fff!important;background:#242424!important}
+html[data-theme="dark"] body.new-public-site .workspace-map .graphic-card{background:#0b0b0b!important}
+html[data-theme="dark"] body.new-public-site .weather-workspace>.home-local-panel{border-color:#303030!important;background:linear-gradient(110deg,#111,#080808 62%)!important}
+html[data-theme="dark"] body.new-public-site .home-local-panel :where(.local-current,.local-forecast){border-color:#303030!important;color:#eee!important;background:#111!important;box-shadow:0 6px 18px #0008!important}
+html[data-theme="dark"] body.new-public-site .home-local-panel :where(h2,h3,strong,b){color:#f5f5f5!important}
+html[data-theme="dark"] body.new-public-site .home-local-panel :where(p,small,.local-weather-intro){color:#aaa!important}
+html[data-theme="dark"] body.new-public-site .home-local-panel :where(.local-condition-row span,.local-periods article,.local-weather-status){border-color:#333!important;color:#ddd!important;background:#181818!important}
+html[data-theme="dark"] body.new-public-site .home-local-panel .local-links a{border-color:#3b3b3b!important;color:#8dd3ff!important;background:#161616!important}
+html[data-theme="dark"] body.new-public-site .local-alert-counter{border-color:#3b3b3b!important;color:#ddd!important;background:#151515!important}
+html[data-theme="dark"] body.new-public-site .product-panel{border-color:#333!important;border-left-color:#66bfff!important;color:#eee!important;background:#0d0d0d!important;box-shadow:0 12px 30px #000b!important}
+html[data-theme="dark"] body.new-public-site .product-panel :where(h2,p,pre){color:#ddd!important}
+html[data-theme="dark"] :where(.data-unavailable,.forecast-empty,.viewer-status,.source-stamp,.live-status){border-color:#3a3a3a!important;color:#bbb!important;background:#151515!important}
+html[data-theme="dark"] :where(.maplibregl-ctrl-group,.maplibregl-popup-content){border-color:#3a3a3a!important;color:#eee!important;background:#111!important;box-shadow:0 8px 22px #0009!important}
+html[data-theme="dark"] .maplibregl-ctrl button .maplibregl-ctrl-icon{filter:invert(1) grayscale(1)!important}
+@media(max-width:760px){html[data-theme="dark"] body.new-public-site .site-nav>nav{border-color:#333!important;background:#090909!important;box-shadow:0 12px 30px #000c!important}html[data-theme="dark"] body.new-public-site .public-menu-toggle{border-color:#444!important;color:#eee!important;background:#151515!important}html[data-theme="dark"] body.new-public-site .public-menu-toggle span{background:#eee!important}}
+
+/* Severe outlook workstation. Leave the official SPC image itself untouched. */
+html[data-theme="dark"] body.severe-outlooks-page .outlook-studio,
+html[data-theme="dark"] body.severe-outlooks-page .outlook-viewer{border-color:#303030!important;color:#eee!important;background:#090909!important;box-shadow:0 14px 34px #000a!important}
+html[data-theme="dark"] body.severe-outlooks-page .outlook-viewer>header{border-color:#303030!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.severe-outlooks-page .viewer-controls .control-group{border-color:#303030!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.severe-outlooks-page .viewer-controls .control-group>span{color:#aaa!important}
+html[data-theme="dark"] body.severe-outlooks-page .choices button{border-color:#3b3b3b!important;color:#ddd!important;background:#171717!important;box-shadow:none!important}
+html[data-theme="dark"] body.severe-outlooks-page .choices button:hover{border-color:#66bfff!important;color:#fff!important;background:#242424!important}
+html[data-theme="dark"] body.severe-outlooks-page .choices button.is-active{border-color:#2387cb!important;color:#fff!important;background:#1769aa!important;box-shadow:0 3px 8px #0007!important}
+html[data-theme="dark"] body.severe-outlooks-page .region-select select{border-color:#3b3b3b!important;color:#eee!important;color-scheme:dark!important;background:#171717!important}
+html[data-theme="dark"] body.severe-outlooks-page .region-select select:hover{border-color:#66bfff!important;background:#202020!important}
+html[data-theme="dark"] body.severe-outlooks-page .region-select :where(option,optgroup){color:#eee!important;background:#171717!important}
+html[data-theme="dark"] body.severe-outlooks-page .image-frame{border-color:#303030!important;background:radial-gradient(circle at 50% 35%,#181818 0,#0b0b0b 62%,#050505 100%)!important}
+html[data-theme="dark"] body.severe-outlooks-page .image-status{border-color:#3b3b3b!important;color:#ddd!important;background:#111111f2!important;box-shadow:0 10px 30px #000b!important}
+html[data-theme="dark"] body.severe-outlooks-page .outlook-footer{border-color:#303030!important;color:#aaa!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.severe-outlooks-page .outlook-footer-meta p{color:#aaa!important}
+html[data-theme="dark"] body.severe-outlooks-page .viewer-status{border-color:#31566f!important;color:#9bdcff!important;background:#10202b!important}
+html[data-theme="dark"] body.severe-outlooks-page .outlook-footer-actions :where(button,a){border-color:#3b3b3b!important;color:#ddd!important;background:#171717!important}
+html[data-theme="dark"] body.severe-outlooks-page .outlook-footer-actions :where(button,a):hover{border-color:#66bfff!important;color:#fff!important;background:#242424!important}
+html[data-theme="dark"] body.severe-outlooks-page .risk-editorial{border-color:#303030!important}
+html[data-theme="dark"] body.severe-outlooks-page .risk-scale span{border-color:#292929!important}
+html[data-theme="dark"] body.severe-outlooks-page :where(.risk-editorial h2,.risk-scale b){color:#f2f2f2!important}
+html[data-theme="dark"] body.severe-outlooks-page .risk-scale small{color:#aaa!important}
+html[data-theme="dark"] body.severe-outlooks-page .public-note{border-color:#4a4128!important;color:#ccc!important;background:#15130d!important}
+html[data-theme="dark"] body.severe-outlooks-page .public-note strong{color:#f2cf78!important}
+html[data-theme="dark"] body.severe-outlooks-page .public-footer{border-color:#303030!important;color:#999!important}
+html[data-theme="dark"] body.severe-outlooks-page .mobile-map-toolbar{border-color:#333!important;background:#0b0b0bf5!important;box-shadow:0 8px 24px #000b!important}
+html[data-theme="dark"] body.severe-outlooks-page .mobile-map-toolbar button{color:#ddd!important;background:transparent!important}
+
+/* One dark masthead system across every public page. */
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header),
+html[data-theme="dark"] body.public-tropics>header{border:0!important;border-bottom:1px solid #292929!important;color:#f5f5f5!important;background:#030303f7!important;box-shadow:0 5px 22px #000a!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header) .brand,
+html[data-theme="dark"] body.public-tropics>header .brand{color:#fff!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header) .brand img,
+html[data-theme="dark"] body.public-tropics>header .brand img{border-color:#333!important;filter:grayscale(1) brightness(0) invert(1)!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header) .brand small,
+html[data-theme="dark"] body.public-tropics>header .brand small{color:#aaa!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>nav,
+html[data-theme="dark"] body.public-tropics>header>nav{border-color:#292929!important;background:#0c0c0c!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>nav a,
+html[data-theme="dark"] body.public-tropics>header>nav a{border-color:transparent!important;color:#bbb!important;background:transparent!important;box-shadow:none!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>nav a:hover,
+html[data-theme="dark"] body.public-tropics>header>nav a:hover{color:#fff!important;background:#202020!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>nav a.active,
+html[data-theme="dark"] body.public-tropics>header>nav a.active{color:#fff!important;background:#1769aa!important;box-shadow:none!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>nav :is(.ops,.ops-link),
+html[data-theme="dark"] body.public-tropics>header>nav :is(.ops,.ops-link){color:#ddd!important;background:#111!important;box-shadow:inset 0 0 0 1px #444!important}
+html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header) nav .public-theme-toggle,
+html[data-theme="dark"] body.public-tropics>header nav .public-theme-toggle{border-color:#3a3a3a!important;color:#eee!important;background:#111!important}
+@media(max-width:760px){html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>nav,html[data-theme="dark"] body.public-tropics>header>nav{border-color:#333!important;background:#080808fa!important;box-shadow:0 16px 38px #000c!important}html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>.public-menu-toggle,html[data-theme="dark"] body.public-tropics>header>.public-menu-toggle{border-color:#444!important;color:#eee!important;background:#151515!important}html[data-theme="dark"] body :is(.topbar,.site-nav,header.site-header)>.public-menu-toggle span,html[data-theme="dark"] body.public-tropics>header>.public-menu-toggle span{background:#eee!important}}
+
+/* Weather Maps workstation. */
+html[data-theme="dark"] body.weather-maps-page :is(.outlook-studio,.outlook-viewer){border-color:#303030!important;background:#090909!important;box-shadow:0 14px 34px #000a!important}
+html[data-theme="dark"] body.weather-maps-page .outlook-viewer>header{border-color:#303030!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.weather-maps-page :is(.viewer-controls .control-group,.viewer-region-control,#forecastTimeControl){border-color:#303030!important;background:#111!important}
+html[data-theme="dark"] body.weather-maps-page :is(.viewer-controls .control-group>span,.viewer-controls .product-picker>label,.viewer-region-control>span:first-child,#forecastTimeControl>span){color:#aaa!important}
+html[data-theme="dark"] body.weather-maps-page .viewer-controls select{border-color:#3b3b3b!important;color:#eee!important;color-scheme:dark!important;background:#171717!important}
+html[data-theme="dark"] body.weather-maps-page .viewer-controls :is(option,optgroup){color:#eee!important;background:#171717!important}
+html[data-theme="dark"] body.weather-maps-page .forecast-time-stepper button{border-color:#3b3b3b!important;color:#ddd!important;background:#171717!important}
+html[data-theme="dark"] body.weather-maps-page .forecast-time-stepper button:hover{border-color:#66bfff!important;color:#fff!important;background:#242424!important}
+html[data-theme="dark"] body.weather-maps-page .image-frame{border-color:#303030!important;background:radial-gradient(circle at 50% 35%,#181818 0,#0b0b0b 62%,#050505 100%)!important}
+html[data-theme="dark"] body.weather-maps-page .image-status{border-color:#3b3b3b!important;color:#ddd!important;background:#111111f2!important;box-shadow:0 10px 30px #000b!important}
+html[data-theme="dark"] body.weather-maps-page .outlook-footer{border-color:#303030!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.weather-maps-page .outlook-footer-meta p{color:#aaa!important}
+html[data-theme="dark"] body.weather-maps-page .outlook-footer-actions :is(button,a){border-color:#3b3b3b!important;color:#ddd!important;background:#171717!important}
+html[data-theme="dark"] body.weather-maps-page .satellite-loop-control{border-color:#333!important;background:linear-gradient(180deg,#171717,#0d0d0d)!important;box-shadow:0 3px 10px #0008!important}
+html[data-theme="dark"] body.weather-maps-page .satellite-loop-heading>span{color:#bbb!important}
+html[data-theme="dark"] body.weather-maps-page .satellite-loop-toolbar button{border-color:#3b3b3b!important;color:#ddd!important;background:#181818!important;box-shadow:none!important}
+html[data-theme="dark"] body.weather-maps-page .satellite-loop-speed{border-color:#3b3b3b!important;color:#aaa!important;background:#151515!important}
+html[data-theme="dark"] body.weather-maps-page .satellite-loop-speed select{border-left-color:#333!important;color:#eee!important;background:#171717!important}
+html[data-theme="dark"] body.weather-maps-page .map-query-tooltip{border-color:#3b3b3b!important;color:#eee!important;background:#111111f7!important;box-shadow:0 8px 22px #000b!important}
+
+/* Models workstation, product picker, and animation controls. */
+html[data-theme="dark"] body.models-page :is(.outlook-studio,.outlook-viewer){border-color:#303030!important;background:#090909!important;box-shadow:0 14px 34px #000a!important}
+html[data-theme="dark"] body.models-page .outlook-viewer>header{border-color:#303030!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.models-page :is(.viewer-controls>.control-group,.viewer-region-control,#modelTimeControl){border-color:#303030!important;background:#111!important}
+html[data-theme="dark"] body.models-page :is(.viewer-controls .control-group>span,.viewer-region-control>span:first-child,.model-time-label>span:first-child){color:#aaa!important}
+html[data-theme="dark"] body.models-page .viewer-controls select{border-color:#3b3b3b!important;color:#eee!important;color-scheme:dark!important;background:#171717!important}
+html[data-theme="dark"] body.models-page .image-frame{border-color:#303030!important;background:radial-gradient(circle at 50% 35%,#181818 0,#0b0b0b 62%,#050505 100%)!important}
+html[data-theme="dark"] body.models-page .image-status{border-color:#3b3b3b!important;color:#ddd!important;background:#111111f2!important;box-shadow:0 10px 30px #000b!important}
+html[data-theme="dark"] body.models-page :is(.outlook-footer,.mobile-timeline-host){border-color:#303030!important;background:#0f0f0f!important}
+html[data-theme="dark"] body.models-page :is(.forecast-time-stepper button,.outlook-footer-actions button,.outlook-footer-actions a,.model-animation-toolbar button){border-color:#3b3b3b!important;color:#ddd!important;background:#171717!important}
+html[data-theme="dark"] body.models-page :is(.animation-speed,.gif-speed select){border-color:#3b3b3b!important;color:#aaa!important;background:#151515!important}
+html[data-theme="dark"] body.models-page .model-selection-summary{border-color:#303030!important;background:#0d0d0d!important}
+html[data-theme="dark"] body.models-page .model-selection-summary>div{border-color:#292929!important}
+html[data-theme="dark"] body.models-page .model-selection-summary span{color:#888!important}
+html[data-theme="dark"] body.models-page .model-selection-summary strong{color:#eee!important}
+html[data-theme="dark"] body.models-page :is(#modelFullscreenButton,#productPickerButton){border-color:#3b3b3b!important;color:#ddd!important;background:#171717!important}
+html[data-theme="dark"] body.models-page #modelProductDialog{border-color:#3b3b3b!important;color:#eee!important;background:#0b0b0b!important;box-shadow:0 24px 80px #000c!important}
+html[data-theme="dark"] body.models-page #modelProductDialog>header{border-color:#303030!important;background:#111!important}
+html[data-theme="dark"] body.models-page #modelProductDialog>header button{border-color:#444!important;color:#eee!important;background:#181818!important}
+html[data-theme="dark"] body.models-page .model-product-search{border-color:#3b3b3b!important;background:#151515!important}
+html[data-theme="dark"] body.models-page .model-product-search input{color:#eee!important;background:transparent!important}
+html[data-theme="dark"] body.models-page .model-product-results h3{color:#aaa!important;background:#0b0b0b!important}
+html[data-theme="dark"] body.models-page .model-product-results button{border-color:#333!important;color:#ddd!important;background:#151515!important}
+html[data-theme="dark"] body.models-page .model-product-results button:hover{border-color:#66bfff!important;background:#222!important}
+html[data-theme="dark"] body.models-page .model-product-results button small{color:#888!important}
+
+/* Tropical overview cards and map chrome. Map canvases retain source colors. */
+html[data-theme="dark"] body.public-tropics :is(.map-card,.storms article){border-color:#303030!important;color:#eee!important;background:#0d0d0d!important;box-shadow:0 12px 32px #0009!important}
+html[data-theme="dark"] body.public-tropics .map-card h2{color:#eee!important;background:#111!important}
+html[data-theme="dark"] body.public-tropics :is(#atlanticMap,#pacificMap,.tc-map-shell){background:#080d12!important}
+html[data-theme="dark"] body.public-tropics .storms h3{color:#f2f2f2!important}
+html[data-theme="dark"] body.public-tropics .storms p{color:#aaa!important}
+html[data-theme="dark"] body.public-tropics .storm-type{color:#b9e5ff!important;background:#102a3b!important}
+html[data-theme="dark"] body.public-tropics .public-note{border-color:#333!important;color:#bbb!important;background:#111!important}
+html[data-theme="dark"] body.public-tropics footer{border-color:#303030!important;color:#999!important}
+html[data-theme="dark"] body.public-tropics .tc-map-header{border-color:#31566f!important;color:#eee!important;background:#0b0b0bf5!important}
+html[data-theme="dark"] body.public-tropics .tc-map-header :is(span,dt){color:#999!important}
+html[data-theme="dark"] body.public-tropics .tc-map-header :is(strong,dd){color:#eee!important}
+html[data-theme="dark"] body.public-tropics .tc-map-modes{border-color:#333!important;background:#111111f2!important;box-shadow:3px 3px 0 #0008!important}
+html[data-theme="dark"] body.public-tropics .tc-map-modes button{border-color:#3b3b3b!important;color:#ccc!important;background:#171717!important}
+html[data-theme="dark"] body.public-tropics .tc-map-modes button.is-active{border-color:#2387cb!important;color:#fff!important;background:#1769aa!important}
+html[data-theme="dark"] body.public-tropics .maplibregl-ctrl-group{border-color:#3b3b3b!important;background:#111!important;box-shadow:0 3px 12px #0009!important}

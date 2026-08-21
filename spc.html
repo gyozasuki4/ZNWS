@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SPC Watch Operations · ZASNet</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="/spc-ops.css?v=20260812-watch-edit-refine">
+  <link rel="stylesheet" href="/spc-ops-cwa.css?v=20260811-5">
+  <link rel="stylesheet" href="/spc-ops-overlap.css?v=20260811-1">
+</head>
+<body>
+  <main class="beta-shell">
+    <section class="map-shell">
+      <div id="spcBetaMap"></div>
+      <header class="map-header"><div><span>ZASNet National Desk</span><h1>SPC Watch Operations</h1></div><p id="betaMapStatus">Loading national boundaries…</p></header>
+      <div class="map-key"><span><i class="included"></i>Included</span><span><i class="overlap"></i>Also in active watch</span><span><i class="removed"></i>Pending removal</span></div>
+    </section>
+    <aside class="desk">
+      <header class="desk-header"><div><p>Independent national system</p><h2>Watch editor</h2></div><a href="/">Return to Ops</a></header>
+      <div id="betaNotice" class="notice" role="status">Ready.</div>
+      <section id="spcDelivery" class="delivery-status" aria-live="polite" hidden>
+        <div><strong id="spcDeliveryTitle">Distribution</strong><span id="spcDeliverySummary"></span></div>
+        <div id="spcDeliveryChannels" class="delivery-channels"></div>
+        <button id="retrySpcDistribution" type="button" hidden>Retry delivery</button>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span>Map</span><div><h3>Layers</h3><small>National operational display</small></div></div>
+        <label class="check"><input id="layerRadar" type="checkbox"> IEM national radar</label>
+        <label class="check"><input id="layerDiscussions" type="checkbox" checked> Active mesoscale discussions</label>
+        <div class="grid">
+          <label class="check"><input type="checkbox" data-outlook="day1-cat"> Day 1 categorical</label>
+          <label class="check"><input type="checkbox" data-outlook="day1-torn"> Day 1 tornado</label>
+          <label class="check"><input type="checkbox" data-outlook="day1-wind"> Day 1 wind</label>
+          <label class="check"><input type="checkbox" data-outlook="day1-hail"> Day 1 hail</label>
+          <label class="check"><input type="checkbox" data-outlook="day2-cat"> Day 2 categorical</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span>MD</span><div><h3>Mesoscale discussions</h3><small>Live SPC analysis areas</small></div><button id="refreshDiscussions" type="button">Refresh</button></div>
+        <div id="discussionList" class="watch-list"><p>Loading active discussions…</p></div>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span>1</span><div><h3>Active watches</h3><small>Shared production inventory</small></div><button id="refreshWatches" type="button">Refresh</button></div>
+        <div id="activeWatches" class="watch-list"><p>Starting watch inventory…</p></div>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span>2</span><div><h3>Watch setup</h3><small>New operational draft</small></div><button id="newDraft" type="button">New</button></div>
+        <div class="grid">
+          <label>Product<select id="product"><option value="">Select watch type…</option><option value="TOA">Tornado Watch</option><option value="SVA">Severe Thunderstorm Watch</option></select></label>
+          <label>Valid hours<input id="hours" type="number" min="1" max="18" value="6"></label>
+          <label>Watch number<input id="watchNumber" readonly placeholder="Assigned on issue"></label>
+          <label>Expiration<input id="expiration" readonly placeholder="Calculated on issue"></label>
+          <label>Maximum hail<select id="hail"><option>1.00</option><option>1.50</option><option>2.00</option><option>2.50</option><option>3.00</option><option>4.00</option></select></label>
+          <label>Maximum wind<select id="wind"><option>60</option><option selected>70</option><option>80</option><option>90</option></select></label>
+        </div>
+        <label class="check"><input id="tornadoes" type="checkbox" checked> Tornadoes possible</label>
+        <label class="check"><input id="intenseTornadoes" type="checkbox"> Intense tornado wording</label>
+        <label class="check"><input id="veryLargeHail" type="checkbox"> Very large / significant hail wording</label>
+        <label class="check"><input id="significantWind" type="checkbox"> Significant wind wording</label>
+        <label class="check"><input id="pds" type="checkbox"> Particularly Dangerous Situation</label>
+        <label class="check practice"><input id="practice" type="checkbox"> Practice mode — do not distribute publicly</label>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span>3</span><div><h3>Define area</h3><small>Draw nationally; never restricted to a WFO</small></div></div>
+        <div class="grid">
+          <label>Orientation<select id="orientation"><option value="ns">North–south</option><option value="ew">East–west</option></select></label>
+          <label>Rotation / angle (°)<input id="rotation" type="number" min="0" max="359" value="0"></label>
+          <label>Length (miles)<input id="boxLength" type="number" min="50" max="800" step="10" value="360"></label>
+          <label>Width (miles)<input id="boxWidth" type="number" min="30" max="400" step="10" value="120"></label>
+          <label>Slant / tilt (miles)<input id="slant" type="number" min="-400" max="400" step="5" value="45"></label>
+        </div>
+        <div class="actions"><button id="placeBox" class="primary" type="button">Place box</button><button id="resolve" type="button" disabled>Resolve counties</button><button id="draw" type="button">Freehand</button><button id="finish" type="button" disabled>Finish</button><button id="clearArea" type="button">Clear</button></div>
+        <p class="help">Place box, then click the map. Drag its center to move it or a corner to resize. Rotation, dimensions, and slant update live. Resolve counties after adjustments.</p>
+        <div class="metrics"><strong id="countyCount">0 counties</strong><span id="stateCount">0 states</span></div>
+        <div id="overlapWorkflow" class="overlap-workflow" hidden></div>
+        <div id="cwaChecklist" class="cwa-list"><p class="help">Resolve counties to populate intersecting CWAs.</p></div>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span>4</span><div><h3>Product details</h3><small>Optional operational wording</small></div></div>
+        <label>Portions of<textarea id="portions" rows="2" placeholder="Northern and Central Arkansas"></textarea></label>
+        <label>Summary<textarea id="summary" rows="3" placeholder="Storms are expected to intensify…"></textarea></label>
+        <label>Replaces watch number<input id="replacing" placeholder="Optional"></label>
+        <label>Axis / line override<textarea id="axis" rows="2" placeholder="Optional"></textarea></label>
+        <label>Forecaster<input id="forecaster" placeholder="Initials or name"></label>
+      </section>
+
+      <section class="card product-card">
+        <div class="card-title"><span>5</span><div><h3>Review and issue</h3><small id="draftStatus">Draft not generated</small></div></div>
+        <div class="actions"><button id="generate" type="button">Generate</button><button id="copy" type="button">Copy</button></div>
+        <textarea id="productText" rows="13" spellcheck="false" placeholder="Generated SEL/WOU text"></textarea>
+        <button id="issue" class="issue" type="button">Issue NEW to production</button>
+        <div class="actions lifecycle"><button id="update" type="button" disabled>Issue update (CON)</button><button id="cancel" class="danger" type="button" disabled>Cancel watch (CAN)</button></div>
+      </section>
+    </aside>
+  </main>
+  <script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+  <script src="/spc.js?v=20260810-hourly-expiration"></script>
+  <script src="/spc-templates.js?v=20260720-3"></script>
+  <script src="/public-tracking.js?v=20260806-sitewide" data-public-tracking="true"></script>
+  <script src="/spc-ops.js?v=20260812-fast-watch-inventory"></script>
+</body>
+</html>

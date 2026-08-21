@@ -1,0 +1,24 @@
+.station-source{margin:5px 0 0;color:#91a9b8;font-size:.7rem;line-height:1.35}
+.extended-forecast .forecast-grid{display:grid;grid-template-columns:1fr;gap:10px;overflow:visible;padding:0;margin:0}
+.forecast-day{display:grid;grid-template-columns:150px minmax(0,1fr);margin:0!important;border:1px solid var(--line);border-radius:14px;background:linear-gradient(110deg,#132534,#0d1923);overflow:hidden;box-shadow:0 10px 26px #0002}
+.forecast-day>header{display:flex;align-items:center;padding:20px;border-right:1px solid #ffffff12;background:#ffffff05}
+.forecast-day h3{margin:0;font-size:1.08rem;letter-spacing:-.02em}
+.forecast-day>header span{display:block;margin-top:4px;color:var(--muted);font-size:.7rem}
+.day-periods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.daily-period{display:grid!important;grid-template-columns:70px minmax(0,1fr);gap:14px;min-height:0!important;padding:16px 18px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;animation:none!important;overflow:visible!important}
+.daily-period+ .daily-period{border-left:1px solid #ffffff12!important}
+.daily-period.night{background:linear-gradient(115deg,#171a351f,#27234c30)!important}
+.daily-period:before{display:none}
+.daily-period:hover{transform:none!important;border-color:transparent!important;box-shadow:none!important}
+.daily-period img{width:66px!important;height:66px!important;margin:0!important;border-radius:10px;object-fit:cover}
+.daily-copy{min-width:0}
+.daily-label{display:block;color:#8fd2fa;font-size:.61rem!important;font-weight:850;letter-spacing:.1em;text-transform:uppercase}
+.daily-period.night .daily-label{color:#bcb4ff}
+.daily-copy>strong{display:block;margin:2px 0;font-size:1.8rem!important;line-height:1.05;letter-spacing:-.04em}
+.daily-copy>p{margin:4px 0 7px!important;color:#edf5f8;font-size:.78rem;font-weight:700!important;line-height:1.35}
+.daily-meta{display:flex;flex-wrap:wrap;gap:6px 10px;color:var(--muted);font-size:.66rem}
+.daily-precip{color:#8ed8ff!important;font-size:inherit!important;font-weight:750}
+.daily-copy details{margin-top:9px!important;padding-top:8px!important}
+.daily-copy details summary{font-size:.68rem}
+.daily-copy details p{font-size:.72rem!important}
+@media(max-width:760px){.extended-forecast .forecast-grid{display:grid;overflow:visible;padding:0}.forecast-day{grid-template-columns:1fr}.forecast-day>header{padding:12px 14px;border-right:0;border-bottom:1px solid #ffffff12}.forecast-day>header>div{display:flex;align-items:baseline;gap:8px}.forecast-day>header span{margin:0}.day-periods{grid-template-columns:1fr}.daily-period{grid-template-columns:62px minmax(0,1fr);padding:14px!important}.daily-period+ .daily-period{border-left:0!important;border-top:1px solid #ffffff12!important}.daily-period img{width:58px!important;height:58px!important}}

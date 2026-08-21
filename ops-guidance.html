@@ -1,0 +1,1439 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Operations Guidance · ZASNet Weather Service</title>
+  <link rel="stylesheet" href="/operations-guide.css?v=20260807-numbered">
+</head>
+<body class="guidance-page-body">
+  <header class="guidance-page-header">
+    <a href="https://zasnetwx.com/" class="guidance-page-brand">
+<img src="/ZNWS.png" alt="">
+<span>
+<small>ZASNet Weather Service</small>
+<strong>Operations Guidance</strong>
+</span>
+</a>
+    <a class="button" href="https://ops.zasnetwx.com/">Open Ops</a>
+  </header>
+  <main class="guidance-page-shell">
+    <aside class="guidance-page-sidebar">
+      <label class="guidance-search" for="guidanceSearch">
+<span>Search this guide</span>
+<div class="guidance-search-field">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+<input id="guidanceSearch" type="search" placeholder="Try radar, issuance, hydro…" autocomplete="off">
+<kbd>/</kbd>
+</div>
+</label>
+      <a href="#playbooks" class="guidance-sidebar-featured">Jump to event playbooks <span>Chapter 19 →</span></a>
+      <nav class="guidance-toc" aria-label="Contents">
+<a href="#multipurpose"><span>REF</span> Product reference</a>
+<a href="#start"><span>01</span> Start of shift</a>
+<a href="#workspaces"><span>02</span> Workspaces</a>
+<a href="#map"><span>03</span> Map controls</a>
+<a href="#radar"><span>04</span> Radar</a>
+<a href="#layers"><span>05</span> Layers</a>
+<a href="#haz"><span>06</span> HAZ workflow</a>
+<a href="#geometry"><span>07</span> Geometry</a>
+<a href="#products"><span>08</span> Product guide</a>
+<a href="#criteria"><span>09</span> Hazard criteria</a>
+<a href="#zones"><span>10</span> Alert families</a>
+<a href="#hydro"><span>11</span> Hydro</a>
+<a href="#review"><span>12</span> Review</a>
+<a href="#followups"><span>13</span> Follow-ups</a>
+<a href="#distribution"><span>14</span> Distribution</a>
+<a href="#public"><span>15</span> Public pages</a>
+<a href="#admin"><span>16</span> Administration</a>
+<a href="#audit"><span>17</span> Access audit</a>
+<a href="#shortcuts"><span>18</span> Shortcuts</a>
+<a href="#playbooks"><span>19</span> Event playbooks</a>
+<a href="#specialized"><span>20</span> Specialized desks</a>
+<a href="#continuity"><span>21</span> Continuity &amp; recovery</a>
+<a href="#glossary"><span>22</span> Glossary</a>
+<a href="#trouble"><span>23</span> Troubleshooting</a>
+</nav>
+      <p class="guidance-page-version">Operational guide · Updated August 7, 2026</p>
+    </aside>
+    <section class="guidance-page-main">
+      <div class="guidance-page-title">
+<p class="eyebrow">Expanded operations edition · 23 chapters · 60+ hazard rows</p>
+<h1>Weather Operations</h1>
+<p>Detailed procedures for the ZASNet operational map, workstations, Hazard Services, warning criteria, hydro tools, product lifecycle controls, and administration.</p>
+<div class="guidance-edition-summary">
+<strong>Jump directly to the warning criteria tables</strong>
+<a href="#criteria">All criteria</a>
+<a href="#criteria-convection">Convection</a>
+<a href="#criteria-hydro">Hydrology</a>
+<a href="#criteria-winter">Winter</a>
+<a href="#criteria-nonprecip">Wind / temperature / visibility</a>
+<a href="#criteria-coastal">Coastal</a>
+<a href="#criteria-marine">Marine</a>
+<a href="#criteria-fire">Fire weather</a>
+<a href="#criteria-partner">Partner / geohazards</a>
+</div>
+</div>
+      <p class="guidance-notice">
+<strong>Operational note:</strong> Confirm current data, timestamps, geometry, wording, and distribution before issuance. Governing directives and local policy remain authoritative.</p>
+      <p class="guidance-search-count" id="guidanceResults" aria-live="polite">
+</p>
+      <div class="guidance-content" id="guidanceContent">
+        <article id="multipurpose" data-guide-keywords="10-517 now short term forecast sps special weather statement hwo hazardous weather outlook lsr local storm report mesoscale discussion">
+<h2>Multi-purpose products · Operations standard</h2>
+<p>This suite communicates short-term forecasts, heightened awareness, reports, outlooks, and national-center discussions. None substitutes for a warning when warning criteria are met.</p>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Purpose and timing</th>
+<th>Required operational content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Short Term Forecast (NOW)</td>
+<td>Non-scheduled forecast for the next six hours. Use plain, future-tense language. Do not update or amend a NOW; issue a new product when conditions change.</td>
+<td>Zone UGC for broad public dissemination or county UGC through WarnGen, affected area, conditions, evolution or movement, and timing. Specific sub-severe hail/wind magnitudes belong in an SPS.</td>
+</tr>
+<tr>
+<td>Special Weather Statement (SPS)</td>
+<td>Ongoing or imminent hazards needing heightened awareness, normally within six hours. A significant event beyond six hours may expire in up to 12 hours.</td>
+<td>Impact-based convection uses basis/motion; HAZARD, SOURCE, and IMPACT; locations; CTA; a 3–20 point LAT…LON polygon; TIME…MOT…LOC; then optional LANDSPOUT/WATERSPOUT, MAX HAIL SIZE, and MAX WIND GUST tags in order.</td>
+</tr>
+<tr>
+<td>Hazardous Weather Outlook (HWO)</td>
+<td>Potential hazardous weather through day seven for preparedness and decision support. Separate near-term hazards from later potential and convey uncertainty.</td>
+<td>Office area, days/timing, hazards and severity, confidence, spotter-activation statement when appropriate, and references to current warnings/outlooks. It does not replace a watch, warning, or advisory.</td>
+</tr>
+<tr>
+<td>Local Storm Report (LSR)</td>
+<td>Prompt preliminary report of significant weather in the office area. Correct the report when better information arrives.</td>
+<td>Event type, date/time and time zone, location and distance/direction, county/state, latitude/longitude when available, magnitude and units, source, and concise remarks. Mark estimated values and protect private personal information.</td>
+</tr>
+<tr>
+<td>SPC Mesoscale Discussion (MD)</td>
+<td>SPC-authored technical discussion of a focused severe-weather situation, including watch likelihood and reasoning. Local offices monitor and redistribute it without rewriting its conclusions.</td>
+<td>Discussion number, valid period, affected area, concerning line, probability/watch language, summary, technical discussion, and authoritative SPC polygon.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Impact-based SPS criteria</h3>
+<ul>
+<li>Use sub-severe wind/gust values from 40 through 57 mph and hail smaller than one inch. Warning-level conditions require the appropriate warning.</li>
+<li>Frequent lightning, non-threatening landspouts/funnel clouds, and inland waterspouts may also be addressed.</li>
+<li>Valid sources include radar, trained spotters, law enforcement, emergency management, broadcast media, and the public.</li>
+<li>Standard maximum-wind tags are 40 or 50 mph; use less-than-40 only when hail is the qualifying hazard. Maximum hail is 0.88 inch.</li>
+<li>Review HAZARD, SOURCE, IMPACT, locations, CTA, LAT…LON, TIME…MOT…LOC, and coded-tag order before issuance.</li>
+</ul>
+</article>
+        <article id="start" data-guide-keywords="login start shift status data health practice office wfo checklist">
+<h2>1. Starting an operational shift</h2>
+<h3>Sign-in and office identity</h3>
+<ol>
+<li>Sign in through Authentik and verify the name shown at the bottom of the tool rail.</li>
+<li>Open <strong>More → Ops settings</strong>. Confirm the three-letter active WFO. Every draft, warning identifier, map filter, and distribution record depends on this selection.</li>
+<li>Confirm whether <strong>Practice Mode</strong> is enabled. Practice products stay inside Ops and do not reach public pages, Mattermost, or the GR warning server.</li>
+<li>Enable Mutual Aid only when you are authorized to operate another office.</li>
+</ol>
+<h3>System readiness</h3>
+<ol>
+<li>Open <strong>More → Data &amp; server</strong>.</li>
+<li>Confirm the application server is online and review each feed’s freshness.</li>
+<li>Open Radar, select the intended site and product, and verify the latest scan time.</li>
+<li>Review active ZASNet products and existing external alerts over the CWA.</li>
+<li>Load a saved map setup or arrange the layers required for the expected event.</li>
+</ol>
+<h3>Before authoring</h3>
+<p>Check the issuing office, current warning inventory, event tracking numbers, data timestamps, and whether another operator holds an edit lock. Do not create a second product merely because an existing product is not visible in the current filtered view.</p>
+</article>
+        <article id="workspaces" data-guide-keywords="workspace tab offices mutual aid independent panels sidebar draft locks">
+<h2>2. Workspaces and mutual aid</h2>
+<p>A workspace is an independent operating desk. It has its own WFO, map camera, radar site/product, panel layout, open tools, and Hazard Services draft. Issued products remain shared across all workspaces.</p>
+<h3>Opening another office</h3>
+<ol>
+<li>Select the <strong>+</strong> button in the workspace row above the map.</li>
+<li>Enter the office’s three-letter ID, such as CYS, BIS, or OHX.</li>
+<li>Wait for the new tab to load its office boundary and preferred radar.</li>
+<li>Verify the WFO label before drawing or issuing anything.</li>
+</ol>
+<h3>How alerts behave</h3>
+<ul>
+<li>The map can display external and ZASNet products from surrounding offices regardless of which workspace is active.</li>
+<li>Products authored from a workspace use that workspace’s operated office identity.</li>
+<li>Edit and cancel actions are normally restricted to the issuing office. Mutual Aid permits authorized cross-office operations.</li>
+<li>Edit locks prevent two operators from modifying the same active ZASNet product at once. A lock renews while editing and eventually expires if abandoned.</li>
+</ul>
+<h3>Good practice</h3>
+<p>Keep one office per tab. Name and save drafts clearly. Before switching tabs, confirm whether the current draft is saved; switching workspaces must never be treated as cancelling an issued product.</p>
+</article>
+        <article id="map" data-guide-keywords="map panels home locate basemap layout linked navigation zoom cities setup">
+<h2>3. Map controls and panel layouts</h2>
+<h3>Base map and navigation</h3>
+<ul>
+<li>
+<strong>CWA</strong> centers the active map on the selected office.</li>
+<li>
+<strong>Locate</strong> requests the browser’s current location.</li>
+<li>Pan by dragging, zoom with the wheel/pinch gesture, and use normal map rotation controls when needed.</li>
+<li>Changing radar scans or products does not intentionally recenter the map.</li>
+</ul>
+<h3>Multiple panels</h3>
+<p>Choose Single, Dual, Quad, or Main + 3 in Map settings. Each panel has independent radar and layer state. When <strong>Link panel navigation</strong> is on, panning or zooming one panel moves the others. Turn it off when comparing separate offices or scales.</p>
+<h3>Saved setups</h3>
+<ol>
+<li>Arrange the panel count, radar products, layers, and map views.</li>
+<li>Open Layers → Saved setup.</li>
+<li>Enter a descriptive name and select Save.</li>
+<li>Use Load to restore the setup. Use New before creating a separate configuration.</li>
+</ol>
+<h3>City labels</h3>
+<p>Density determines the population threshold and zoom behavior. Text size changes label scale. Very dense labels may be useful during warning placement but can obscure radar at regional scales.</p>
+</article>
+        <article id="radar" data-guide-keywords="radar level 2 level 3 reflectivity velocity timeline loop stale red frame inspect query kohx error">
+<h2>4. Radar operations</h2>
+<h3>Choosing a source</h3>
+<dl>
+<dt>Site radar</dt>
+<dd>Level 2 and Level 3 products from the selected radar site.</dd>
+<dt>National MRMS</dt>
+<dd>An animated national mosaic useful for broad situational awareness.</dd>
+<dt>National IEM NEXRAD</dt>
+<dd>A latest-frame national fallback.</dd>
+</dl>
+<h3>Site products</h3>
+<ul>
+<li>Reflectivity shows returned power and is the primary precipitation/storm-structure view.</li>
+<li>Velocity shows radial motion toward or away from the radar. Interpret it with range, beam height, aliasing, and storm motion in mind.</li>
+<li>Level 3 products provide derived/site products and may arrive at different times than Level 2 scans.</li>
+<li>Derived hail products are guidance and should not replace multi-source analysis.</li>
+</ul>
+<h3>Timeline and animation</h3>
+<ul>
+<li>The selected frame controls the displayed scan and the linked Hazard Services motion point.</li>
+<li>A red frame means that frame failed or is unavailable. It is not a meteorological alert.</li>
+<li>Verify the scan timestamp before using it for warning placement.</li>
+<li>If the newest scan is stale, acknowledge the notice only after checking Data &amp; Server and another source.</li>
+</ul>
+<h3>Inspect mode</h3>
+<p>Use radar inspect/query to view the value beneath the pointer. Readouts include product value, range from radar, azimuth/gate information where available, and the scan timestamp. Inspect mode is diagnostic; warning decisions still require environmental and observational context.</p>
+<h3>If a radar fails</h3>
+<ol>
+<li>Select a previous valid frame.</li>
+<li>Try the alternate Level 2/Level 3 product.</li>
+<li>Use a neighboring site or national mosaic.</li>
+<li>Check feed health and the displayed timestamp.</li>
+<li>Do not present an old image as current.</li>
+</ol>
+</article>
+        <article id="layers" data-guide-keywords="layers opacity ordering favorites warnings zones counties observations gauges storm reports spc wpc nhc">
+<h2>5. Layers and situational awareness</h2>
+<p>Layers are grouped by purpose and can be searched with the layer search box. Use favorites for frequently toggled data. Drag active layers to change visual stacking and adjust opacity when overlapping products hide one another.</p>
+<h3>Operational boundaries</h3>
+<ul>
+<li>CWA boundaries show office responsibility.</li>
+<li>County and public/fire/marine zone boundaries support product selection.</li>
+<li>Roads, highways, cities, rivers, and hydrography provide geographic context.</li>
+</ul>
+<h3>Observations</h3>
+<ul>
+<li>Surface observations provide temperature, dew point, wind, visibility, ceiling, and flight category.</li>
+<li>Storm reports provide preliminary event type, magnitude, location, time, and remarks.</li>
+<li>River gauges show current NWPS flood category and observed value.</li>
+<li>Observation timestamps must be evaluated before use.</li>
+</ul>
+<h3>Guidance and outlooks</h3>
+<ul>
+<li>SPC outlooks, watches, discussions, fire outlooks, and storm reports serve different purposes; an outlook is not a warning.</li>
+<li>WPC precipitation products and MPDs provide heavy-rain context.</li>
+<li>NHC official products must remain distinguishable from model guidance and ZASNet-authored tracks.</li>
+<li>Smoke, air-quality, fire, drought, snow, lightning, and model layers are guidance unless explicitly labeled as an issued alert.</li>
+</ul>
+<h3>Alert rendering</h3>
+<p>Zone-based alerts use solid fills without outlines. Polygon products use their actual polygon rather than filling every county they touch. Administratively configured product priority determines which overlapping fill appears above another.</p>
+</article>
+        <article id="haz" data-guide-keywords="haz hazard services warning advisory watch validity geometry details locations review issue workflow draft">
+<h2>6. Hazard Services workflow</h2>
+<h3>Selecting a product</h3>
+<p>Open HAZ or press H. Products are grouped by Convection, Marine, Flood, Winter, Coastal/Lakeshore, Fire Weather, and Non-precipitation. Select the exact product; similar colors or names do not imply interchangeable text or VTEC.</p>
+<h3>Step 1 — Validity</h3>
+<ul>
+<li>Choose NEW for a new event, or load an active product for CON, EXT, CAN, or EXP.</li>
+<li>Confirm the effective and ending times in the operated office’s local time.</li>
+<li>Use an operationally reasonable duration. The default is a starting point, not a forecast decision.</li>
+</ul>
+<h3>Step 2 — Geometry</h3>
+<p>Convective products use storm placement/tracking or a freehand polygon. Static polygon products use area drawing. Zone products use complete selectable zones.</p>
+<h3>Step 3 — Details</h3>
+<p>Only fields belonging to the selected hazard should appear. Values populate template tokens in WHAT, WHERE, WHEN, IMPACTS, ADDITIONAL DETAILS, tags, or narrative blocks. Blank optional fields are omitted unless the template explicitly supplies default wording.</p>
+<h3>Step 4 — Locations</h3>
+<p>Review every selected county, zone, marine area, city, and pathcast location. Automatic intersection is a starting point. Geometry determines UGC selection; manually editing narrative place names does not change the official area codes.</p>
+<h3>Step 5 — Review</h3>
+<p>Generate the product again after changing any field. Review is not a live word processor connected to form inputs: a newly entered value appears only after regeneration. Protected envelope sections cannot be changed manually.</p>
+<h3>Drafts</h3>
+<p>Save unfinished work before leaving the workflow. Resume restores the saved product and fields. Always regenerate Review after resuming so times and imported data are current.</p>
+</article>
+        <article id="geometry" data-guide-keywords="geometry storm marker motion dots polygon handles trim cwa line cell pathcast zones select all">
+<h2>7. Geometry and motion</h2>
+<h3>Single storm</h3>
+<ol>
+<li>Place the storm marker on the current cell.</li>
+<li>Move to an earlier radar frame and drag that frame’s linked dot onto the same cell.</li>
+<li>Move to a later frame and repeat.</li>
+<li>The fitted motion projects the threat corridor through expiration.</li>
+<li>Refine the yellow polygon handles without unnecessarily expanding the warning.</li>
+</ol>
+<h3>Line of storms</h3>
+<ol>
+<li>Select Line as the storm shape.</li>
+<li>Place the two endpoint controls at the ends of the current line.</li>
+<li>Use linked center points on two or more frames to establish motion.</li>
+<li>Review the projected line width and downstream corridor.</li>
+</ol>
+<h3>Manual polygon controls</h3>
+<ul>
+<li>Enter or double-click finishes the initial polygon.</li>
+<li>Drag yellow handles to refine it.</li>
+<li>Delete removes the selected/recent point; right-clicking a handle removes that vertex.</li>
+<li>Trim to CWA removes geometry outside the operated office when that is operationally correct.</li>
+<li>Changing speed, direction, or duration recalculates projection length.</li>
+</ul>
+<h3>Zone selection</h3>
+<ul>
+<li>Enable zone selection, then click a complete zone to toggle it.</li>
+<li>Selected zones use a solid selection fill.</li>
+<li>Select All Zones applies to the current office/type and must be used cautiously.</li>
+<li>Active product overlays are hidden during zone selection so they do not intercept clicks.</li>
+</ul>
+<h3>Marine zones</h3>
+<p>Special Marine Warnings can use a storm polygon or complete marine-zone selection. Optional motion affects wording/TML; it does not reshape selected marine zones.</p>
+</article>
+        <article id="products" data-guide-keywords="tornado severe thunderstorm svr tor sps smw fire winter coastal air quality product options tags">
+<h2>8. Product-specific guidance</h2>
+<h3>Tornado Warning (TOR)</h3>
+<ul>
+<li>Select a valid source and tornado status.</li>
+<li>Use Considerable or Emergency impact levels only when supported.</li>
+<li>Tornado Emergency wording requires the emergency location and exceptional life-threatening circumstances.</li>
+<li>Review the TORNADO status, damage-threat, and maximum hail tags. TOR products do not use the SVR maximum-wind tag.</li>
+</ul>
+<h3>Severe Thunderstorm Warning (SVR)</h3>
+<ul>
+<li>Enter the maximum expected wind gust and hail size.</li>
+<li>The hazard/source/impact text and coded tags must agree.</li>
+<li>Destructive wording is reserved for qualifying threats.</li>
+<li>SVR/TOR products are limited to 12 counties in the validation workflow.</li>
+</ul>
+<h3>Special Weather Statement (SPS)</h3>
+<p>Use an actual polygon for the affected area. SPS must not be displayed publicly as county-filled geometry simply because counties intersect it.</p>
+<h3>Special Marine Warning (SMW)</h3>
+<p>Select polygon or marine-zone geometry, source, hazard, motion, and affected waters. Confirm marine UGCs and avoid land county codes.</p>
+<h3>Fire Warning (FRW)</h3>
+<p>Identify the requesting agency, fire scenario, fire location/behavior, threatened locations, and any arrival time. Emergency wording should match verified urgency.</p>
+<h3>Winter/non-precipitation/coastal/fire-weather hazards</h3>
+<p>Zone templates expose product-specific amounts such as snow, ice, wind, temperature, visibility, water level, waves, surf, rip-current risk, humidity, and timing. The configured template determines where each field appears. Do not retain irrelevant values from another product.</p>
+</article>
+        <article id="criteria" data-guide-keywords="criteria thresholds lead time duration pqr portland warning advisory watch severe tornado winter wind heat cold fog coastal marine fire">
+<h2>9. Hazard criteria reference</h2>
+<div class="guidance-policy-meta" aria-label="Criteria governance">
+<span><small>Policy owner</small><strong>Operations Administration</strong></span>
+<span><small>Revision</small><strong>August 7, 2026</strong></span>
+<span><small>Verification</small><strong>Review before every issuance</strong></span>
+</div>
+<p class="guidance-notice">
+<strong>Local-threshold warning:</strong> The numerical criteria below are taken from regional examples updated July 25, 2026. They are included to teach how criteria are structured—not as universal thresholds for RIW, BIS, CYS, OHX, or another office. Before issuance, apply the operated WFO’s current local policy and governing directive. Protection of life and property may justify action below a numerical threshold.</p>
+<p>
+</p>
+<h3>Confidence and product level</h3>
+<ul>
+<li>
+<strong>Watch:</strong> PQR guidance generally uses confidence of at least 50% that warning-level/impact conditions will occur, with uncertainty in timing, location, or occurrence.</li>
+<li>
+<strong>Warning:</strong> PQR guidance generally uses confidence of at least 80%, or an event that is observed/imminent.</li>
+<li>
+<strong>Advisory:</strong> Hazardous conditions are expected but generally below warning-level severity; meaningful disruption or danger is still possible.</li>
+<li>
+<strong>Statement:</strong> Supplies updates, corrections, continuations, expirations, or cancellations for an existing product family.</li>
+</ul>
+          <h3 id="criteria-convection">Convection and short-fused products</h3>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Typical timing</th>
+<th>PQR reference criteria and use</th>
+<th>What the operator enters/reviews</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Special Weather Statement</td>
+<td>Duration under 6 hours</td>
+<td>Strong sub-severe convection, gust fronts, roughly 40–57 mph gusts, hail under 1 inch, frequent lightning; non-tornadic funnel clouds; short-term frost/ice driving hazards; or a significant multi-hazard event beyond six hours.</td>
+<td>Polygon, source, hazards, motion when useful, timing, locations, and concise action wording. Do not use SPS when warning criteria are met.</td>
+</tr>
+          <tr>
+<td>Severe Thunderstorm Warning</td>
+<td>30–60 minutes</td>
+<td>Thunderstorms expected to cause significant tree/structural damage, downed power lines, flying debris, or a life/property threat; PQR lists gusts at least 58 mph, hail at least 1 inch, or qualifying damage reports.</td>
+<td>Source, maximum gust, maximum hail, damage threat, polygon, motion, impacted places, tags, and CTAs.</td>
+</tr>
+          <tr>
+<td>Severe Weather Statement</td>
+<td>0–1 hour</td>
+<td>Updates, corrects, expires, or cancels TOR/SVR. PQR says at least one SVS should be issued during a TOR/SVR valid period.</td>
+<td>Load the active warning, select the lifecycle action, retain ETN/geometry consistency, and update current hazard/source/impact.</td>
+</tr>
+          <tr>
+<td>Tornado Warning</td>
+<td>15–45 minutes</td>
+<td>Credible report or radar indication of a developing/ongoing tornado, including TVS, hook echo, or mesocyclone. PQR’s local TVS guidance cites gate-to-gate shear over 90 kt within 30 nm or over 70 kt from 30–55 nm.</td>
+<td>Tornado source/status, impact level, optional hail, polygon/motion, emergency location if applicable, and coded tags.</td>
+</tr>
+          <tr>
+<td>Tornado Emergency</td>
+<td>15–45 minutes</td>
+<td>Exceedingly rare: catastrophic damage and severe threat to human life are imminent/ongoing, supported by visual/radar confirmation such as a strong debris signature.</td>
+<td>Confirmed emergency location, catastrophic/emergency selection, strongest supported source, precise impact wording, and urgent CTA.</td>
+</tr>
+          <tr>
+<td>Severe Thunderstorm Watch</td>
+<td>SPC driven</td>
+<td>Issued in coordination with SPC when the environment supports severe thunderstorms.</td>
+<td>SPC desk/watch workflow, proposed area, county/WFO coordination, watch type/timing, and final county list.</td>
+</tr>
+          <tr>
+<td>Tornado Watch</td>
+<td>SPC driven</td>
+<td>Multiple weak tornadoes or any tornado capable of EF2+ damage; PQR cites at least two hours and about 8,000 square miles as forecast-event minimum guidance.</td>
+<td>SPC coordination, watch area, timing, county/WFO inclusion, and public watch text.</td>
+</tr>
+          <tr>
+<td>Special Marine Warning</td>
+<td>Usually under 1 hour; up to 2</td>
+<td>Sustained/frequent gusts at least 34 kt not covered by the marine forecast, thunderstorms meeting that wind threshold, severe marine hail at least 3/4 inch, or an indicated/observed waterspout.</td>
+<td>Marine polygon/zones, wind/hail/waterspout hazard, source, motion, affected waters, and CTA.</td>
+</tr>
+</tbody>
+</table>
+</div>
+          <h3 id="criteria-hydro">Hydrology</h3>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Lead time</th>
+<th>Criteria/use</th>
+<th>Key editor data</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Flood Potential Outlook</td>
+<td>Beyond 36 hours</td>
+<td>Heads-up when expected hydrometeorological conditions may cause flooding in the coming days.</td>
+<td>Expected scenario, confidence, area, timing, antecedent conditions, and next update.</td>
+</tr>
+          <tr>
+<td>Flood Advisory</td>
+<td>Generally 0–12 hours</td>
+<td>Urban/small-stream flooding, underpasses, low-lying areas, or drainages that hinder/block travel but remain below warning severity.</td>
+<td>Type/cause/source, ongoing versus expected, WHAT/WHERE/WHEN, impacts, rainfall, drainages, and optional NWPS gauge data.</td>
+</tr>
+          <tr>
+<td>Flood Watch</td>
+<td>12–48 hours</td>
+<td>Conditions indicate a flooding threat, but flooding is not yet certain or imminent.</td>
+<td>FA.A/FF.A immediate cause, zones, start/end, impacts, rainfall ranges, and additional details.</td>
+</tr>
+          <tr>
+<td>Forecast-point Flood Warning</td>
+<td>6–24 hours</td>
+<td>Flooding at a forecast point is imminent/in progress, forecast within several hours, or expected to increase category.</td>
+<td>gauge identifier, river/location, observed stage/flow, flood stage/category, official forecast, crest/time, impacts, and valid time.</td>
+</tr>
+          <tr>
+<td>Areal Flood Warning</td>
+<td>6–24 hours</td>
+<td>Flooding presents a threat to life or property over an area rather than a single forecast point.</td>
+<td>Polygon/counties, flooding type/cause/source, WHAT/WHERE/WHEN, impacts, details, and LAT…LON.</td>
+</tr>
+          <tr>
+<td>Flood Statement</td>
+<td>Event driven</td>
+<td>Updates, corrects, expires, or cancels a Flood Warning.</td>
+<td>Original ETN/area, action, observed/forecast change, current impacts, end time, and gauge data when point-based.</td>
+</tr>
+          <tr>
+<td>Flash Flood Watch</td>
+<td>6–48 hours</td>
+<td>Flash flooding is possible but not imminent, including potential dam/levee failure scenarios.</td>
+<td>Immediate cause, zones, valid period, expected rainfall/conditions, impacts, and preparedness wording.</td>
+</tr>
+          <tr>
+<td>Flash Flood Warning</td>
+<td>0–6 hours</td>
+<td>Reliable flash-flood report; precipitation capable of flash flooding; rainfall near/exceeding RFC guidance; sudden dam/levee/structure release; or predictive/headwater guidance indicating flash flooding.</td>
+<td>Polygon, immediate cause, source, rainfall, current/expected status, hazard/source/impact, LAT…LON, damage threat, and applicable failure tags.</td>
+</tr>
+          <tr>
+<td>Flash Flood Emergency</td>
+<td>0–6 hours</td>
+<td>FFW criteria plus exceptional evidence such as a declared emergency from rapidly rising water, levels rarely seen, multiple swift-water rescue teams, or catastrophic high-hazard dam failure.</td>
+<td>Catastrophic damage threat, emergency location, credible source/coordination, urgent impact/CTA, and all normal FFW elements.</td>
+</tr>
+</tbody>
+</table>
+</div>
+          <h3 id="criteria-winter">Winter weather</h3>
+<p>
+The winter-weather operations standard controls the WSW product suite and format. PQR snow amounts vary sharply by elevation/zone; the operated office’s zone-specific thresholds must replace these examples. Criteria are guidance and impact-based issuance remains available with coordination and documented reasoning.</p>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>National timing/decision guidance</th>
+<th>PQR example criteria</th>
+<th>Editor fields</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Winter Weather Advisory</td>
+<td>Issue with as much lead time as possible, normally at 80% or greater confidence; update every 6–8 hours.</td>
+<td>Cascades 6–12 inches; foothills/ranges/upper Hood River Valley 2–4; lowlands/gorge/coast 1–3; freezing rain 0.10–0.25 inch. Impacts include slippery travel, scattered outages, and closures/disruption.</td>
+<td>Snow, sleet, and ice ranges; sustained wind/gust; blowing snow; visibility; elevation; timing; impacts; details.</td>
+</tr>
+          <tr>
+<td>Winter Storm Watch</td>
+<td>Issue with as much lead time as possible at 50% or greater confidence in warning/impact criteria. Do not newly issue within 12 hours of onset; update at least every 12 hours.</td>
+<td>At least 50% chance of warning-level winter weather or impacts.</td>
+<td>Potential snow/sleet/ice/wind ranges, visibility, elevation, confidence/uncertainty, zones, timing, and impacts.</td>
+</tr>
+          <tr>
+<td>Winter Storm Warning</td>
+<td>Issue with as much lead time as possible, normally at 80% or greater confidence; update every 6–8 hours. Singular, multiple-hazard, and impact-driven events are supported.</td>
+<td>PQR examples: Cascades at least 12 inches; foothills/ranges/upper Hood River Valley at least 4; lowlands/gorge/coast at least 3. Significant/life-threatening travel, widespread outages, or major disruption can justify issuance.</td>
+<td>Snow/sleet/ice ranges, snowfall rate, wind/gust, visibility, blowing snow, elevation, timing, impacts, details, and coordination.</td>
+</tr>
+          <tr>
+<td>Snow Squall Warning</td>
+<td>30–60 minutes</td>
+<td>Short-lived, extremely dangerous driving with near-whiteout visibility; often no more than 1 inch, combined with gusty wind, subfreezing roads, and visibility at/below 1/4 mile.</td>
+<td>Polygon, source, visibility, snow/wind, motion, road impacts, timing, and urgent CTA.</td>
+</tr>
+          <tr>
+<td>Ice Storm Warning</td>
+<td>Warning decision at high confidence; update every 6–8 hours.</td>
+<td>At least 0.25 inch damaging ice accumulation, with widespread outages, downed trees/limbs, life-threatening travel, or major disruption.</td>
+<td>Ice range, snow range if any, sustained wind/gust, timing, zones, impacts, and details.</td>
+</tr>
+          <tr>
+<td>Blizzard Warning</td>
+<td>Warning decision at high confidence; update every 6–8 hours.</td>
+<td>Sustained wind or frequent gusts at least 35 mph plus falling/blowing snow frequently reducing visibility below 1/4 mile for at least three consecutive hours.</td>
+<td>Snow, sustained wind/gust, visibility, visibility duration, falling/blowing snow, timing, zones, and life-threatening travel impacts.</td>
+</tr>
+          <tr>
+<td>Lake Effect Snow Warning</td>
+<td>Implemented at regional discretion; use Winter Storm Watch for watch-level potential and Winter Weather Advisory below warning severity.</td>
+<td>Localized or widespread lake-induced heavy snow meeting locally defined warning criteria.</td>
+<td>Snow range/rate, sustained wind/gust, visibility, persistent-band location, timing, zones, and impacts.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
+<strong>WSW formatting:</strong> use zone UGCs and the “URGENT - WINTER WEATHER MESSAGE” broadcast line. Include WHAT, WHERE, WHEN, IMPACTS, optional ADDITIONAL DETAILS, and precautionary/preparedness actions. If issuance is at least three hours before onset, the headline includes FROM and TO; otherwise it uses UNTIL. Events should not exceed 48 hours except when absolutely necessary. Wind Chill products are retired from this suite; use Extreme Cold Watch/Warning or Cold Weather Advisory under the cold-weather operations standard.</p>
+          <h3 id="criteria-nonprecip">Wind, heat, cold, fog, smoke, ash, and dust</h3>
+<p>
+<strong>Product rules:</strong> The NPW uses zone UGCs and the “URGENT - WEATHER MESSAGE” broadcast line. Watches generally require at least 50% confidence and should not be newly issued within 12 hours of onset. Warnings and advisories generally require at least 80% confidence. Update active NPWs at least every 12 hours. Use FROM/TO when issuance is at least three hours before onset; otherwise use UNTIL. Follow the current non-precipitation operations standard.</p>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Typical timing</th>
+<th>Criteria / operational distinction</th>
+<th>Fields to review</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Wind Advisory</td>
+<td>24–36+ hours</td>
+<td>Most PQR zones: sustained 30–39 mph for at least an hour or frequent gusts 45–57 mph. Local exceptions apply.</td>
+<td>Direction, sustained wind, gust, duration, elevation, locations, impacts.</td>
+</tr>
+          <tr>
+<td>High Wind Watch / Warning</td>
+<td>Watch typically 36–48 hours; warning 12–36+ hours</td>
+<td>Watch when warning-level conditions are possible. Most PQR warning zones: sustained at least 40 mph for an hour or gusts at least 58 mph; local thresholds differ.</td>
+<td>Potential/expected direction, sustained wind, gust, duration, elevation, confidence, damage and travel impacts.</td>
+</tr>
+          <tr>
+<td>Lake Wind Advisory</td>
+<td>Event driven</td>
+<td>Strong winds creating hazardous conditions on inland lakes below High Wind Warning criteria.</td>
+<td>Direction, sustained wind, gust, duration, affected lakes and impacts.</td>
+</tr>
+          <tr>
+<td>Heat Advisory</td>
+<td>24–36+ hours</td>
+<td>PQR HeatRisk 2.4–2.65 or significant unseasonable/record heat.</td>
+<td>Temperature, heat index, overnight relief, duration, vulnerable groups and cooling-access concerns.</td>
+</tr>
+          <tr>
+<td>Extreme Heat Watch / Warning (XH)</td>
+<td>Watch typically 36–48 hours; warning 12–36+ hours</td>
+<td>Watch when extreme-heat warning conditions are possible; warning when expected. PQR warning example is HeatRisk 2.66–4 or rare long-duration heat with little overnight relief.</td>
+<td>Temperature, heat index, overnight low, duration, confidence and power/cooling-access concerns.</td>
+</tr>
+          <tr>
+<td>Extreme Cold Watch / Warning; Cold Weather Advisory</td>
+<td>Watch typically 36–48 hours; warning/advisory 12–36+ hours</td>
+<td>Use locally defined apparent-temperature thresholds and duration. Watch is possible warning-level cold; warning is expected extreme cold; advisory is lower but hazardous cold.</td>
+<td>Air temperature, wind chill/apparent temperature, duration, confidence and vulnerable populations.</td>
+</tr>
+          <tr>
+<td>Frost Advisory</td>
+<td>24–36+ hours</td>
+<td>PQR growing season only; mainly 33–36°F with good radiational cooling, excluding high Cascades zones.</td>
+<td>Temperature range, radiational-cooling conditions, growing-season status and vegetation impacts.</td>
+</tr>
+          <tr>
+<td>Freeze Watch / Warning</td>
+<td>Watch 24–48+ hours; warning 12–36+ hours</td>
+<td>Temperatures at/below 32°F possible/expected during the locally defined growing season; Hard Freeze wording may be used at/below the local hard-freeze threshold.</td>
+<td>Temperature, freeze duration, hard-freeze wording, confidence, growing-season status and impacts.</td>
+</tr>
+          <tr>
+<td>Dense Fog / Freezing Fog Advisory</td>
+<td>0–36 hours</td>
+<td>Fog generally reducing visibility to 1/4 mile or less. Freezing Fog also requires a representative hazardous icing concern; one automated observation alone may be insufficient.</td>
+<td>Visibility, temperature and glaze/ice concern, affected roads and locations.</td>
+</tr>
+          <tr>
+<td>Dense Smoke Advisory</td>
+<td>0–36 hours</td>
+<td>Land visibility at/below 1/4 mile; marine visibility below 1 nautical mile.</td>
+<td>Visibility, smoke source, affected roads/locations, air-quality and travel impacts.</td>
+</tr>
+          <tr>
+<td>Air Stagnation Advisory</td>
+<td>Agency-coordinated/event driven</td>
+<td>Persistent poor mixing and light transport winds that can allow pollutants to accumulate; coordinate with the responsible air-quality agency.</td>
+<td>Stagnation cause, requesting agency, duration, mixing height and transport wind.</td>
+</tr>
+          <tr>
+<td>Ashfall Advisory / Warning</td>
+<td>Event driven</td>
+<td>Advisory for less than 1/4 inch ash accumulation; warning for 1/4 inch or more, or significant debris/lava/lahar impacts described by the directive.</td>
+<td>Volcano/source, ash range, plume direction, other volcanic hazards, communities and infrastructure.</td>
+</tr>
+          <tr>
+<td>Blowing Dust Advisory / Warning (DU)</td>
+<td>Generally longer than 90 minutes</td>
+<td>Zone-based synoptic event. Advisory visibility is above 1/4 mile through 1 mile; warning is 1/4 mile or less. Winds are commonly at least 25 mph.</td>
+<td>Visibility, wind direction/speed/gust, duration, dust source/corridor, zones and impacts.</td>
+</tr>
+          <tr>
+<td>Dust Advisory / Dust Storm Warning (DS)</td>
+<td>20 minutes–2 hours</td>
+<td>Short-fused convective or sudden dust event issued as a polygon in DSW, not a zone NPW. Dust Storm Warning receives the EAS activation line.</td>
+<td>Polygon, source, visibility, wind, basis, motion, highways, locations, HAZARD/SOURCE/IMPACT and LAT...LON/TIME...MOT...LOC.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The product editor exposes only the fields assigned to the selected hazard. Regenerate Review after changing values, then confirm that WHAT, WHERE, WHEN, IMPACTS, optional details, and precautionary actions agree.</p>
+          <h3 id="criteria-coastal">Coastal and beach hazards</h3>
+<p>
+<strong>Coastal-product rules:</strong> CFW products use zone UGCs, no overview, and segmented WHAT, WHERE, WHEN, IMPACTS, optional ADDITIONAL DETAILS, and precautionary actions. Watches and warnings include “URGENT - IMMEDIATE BROADCAST REQUESTED”; advisories and statements do not. Issue updates at least every 6–8 hours. Watch UGC expiration is generally 12 hours; warning, advisory, and statement UGC expiration is generally 6–8 hours. Follow the current coastal operations standard.</p>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Lead time</th>
+<th>Purpose / criteria</th>
+<th>Fields to review</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Beach Hazards Statement (BH.S)</td>
+<td>Event driven</td>
+<td>Multiple or non-threshold beach hazards, including dangerous currents, cold water, lightning, unusual surf, environmental hazards, or dangerous swimming conditions. If rip currents are the only hazard, use RP.S.</td>
+<td>Hazards, exactly one risk qualifier, surf/waves, water temperature, environmental agency/details, timing, beaches and impacts.</td>
+</tr>
+          <tr>
+<td>Coastal/Lakeshore Flood Advisory</td>
+<td>Usually occurring or possible within 12 hours</td>
+<td>Minor coastal/lakeshore flooding or tidal overflow. Regional/local thresholds apply.</td>
+<td>Inundation above ground (or Alaska normal-highest-tide reference), secondary datum, tide/peak timing, wave runup, erosion, vulnerable locations and impacts.</td>
+</tr>
+          <tr>
+<td>Coastal/Lakeshore Flood Watch</td>
+<td>12–48 hours</td>
+<td>Significant warning-level flooding is possible. WHAT must describe the phenomenon followed by “possible.”</td>
+<td>Potential inundation/runup, datum, waves, erosion, vulnerable locations, uncertainty and impacts.</td>
+</tr>
+          <tr>
+<td>Coastal/Lakeshore Flood Warning</td>
+<td>Usually first 12–24 hours</td>
+<td>Serious threat to life/property is occurring, imminent, or highly likely. Local thresholds apply.</td>
+<td>Expected inundation/runup, datum, waves, erosion, timing, vulnerable locations, infrastructure and impacts.</td>
+</tr>
+          <tr>
+<td>High Surf Advisory</td>
+<td>Event driven</td>
+<td>Breaking surf threatens life or property. If rip currents also matter, they may be included, preferably with a concurrent RP.S segment.</td>
+<td>Breaking surf height, period, one rip-risk qualifier, peak timing, beaches, erosion and impacts.</td>
+</tr>
+          <tr>
+<td>High Surf Warning</td>
+<td>Event driven; regional option</td>
+<td>Breaking surf creates an especially heightened threat to life and property.</td>
+<td>Dangerous breaking surf height, period, one rip-risk qualifier, timing, beaches, erosion and impacts.</td>
+</tr>
+<tr>
+<td>Rip Current Statement (RP.S)</td>
+<td>Seasonal/event driven</td>
+<td>Rip currents are the only hazard and an increased moderate or high risk is expected. Only rip-current information belongs in RP.S.</td>
+<td>Exactly one moderate/high qualifier, surf context, timing, affected beaches and rip-current impacts/CTA.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Use exactly one low, moderate, or high qualifier in each zone. “High” means life-threatening rip currents are likely, or for Great Lakes swim risk, life-threatening waves and currents are expected.</p>
+          <h3 id="criteria-marine">Marine hazards</h3>
+<p>
+<strong>Marine Weather Statement rules:</strong> The marine-statement standard uses the “Marine Weather Statement” header with marine-zone UGCs and no MND broadcast line. General MWS events use a non-VTEC segmented format and expire no more than 12 hours after issuance. SMW continuations, cancellations, and expirations use MWS with MA.W VTEC and expire no more than 15 minutes after the warning end. LAT...LON and TIME...MOT...LOC are included for WarnGen polygons.</p>
+<p>
+<strong>Marine Weather Message rules:</strong> MWW watches, warnings, and advisories cover complete marine zones and use <em>URGENT - MARINE WEATHER MESSAGE</em>, Z-form UGC, VTEC, and WHAT/WHERE/WHEN/IMPACTS bullets, optional ADDITIONAL DETAILS, and precautionary actions. Watches use “possible” in WHAT and FROM…THROUGH headlines; warnings/advisories use “expected” and FROM…TO or UNTIL. There is no overview or separate broadcast line. Follow the current marine-warning operations standard.</p>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Lead/valid time</th>
+<th>Directive criteria</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Marine Weather Statement (MWS)</td>
+<td>Event driven; maximum 12 hours for general events</td>
+<td>Use for short-duration non-severe winds/gusts through 33 kt lasting two hours or less; longer-duration fog, spills, volcanic impacts, changing wind/seas, funnel clouds, tsunami currents, debris, ice changes, freezing spray, or ash; and SMW follow-up/cancellation. Not for offshore/high-seas areas.</td>
+</tr>
+          <tr>
+<td>Small Craft Advisory</td>
+<td>Up to 36 hours</td>
+<td>Regionally defined sustained/frequent 20–33 kt and/or seas generally 4 ft or greater, or hazardous period, steepness, swell direction, bar, or locally defined wind conditions.</td>
+</tr>
+          <tr>
+<td>Gale Watch / Warning</td>
+<td>Watch 12–60; warning up to 36 hours</td>
+<td>Watch when uncertain; warning for sustained winds or frequent gusts 34–47 kt, not directly tropical.</td>
+</tr>
+          <tr>
+<td>Storm Watch / Warning</td>
+<td>Watch 12–60; warning up to 36 hours</td>
+<td>Watch when uncertain; warning for sustained winds or frequent gusts 48–63 kt, not directly tropical.</td>
+</tr>
+          <tr>
+<td>Hurricane Force Wind Watch / Warning</td>
+<td>Watch 12–60; warning up to 36 hours</td>
+<td>At least 64 kt, not directly associated with a tropical cyclone.</td>
+</tr>
+          <tr>
+<td>Heavy Freezing Spray Watch / Warning</td>
+<td>Watch 12–60; warning up to 36 hours</td>
+<td>Warning for vessel icing at 2 cm per hour or greater; watch when those conditions are possible.</td>
+</tr>
+          <tr>
+<td>Hazardous Seas Watch / Warning</td>
+<td>Watch 12–60; warning up to 36 hours</td>
+<td>Locally defined warning wave height and/or steepness.</td>
+</tr>
+          <tr>
+<td>Dense Fog / Dense Smoke Advisory</td>
+<td>Up to 36 hours</td>
+<td>Widespread or localized visibility at or below 1 nautical mile, subject to regional/local definition.</td>
+</tr>
+          <tr>
+<td>Freezing Spray Advisory</td>
+<td>Up to 36 hours</td>
+<td>Light to moderate ice accumulation expected on vessels.</td>
+</tr>
+          <tr>
+<td>Brisk Wind Advisory</td>
+<td>Up to 36 hours</td>
+<td>Small Craft Advisory wind conditions over ice-covered waters.</td>
+</tr>
+          <tr>
+<td>Low Water Advisory</td>
+<td>Up to 36 hours</td>
+<td>Significantly below-average water levels affecting safe navigation; locally determined.</td>
+</tr>
+</tbody>
+</table>
+</div>
+          <h3 id="criteria-fire">Fire weather</h3>
+<p>
+<strong>Fire-weather standard:</strong> National rules are combined with locally coordinated criteria in each office’s Annual Operating Plan (AOP). Red Flag criteria always combine fuel dryness with weather parameters; the standard does not establish one national RH or wind threshold. Do not use “explosive fire growth” in RFW text. Describe the specific weather parameters or extreme fire behavior instead.</p>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product/service</th>
+<th>Timing</th>
+<th>Operational rule and required content</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Fire Weather Watch (FW.A/RFW)</td>
+<td>18–96 hours before onset</td>
+<td>High potential—not merely low confidence or borderline conditions—for a locally defined Red Flag event. Use fire-weather zones or coordinated sub-zone portions. Include affected area, timing, no more than three weather-element bullets, fuel status, fire-behavior impacts, and a brief CTA.</td>
+</tr>
+          <tr>
+<td>Red Flag Warning (FW.W/RFW)</td>
+<td>Expected/occurring, normally within 48 hours</td>
+<td>High confidence that coordinated fuel and weather criteria will occur. Weather causes may include strong wind, very low RH, lightning/dry thunderstorms, dry frontal passage, or combinations. Longer lead is allowed when confidence is very high or fire danger is critical.</td>
+</tr>
+          <tr>
+<td>Exceptional Red Flag messaging</td>
+<td>Rare, coordinated event</td>
+<td>When local RFW criteria are greatly exceeded or near records, state the exceptional hazard in the headline and body without renaming the Red Flag Warning product. Coordinate public emphasis with emergency/fire managers and the Regional Operations Center.</td>
+</tr>
+          <tr>
+<td>Site-specific Spot Forecast (FWS/FNUS7i)</td>
+<td>Non-routine; typically 30–60 minute turnaround</td>
+<td>For active wildfire, qualifying all-hazard/public-safety response, search and rescue, or a prescribed project intended within one day. Verify government/public-safety requester, incident name/type, latitude/longitude, elevation/topography, contact, ignition time, observations, requested elements and critical thresholds. Normally provide three or four periods. Fire spots use 20-foot, 10-minute wind; other purposes identify wind level.</td>
+</tr>
+          <tr>
+<td>Fire Weather Planning Forecast (FWF/FNUS5i)</td>
+<td>At least daily in fire season; valid through day 5, optional day 7</td>
+<td>Routine fire-zone forecast. Include active RFW/watch headlines, fire-weather discussion, sky/weather and precipitation probability, lightning activity/thunder coverage, max/min temperature, min daytime/max nighttime RH, and prevalent 20-foot wind. Significant gusts, erratic wind and shifts must be mentioned. Optional elements include transport wind, mixing height, Haines Index and chance of wetting rain.</td>
+</tr>
+          <tr>
+<td>NFDRS Forecast (FWM/FNUS8i)</td>
+<td>Daily where requested; valid 24 hours from roughly 1300 LST observation</td>
+<td>Use the GFE NFDRS formatter and preferably individual-station actual/trend forecasts. Base it on the representative FWO/RAWS observation. A current-day update is possible by 0900 LST. Suspect sites may be suspended only with the required Predictive Services coordination.</td>
+</tr>
+          <tr>
+<td>Land Management Forecast (FWL/FNUS8i)</td>
+<td>Locally established</td>
+<td>General-purpose product whose content, format and issuance are defined by local requirements and agreements.</td>
+</tr>
+          <tr>
+<td>Smoke Management Forecast (SMF/FNUS7i)</td>
+<td>On request; routine or as needed</td>
+<td>Agency-coordinated narrative/tabular forecast. May include transport wind and its height/time variability, stability, dispersion, mixing depth, and other agreed smoke parameters; it may stand alone or be included in the FWF.</td>
+</tr>
+          <tr>
+<td>Rangeland/Grassland Fire Danger Statement (RFD/FNUS6i)</td>
+<td>Routine or non-routine per local agreement</td>
+<td>Advisory information on rangeland or grassland fire potential. Content, frequency and dissemination are established with land-management users.</td>
+</tr>
+          <tr>
+<td>SPC Fire Weather Outlook (FWD)</td>
+<td>Scheduled Day 1, Day 2 and Day 3–8 products</td>
+<td>SPC—not a WFO Hazard Services issuance—provides Elevated, Critical, Extremely Critical, and isolated/scattered dry-thunderstorm areas. Use it as guidance while applying local fuels and AOP criteria.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
+<strong>RFW authoring:</strong> Capture fuel status, event cause, minimum RH, sustained wind/gust and direction, duration or brief remission periods, lightning coverage, outflow winds, wetting-rain expectation, dry-front/wind-shift timing, instability, existing-fire context, partner coordination, timing, affected fire-weather zones, impacts and CTA. The RFW uses fire-zone Z-form UGC, VTEC, the MND “URGENT – FIRE WEATHER MESSAGE,” optional overview headline/synopsis, and segmented bullets. Segment order is cancellations, warnings, then watches.</p>
+          <h3 id="criteria-partner">Geohazards and partner-driven products</h3>
+<div class="guidance-table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Authority/criteria</th>
+</tr>
+</thead>
+<tbody>
+          <tr>
+<td>Tsunami Advisory</td>
+<td>NTWC driven; strong currents or dangerous waves without warning-level widespread inundation, generally below 1-meter amplitude.</td>
+</tr>
+          <tr>
+<td>Tsunami Watch</td>
+<td>NTWC driven; possible later impact. PQR reference uses earthquake magnitude above 7.8 and 3–6 hour arrival areas.</td>
+</tr>
+          <tr>
+<td>Tsunami Warning</td>
+<td>NTWC driven; significant widespread inundation imminent/expected. Warning extent varies with earthquake magnitude/arrival time; amplitudes expected at least 1 meter for the largest scenario.</td>
+</tr>
+          <tr>
+<td>Ashfall Advisory</td>
+<td>Coordinate with VAAC and CVO; minor eruption/limited impact such as less than 1/4 inch accumulation. Marine version may include pumice/floating debris.</td>
+</tr>
+          <tr>
+<td>Ashfall Warning</td>
+<td>Coordinate with VAAC and CVO; major eruption/significant impact such as at least 1/4 inch, significant debris, lava, or lahar flows.</td>
+</tr>
+          <tr>
+<td>Air Stagnation Advisory</td>
+<td>PQR: persistent inversions, mixing height below 2,000 ft, transport wind below 5 kt, no precipitation, lasting at least 48 hours.</td>
+</tr>
+          <tr>
+<td>Routine Air Quality Statement (AQI)</td>
+<td>Agency guidance partner driven. Relay routine messages such as EPA AQI 0–100, Green/Yellow or low/moderate concern, pollen/mold information, or a scheduled daily message. AQI has no UGC, VTEC, broadcast line, or required expiration.</td>
+</tr>
+          <tr>
+<td>Air Quality Alert Message (AQA)</td>
+<td>Agency guidance partner driven. Use for an agency alert-type headline, EPA AQI at least 101, Code Orange or higher, red Skycast, or another locally agreed non-routine threshold. AQA uses public-zone UGC and agency-designated expiration, but no VTEC or broadcast line. Preserve the supplied message and attribution.</td>
+</tr>
+          <tr>
+<td>Avalanche bulletin/watch/warning</td>
+<td>Partner driven; requested by the responsible avalanche center.</td>
+</tr>
+          <tr>
+<td>Non-Weather Emergency Message (NWEM)</td>
+<td>Emergency-message guidance relay only. Confirm public safety, official government source, time-critical need, inadequate alternate dissemination, non-routine/infrequent use, and compatibility with the warning program. Authenticate the alerting authority. Do not duplicate an alert already sent or planned for the IPAWS EAS channel. Relayed NWEMs cannot activate Wireless Emergency Alerts.</td>
+</tr>
+          <tr>
+<td>NWEM codes</td>
+<td>Use the specific authorized code: ADR Administrative Message; AVA/AVW Avalanche Watch/Warning; BLU Blue Alert; CAE Child Abduction Emergency; CDW Civil Danger Warning; CEM Civil Emergency Message; EQW Earthquake Warning; EVI Evacuation Immediate; FRW Fire Warning; HMW Hazardous Materials Warning; LAE Local Area Emergency; LEW Law Enforcement Warning; NUW Nuclear Power Plant Warning; RHW Radiological Hazard Warning; SPW Shelter In Place Warning; TOE 911 Telephone Outage Emergency; or VOW Volcano Warning. RMT/RWT are NWR-only tests.</td>
+</tr>
+          <tr>
+<td>NWEM format and area</td>
+<td>Use government-agency attribution, authority-selected broadcast instruction, affected county or zone UGC and authority-designated expiration. Never mix county-C and zone-Z UGC in one segment. Statewide alerts use the state 000 county code and must come through the configured state/territorial liaison office. Separate land and marine products. Free narrative is limited to 200 words for EAS and should state hazard, location, protective action, and additional-information source. A standards-compliant polygon is optional.</td>
+</tr>
+          <tr>
+<td>Hazardous release / HYSPLIT support</td>
+<td>For a large release, record source latitude/longitude, height/size, start/end, release rate/source characteristics when known, contaminant, incident ID, requester and delivery contact. Provide observations and spot forecasts for wind, weather, temperature, RH and stability. Offer HYSPLIT, explain model/observed wind discrepancies, and do not publicly release model output without coordinating-agency consent. IMAAC is the single federal plume-prediction source when federal coordination is required.</td>
+</tr>
+</tbody>
+</table>
+</div>
+        </article>
+        <article id="zones" data-guide-keywords="alert catalog families polygon zone marine coastal winter flood fire non precipitation products what where when impacts details actions">
+<h2>10. Alert families and workflow index</h2>
+<p>This index mirrors the products available in Hazard Services. Choose the family first, then use the linked geometry and review pattern. The detailed criteria tables above control product-specific timing, thresholds, and fields.</p>
+<div class="guidance-family-grid">
+<section>
+<span class="guidance-family-type">Polygon workflow</span>
+<h3>Short-fused and drawn alerts</h3>
+<p>Draw or generate the actual threat area, validate intersections and motion when applicable, and review LAT…LON before issuance.</p>
+<ul><li>Tornado Warning</li><li>Severe Thunderstorm Warning</li><li>Flash Flood Warning · Excessive Rain</li><li>Flash Flood Warning · Dam / Levee Failure</li><li>Areal Flood Warning</li><li>Flood Advisory</li><li>Snow Squall Warning</li><li>Special Weather Statement</li><li>Special Marine Warning</li><li>Marine Weather Statement</li><li>Fire Warning</li><li>Dust Storm Warning</li><li>Dust Advisory</li></ul>
+</section>
+<section>
+<span class="guidance-family-type">Complete zones</span>
+<h3>Winter and flood alerts</h3>
+<p>Select complete public zones and confirm amounts, elevation, timing, confidence, impacts, and overlapping events.</p>
+<ul><li>Winter Storm Warning</li><li>Winter Weather Advisory</li><li>Blizzard Warning</li><li>Ice Storm Warning</li><li>Lake Effect Snow Warning</li><li>Winter Storm Watch</li><li>Flood Watch</li><li>Flash Flood Watch</li></ul>
+</section>
+<section>
+<span class="guidance-family-type">Complete zones</span>
+<h3>Wind, visibility, and airborne hazards</h3>
+<p>Review magnitude, duration, visibility, affected corridors, source material, and locally configured thresholds.</p>
+<ul><li>High Wind Warning</li><li>High Wind Watch</li><li>Wind Advisory</li><li>Lake Wind Advisory</li><li>Dense Fog Advisory</li><li>Freezing Fog Advisory</li><li>Dense Smoke Advisory</li><li>Blowing Dust Warning</li><li>Blowing Dust Advisory</li><li>Ashfall Warning</li><li>Ashfall Advisory</li><li>Air Stagnation Advisory</li></ul>
+</section>
+<section>
+<span class="guidance-family-type">Complete zones</span>
+<h3>Heat, cold, and freeze alerts</h3>
+<p>Confirm temperature or apparent-temperature values, duration, overnight relief, season status, vulnerable populations, and confidence.</p>
+<ul><li>Extreme Heat Warning</li><li>Extreme Heat Watch</li><li>Heat Advisory</li><li>Extreme Cold Warning</li><li>Extreme Cold Watch</li><li>Cold Weather Advisory</li><li>Freeze Warning</li><li>Freeze Watch</li><li>Frost Advisory</li></ul>
+</section>
+<section>
+<span class="guidance-family-type">Coastal zones</span>
+<h3>Coastal, lakeshore, and beach alerts</h3>
+<p>Review inundation datum, surf or wave height, currents, erosion, tide timing, vulnerable locations, and the correct coastal versus lakeshore product.</p>
+<ul><li>Coastal Flood Warning</li><li>Coastal Flood Advisory</li><li>Coastal Flood Watch</li><li>Coastal Hazard Statement</li><li>Lakeshore Flood Warning</li><li>Lakeshore Flood Advisory</li><li>Lakeshore Flood Watch</li><li>Lakeshore Hazard Statement</li><li>High Surf Warning</li><li>High Surf Advisory</li><li>Rip Current Statement</li><li>Beach Hazards Statement</li></ul>
+</section>
+<section>
+<span class="guidance-family-type">Marine zones</span>
+<h3>Marine wind, sea, and visibility alerts</h3>
+<p>Use marine zones only. Confirm knots, seas, visibility, icing, water level, valid time, and whether conditions are possible or expected.</p>
+<ul><li>Gale Watch</li><li>Gale Warning</li><li>Storm Watch</li><li>Storm Warning</li><li>Hurricane Force Wind Watch</li><li>Hurricane Force Wind Warning</li><li>Heavy Freezing Spray Watch</li><li>Heavy Freezing Spray Warning</li><li>Hazardous Seas Watch</li><li>Hazardous Seas Warning</li><li>Small Craft Advisory</li><li>Brisk Wind Advisory</li><li>Dense Fog Advisory (Marine)</li><li>Dense Smoke Advisory (Marine)</li><li>Freezing Spray Advisory</li><li>Low Water Advisory</li></ul>
+</section>
+<section>
+<span class="guidance-family-type">Fire zones</span>
+<h3>Fire-weather alerts</h3>
+<p>Select fire-weather zones—not public zones—and confirm fuels, humidity, wind or lightning, timing, coordination, and fire-behavior impacts.</p>
+<ul><li>Red Flag Warning</li><li>Fire Weather Watch</li></ul>
+</section>
+</div>
+<h3>Standard zone-product sections</h3>
+<dl>
+<dt>WHAT</dt>
+<dd>The expected hazard and measurable values.</dd>
+<dt>WHERE</dt>
+<dd>The selected forecast zones or a configured geographic summary.</dd>
+<dt>WHEN</dt>
+<dd>The valid period, including beginning language when appropriate.</dd>
+<dt>IMPACTS</dt>
+<dd>Expected consequences, not a repetition of WHAT.</dd>
+<dt>ADDITIONAL DETAILS</dt>
+<dd>Supporting meteorological/hydrologic reasoning.</dd>
+<dt>PRECAUTIONARY/PREPAREDNESS ACTIONS</dt>
+<dd>Actionable safety instructions; optional when the configured product permits omission.</dd>
+</dl>
+<h3>Custom fields and placement</h3>
+<p>Admin-defined fields are inserted through field or field-block tokens. A field value does not automatically appear everywhere. The template must place the correct token in WHAT, WHERE, WHEN, IMPACTS, or another enabled section.</p>
+<h3>Selection and overlap checks</h3>
+<ul><li>Confirm the correct boundary type: public, marine, or fire-weather zones.</li><li>Compare the selection with active products before issuing a new event.</li><li>Map priority controls only visual stacking; it does not change geographic validity.</li><li>When a product uses a polygon, do not replace its actual geometry with every intersected zone.</li></ul>
+</article>
+        <article id="hydro" data-guide-keywords="hydro river gauge nwps flood warning advisory flash crest stage flow gauge id ffw flw fls">
+<h2>11. Hydro operations</h2>
+<h3>Flash Flood Warning</h3>
+<p>FFWs are polygon products using FF.W. Confirm the immediate cause, source, current/expected flooding, warning duration, emergency location when applicable, and polygon.</p>
+<ul>
+<li>The first bullet defines the warning area/cause.</li>
+<li>The second bullet gives the ending time.</li>
+<li>The third bullet provides time and warning basis.</li>
+<li>HAZARD, SOURCE, and IMPACT describe the threat.</li>
+<li>LAT…LON is mandatory.</li>
+<li>FLASH FLOOD source, damage threat, expected rainfall, and dam/levee tags appear when applicable.</li>
+</ul>
+<h3>Damage threat</h3>
+<dl>
+<dt>Base</dt>
+<dd>Normal FFW; no damage-threat tag.</dd>
+<dt>CONSIDERABLE</dt>
+<dd>Unusually severe, urgent life-safety threat.</dd>
+<dt>CATASTROPHIC</dt>
+<dd>Exceedingly rare, disastrous flooding. Requires Flash Flood Emergency language.</dd>
+</dl>
+<h3>Dam and levee scenarios</h3>
+<p>Distinguish dam failure, imminent dam failure, occurring failure, levee failure, floodgate/reservoir release, ice jam, glacier-dammed lake outburst, rapid snowmelt, and volcanic/lahar scenarios. Enter the structure, river/drainage, downstream locations, failure state, reporting source, and site-specific impacts.</p>
+<h3>Areal Flood Warning</h3>
+<p>FA.W uses WHAT, WHERE, WHEN, IMPACTS, and ADDITIONAL DETAILS. Choose the flooding type and immediate cause. Follow-ups are issued as Flood Statements where appropriate.</p>
+<h3>Flood Advisory</h3>
+<p>FA.Y describes elevated flow or ponding below warning severity. Select the type, cause, source, ongoing/expected state, drainages, rainfall, impacts, and optional details. Minor flooding does not mean harmless flooding.</p>
+<h3>Automatic NWPS gauge import</h3>
+<ol>
+<li>Enable River Gauges in Layers.</li>
+<li>Click a gauge marker and inspect its category, observation, and time.</li>
+<li>Select <strong>Use in Hazard Services</strong>.</li>
+<li>The system opens an Areal Flood Warning unless a Flood Advisory is already being edited.</li>
+<li>Review the gauge identifier, river/location, observed stage, official forecast crest/time, trend, category, action/minor/moderate/major thresholds, impacts, and forecast issuance time.</li>
+<li>Select the review-confirmation checkbox.</li>
+<li>Use Refresh Gauge immediately before final review if significant time has passed.</li>
+</ol>
+<h3>Gauge limitations</h3>
+<ul>
+<li>Some gauges provide observations but no official forecast.</li>
+<li>Some gauges have no defined flood thresholds or impacts.</li>
+<li>Values marked unavailable must not be invented.</li>
+<li>A forecast crest is the maximum in the available official forecast series; confirm it against the hydrograph.</li>
+<li>Imported values support authoring but do not replace hydrologic judgment or local procedures.</li>
+</ul>
+<h3>Forecast-point products</h3>
+<p>Forecast-point FLW/FLS products require gauge/gauge identifier identity, observed and forecast stage/flow, flood stage/category, crest, timing, and level-specific impacts. Gauge-specific values must be reviewed even when automatically imported.</p>
+</article>
+        <article id="review" data-guide-keywords="review editor generated text protected envelope placeholders validation checklist fields">
+<h2>12. Reviewing generated text</h2>
+<h3>Regenerate after changes</h3>
+<p>Changing a form field after entering Review does not rewrite text that was already generated. Return to the applicable step or change the field, then select Review again.</p>
+<h3>Required checks</h3>
+<ol>
+<li>WMO/AWIPS identifier and issuing office.</li>
+<li>UGC codes and expiration.</li>
+<li>VTEC action, office, phenomena, significance, ETN, start, and end.</li>
+<li>Headline and product name.</li>
+<li>WHAT/WHERE/WHEN or warning bullets.</li>
+<li>Hazard, source, impact, amounts, timing, and locations.</li>
+<li>LAT…LON/TML and coded tags.</li>
+<li>CTA wording and product terminator.</li>
+</ol>
+<h3>Placeholders</h3>
+<p>Text such as EDIT LOCATION, template markers, braces, or missing-value tokens blocks issuance. Return to Details and complete the required field rather than deleting an unresolved token from protected text.</p>
+<h3>Protected content</h3>
+<p>Headers, VTEC, UGC, geometry, TML, and coded tags are generated from state and are protected. Narrative text may be refined, but edits must remain consistent with selected fields and actual conditions.</p>
+</article>
+        <article id="followups" data-guide-keywords="continue con extend ext cancel can expire exp correction update statement lifecycle">
+<h2>13. Updates and follow-ups</h2>
+<h3>Loading an active product</h3>
+<ol>
+<li>Open the active warning/product list.</li>
+<li>Select the product and choose Edit/Update.</li>
+<li>Confirm the issuing office and acquire its edit lock.</li>
+<li>Review the existing geometry, expiration, and latest text before selecting an action.</li>
+</ol>
+<dl>
+<dt>CON — Continue</dt>
+<dd>Keep the current expiration while updating current conditions, basis, locations, and impacts.</dd>
+<dt>EXT — Extend in time</dt>
+<dd>Set a later expiration because the hazard will persist. Verify all Until wording changes.</dd>
+<dt>EXA/EXB</dt>
+<dd>Expansion actions used only by products/workflows that support them.</dd>
+<dt>CAN — Cancel</dt>
+<dd>End the product before expiration when the threat has ended. Retain road-closure or residual-impact advice where appropriate.</dd>
+<dt>EXP — Expire</dt>
+<dd>Allow the product to end at its scheduled time and state that the threat no longer warrants continuation.</dd>
+</dl>
+<h3>Corrections</h3>
+<p>Corrections address text/format errors only where permitted. Do not use COR to change the warned area, expiration, event number, or other values tied to VTEC. Use the appropriate lifecycle action or replacement product.</p>
+<h3>Partial-area changes</h3>
+<p>When a product family does not permit a direct area expansion/reduction, follow its required cancel/reissue or split-segment procedure. Never make the map look smaller while leaving UGC/VTEC coverage unchanged.</p>
+</article>
+        <article id="distribution" data-guide-keywords="issue receipt public map gr mattermost warning server placefile practice distribution">
+<h2>14. Issuance and distribution</h2>
+<h3>Pre-issue checklist</h3>
+<ol>
+<li>Confirm operational versus Practice Mode.</li>
+<li>Read the complete reviewed text.</li>
+<li>Verify office, action, ETN, start/end, UGCs, polygon/zones, tags, and CTAs.</li>
+<li>Confirm imported gauge or observational timestamps.</li>
+<li>Resolve every validation failure.</li>
+</ol>
+<h3>Issuing</h3>
+<p>Select Issue once. Do not repeatedly select it because the interface appears slow. Wait for the server response and distribution receipt.</p>
+<h3>Receipt destinations</h3>
+<ul>
+<li>Ops active product inventory.</li>
+<li>Public map/site when applicable.</li>
+<li>Mattermost notification when configured.</li>
+<li>Placefile/warnings inventory.</li>
+<li>GR warning server for supported warning products.</li>
+</ul>
+<p>Not every product goes to every destination. Practice Mode intentionally suppresses external/public distribution.</p>
+<h3>If a destination fails</h3>
+<p>Preserve the receipt, check Data &amp; Server, and determine whether the product itself was stored successfully. Do not create a duplicate event to compensate for a notification-only failure.</p>
+</article>
+        <article id="public" data-guide-keywords="public home page wfo map alerts current issuance offices affected active products layers priority">
+<h2>15. Public pages and alert display</h2>
+<h3>Main public page</h3>
+<p>The main map emphasizes the national/regional alert picture. Supporting information appears beneath the prominent map. Offices Affected and Active Products summarize the visible inventory.</p>
+<h3>WFO page</h3>
+<p>The office page filters local information and provides a compact neighboring-office navigation control under Local Overview.</p>
+<h3>Geometry</h3>
+<ul>
+<li>Zone products render as 100% solid fills without visible outlines.</li>
+<li>Polygon products such as SPS use their issued polygon rather than whole-county fill.</li>
+<li>Layer priority controls which overlapping hazard appears on top.</li>
+<li>Tiny seams should not be interpreted as uncovered locations; verify the actual product geometry/text.</li>
+</ul>
+<h3>Why an issued product may be absent</h3>
+<ul>
+<li>It was issued in Practice Mode.</li>
+<li>The product is expired/cancelled or outside the current map filter.</li>
+<li>Distribution failed; check the receipt.</li>
+<li>The browser has an older cached asset; refresh after confirming server state.</li>
+</ul>
+</article>
+        <article id="admin" data-guide-keywords="admin warning editor template fields sections priority layers wording custom alerts">
+<h2>16. Administration and templates</h2>
+<h3>Warning editor</h3>
+<p>The editor manages product templates and their structured fields. Load the existing product/action before editing so every configured token and field definition is visible.</p>
+<h3>Template sections</h3>
+<ul>
+<li>Enable or disable optional sections with their section controls.</li>
+<li>Edit default wording in WHAT, WHERE, WHEN, IMPACTS, ADDITIONAL DETAILS, and precautionary sections.</li>
+<li>Use field tokens or field-block tokens where operator-entered values belong.</li>
+<li>Preview the warning example to see where each label/value will render.</li>
+</ul>
+<h3>Custom fields</h3>
+<ol>
+<li>Create a unique field key and plain-language label.</li>
+<li>Choose the input type and optional default/placeholder.</li>
+<li>Place the field’s token in the required section.</li>
+<li>Save, reload the template, and verify that the full definition returns.</li>
+<li>Open Hazard Services, enter a test value, regenerate Review, and confirm placement.</li>
+</ol>
+<h3>New alerts</h3>
+<p>New hazard definitions can include their own fields, defaults, sections, color, and display priority. Adding a warning-text definition does not by itself guarantee that every Ops product catalog/distribution path supports issuance; test the complete workflow.</p>
+<h3>Display order</h3>
+<p>Set alert priority so urgent/specific products remain visible above broader products, such as a Red Flag Warning above an Air Quality Alert. Test both the main public page and the WFO page.</p>
+</article>
+        <article id="audit" data-guide-keywords="audit access tracking public users active ip address page form retention warning text permission">
+<h2>17. Access audit and public tracking</h2>
+<h3>Permission</h3>
+<p>The audit page requires the explicit access-audit permission. Being authenticated or holding another administrative role does not automatically grant it.</p>
+<h3>Recorded activity</h3>
+<ul>
+<li>Public and authenticated page views can be recorded.</li>
+<li>Activity may include page/path, product context, timestamps, browser/session information, and network address information made available to the server.</li>
+<li>Active-user status depends on recent activity heartbeats and is not a guarantee that a person is actively looking at the screen.</li>
+</ul>
+<h3>Expected delays</h3>
+<p>A newly opened public page may take a short time to appear. Refresh the audit results/filter and verify that tracking requests are not blocked.</p>
+<h3>Warning-text records</h3>
+<p>“Stored warning text was not found” means the requested product/action record was not present at lookup time; it is different from access-activity retention. Confirm product ID, action, save state, and applicable retention/configuration.</p>
+<h3>Privacy</h3>
+<p>Use access data only for authorized operational/security purposes. Limit access, retention, and disclosure according to organizational policy.</p>
+</article>
+        <article id="shortcuts" data-guide-keywords="keyboard shortcuts hotkeys h i numbers enter delete escape slash">
+<h2>18. Keyboard shortcuts</h2>
+<dl>
+<dt>H</dt>
+<dd>Open Hazard Services.</dd>
+<dt>I</dt>
+<dd>Toggle radar inspect/query.</dd>
+<dt>1</dt>
+<dd>Place/reposition the storm or start/reopen static-area drawing.</dd>
+<dt>2</dt>
+<dd>Edit the current polygon with vertex handles.</dd>
+<dt>3</dt>
+<dd>Open Review and Issue/Review Update.</dd>
+<dt>4</dt>
+<dd>Redraw using current frame-linked motion.</dd>
+<dt>5</dt>
+<dd>Trim the polygon to the selected CWA.</dd>
+<dt>Enter</dt>
+<dd>Finish initial polygon drawing.</dd>
+<dt>Delete</dt>
+<dd>Remove selected/recent point.</dd>
+<dt>Escape</dt>
+<dd>Cancel the current map tool.</dd>
+<dt>/</dt>
+<dd>Focus search in searchable panels/manual pages.</dd>
+</dl>
+<p>Shortcuts are suppressed where appropriate while typing into an input or editor.</p>
+</article>
+        <article id="playbooks" data-guide-keywords="event playbooks convective winter fire flood hydro marine coastal heat cold tropical air quality dust smoke ash non weather emergency operations">
+<h2>19. Event operations playbooks</h2>
+<p>Use these playbooks as event checklists. Product thresholds and formatting remain in the criteria reference; these sections describe how to operate the desk before, during, and after an event.</p>
+<nav class="guidance-playbook-nav" aria-label="Event playbooks"><a href="#ops-convective">Convective</a><a href="#ops-winter">Winter</a><a href="#ops-fire">Fire weather</a><a href="#ops-flood">Flood &amp; hydro</a><a href="#ops-marine">Marine</a><a href="#ops-coastal">Coastal</a><a href="#ops-temperature">Heat &amp; cold</a><a href="#ops-tropical">Tropical</a><a href="#ops-airborne">Airborne hazards</a><a href="#ops-emergency">Non-weather emergencies</a></nav>
+<section class="guidance-playbook" id="ops-convective">
+<span class="guidance-family-type">Rapid-update workflow</span><h3>Convective operations</h3>
+<h4>Readiness</h4><ul><li>Review outlooks, watches, observations, environmental analysis, and expected storm mode.</li><li>Load radar with useful neighboring sites, velocity, reflectivity, storm reports, boundaries, and warning layers.</li><li>Confirm warning inventory, office responsibility, Practice Mode status, and distribution health.</li></ul>
+<h4>Warning cycle</h4><ol><li>Interrogate multiple radar products and sources; confirm scan time and beam limitations.</li><li>Choose the correct product and source, place the storm at the valid scan time, derive motion, and refine the downstream polygon.</li><li>Confirm counties, locations, threat values, impact level, coded tags, expiration, and protective actions.</li><li>Issue once, verify every destination, and immediately resume monitoring the warned storm.</li></ol>
+<h4>Updates and closeout</h4><p>Reassess on every meaningful scan. Continue, extend, replace, cancel, or expire using the supported lifecycle action. Record significant reports, preserve coordination notes, and hand off storm trends, active products, and next evaluation times.</p>
+</section>
+<section class="guidance-playbook" id="ops-winter">
+<span class="guidance-family-type">Long-duration workflow</span><h3>Winter operations</h3>
+<h4>Readiness</h4><ul><li>Compare model runs, ensembles, observations, road temperatures, elevation effects, and precipitation-type transitions.</li><li>Identify local thresholds, vulnerable corridors, likely onset, peak, ending, and uncertainty.</li><li>Load public zones, winter layers, observations, and saved map setups.</li></ul>
+<h4>Product cycle</h4><ol><li>Choose watch, advisory, or warning based on expected impacts, confidence, and lead time.</li><li>Select complete zones and review elevation-dependent amounts, ice, wind, visibility, and timing.</li><li>Coordinate boundary timing and wording where adjacent offices or multiple hazards meet.</li><li>Update amounts, impacts, and ending times as observations and forecasts converge.</li></ol>
+<h4>Handoff</h4><p>Document observed totals, precipitation type, road impacts, forecast changes, active segments, next update deadlines, and any zones near upgrade or cancellation.</p>
+</section>
+<section class="guidance-playbook" id="ops-fire">
+<span class="guidance-family-type">Fuels plus weather</span><h3>Fire-weather operations</h3>
+<h4>Assessment</h4><ul><li>Confirm fuel status with the responsible partners; weather alone does not establish a Red Flag event.</li><li>Evaluate humidity, recovery, wind/gusts, stability, lightning, frontal timing, and recent dryness.</li><li>Use fire-weather zones and verify local criteria and Annual Operating Plan rules.</li></ul>
+<h4>Operations</h4><ol><li>Choose a Fire Weather Watch for high-potential conditions or Red Flag Warning for expected/occurring conditions.</li><li>State the qualifying weather and fuel combination, timing, affected zones, and specific fire-behavior impacts.</li><li>For an active incident, verify requester, location, observations, terrain, forecast elements, delivery contact, and critical thresholds.</li><li>Update when timing, coverage, fuels, or confidence materially changes; verify partner delivery.</li></ol>
+</section>
+<section class="guidance-playbook" id="ops-flood">
+<span class="guidance-family-type">Rainfall and river workflow</span><h3>Flood and hydro operations</h3>
+<h4>Monitoring</h4><ul><li>Track observed and forecast rainfall, radar estimates, soil conditions, reports, gauge trends, and known vulnerable basins.</li><li>Check gauge timestamps, flood categories, forecast availability, and upstream/downstream consistency.</li></ul>
+<h4>Decision path</h4><ol><li>Use Flash Flood Warning for rapid life-threatening flooding; use Areal Flood Warning or Flood Advisory for slower or lower-severity flooding; use forecast-point products for supported river locations.</li><li>For dam or levee events, authenticate the source and record structure, failure state, downstream locations, and arrival information.</li><li>Draw the actual threat polygon or select the correct zones, then review cause, source, rainfall, impacts, locations, and expiration.</li><li>Refresh imported gauge data immediately before review and never invent missing thresholds or forecasts.</li></ol>
+<h4>Follow-up</h4><p>Continue, extend, cancel, or transition products as water moves through the system. Preserve road closures and residual impacts even after rainfall ends.</p>
+</section>
+<section class="guidance-playbook" id="ops-marine">
+<span class="guidance-family-type">Water-based workflow</span><h3>Marine operations</h3>
+<h4>Readiness</h4><ul><li>Monitor marine observations, radar, lightning, wind, waves, visibility, freezing spray, water levels, and nearby land convection.</li><li>Verify marine-zone boundaries, coastal radar coverage, and local wind/sea thresholds.</li></ul>
+<h4>Operations</h4><ol><li>Use a Special Marine Warning for short-fused severe convection; use a Marine Weather Statement for qualifying information or follow-ups.</li><li>Use complete marine zones for gale, storm, hurricane-force wind, hazardous seas, freezing spray, visibility, small-craft, brisk-wind, and low-water products.</li><li>Confirm knots, wave height/period, visibility, icing, motion, affected waters, valid time, and land exclusion.</li><li>For polygon products, review LAT…LON and motion; for zone products, confirm possible-versus-expected wording.</li></ol>
+</section>
+<section class="guidance-playbook" id="ops-coastal">
+<span class="guidance-family-type">Tide, surge, and surf</span><h3>Coastal operations</h3>
+<h4>Assessment</h4><ul><li>Review tide cycles, surge guidance, waves, swell direction and period, river interaction, erosion, and local inundation thresholds.</li><li>Identify the correct datum and vulnerable roads, structures, beaches, and access points.</li></ul>
+<h4>Operations</h4><ol><li>Distinguish coastal flooding from lakeshore flooding and select the matching zones.</li><li>Choose watch, advisory, or warning based on confidence, severity, impacts, and lead time.</li><li>Use High Surf products for dangerous breaking waves, Rip Current Statement when rip currents are the only hazard, and Beach Hazards Statement for broader beach threats.</li><li>Review inundation values, datum, peak timing, waves, erosion, affected locations, and impact language.</li></ol>
+</section>
+<section class="guidance-playbook" id="ops-temperature">
+<span class="guidance-family-type">Duration and exposure</span><h3>Heat and cold operations</h3>
+<h4>Assessment</h4><ul><li>Evaluate temperature, humidity, apparent temperature, overnight recovery, duration, seasonality, and forecast confidence.</li><li>Consider vulnerable populations, cooling/heating access, power risk, outdoor activity, and agricultural impacts.</li></ul>
+<h4>Operations</h4><ol><li>Apply the active office’s local criteria and choose watch, advisory, or warning based on confidence and expected impacts.</li><li>For freeze/frost products, confirm growing-season status and freeze duration.</li><li>Review zone differences, elevation, urban effects, onset, peak, ending, impacts, and protective actions.</li><li>Update when duration, overnight relief, severity, or geographic coverage changes.</li></ol>
+</section>
+<section class="guidance-playbook" id="ops-tropical">
+<span class="guidance-family-type">Shared forecast desk</span><h3>Tropical operations</h3>
+<h4>Forecast cycle</h4><ol><li>Confirm storm identity, advisory cycle, current position, intensity, status, and shared-desk ownership.</li><li>Enter forecast positions in chronological order and verify coordinates, valid times, intensity, and motion.</li><li>Review cone, labels, track continuity, and changes from the prior cycle.</li><li>Assess wind, surge, rainfall, tornado, marine, and inland-flood hazards separately; the track alone does not describe impacts.</li><li>Save only after checking for newer shared work, then verify public rendering and hand off the next cycle time.</li></ol>
+</section>
+<section class="guidance-playbook" id="ops-airborne">
+<span class="guidance-family-type">Visibility and partner coordination</span><h3>Air quality, dust, smoke, and ash operations</h3>
+<h4>Assessment</h4><ul><li>Verify the source, observation time, visibility, transport direction, duration, and responsible agency information.</li><li>Distinguish sudden polygon-based dust from longer-duration zone-based blowing dust.</li><li>Separate visibility hazards from health-based air-quality messages.</li></ul>
+<h4>Operations</h4><ol><li>Select the product matching the hazard, duration, geometry, and partner request.</li><li>Review roads, aviation or marine impacts, affected communities, source attribution, timing, and protective actions.</li><li>For ash, include volcano/source, accumulation, plume direction, and additional volcanic hazards.</li><li>Update or cancel when observations, transport, or responsible-agency messaging changes.</li></ol>
+</section>
+<section class="guidance-playbook" id="ops-emergency">
+<span class="guidance-family-type">Authenticated relay</span><h3>Non-weather emergency operations</h3>
+<h4>Before authoring</h4><ol><li>Authenticate the requesting public-safety authority through an approved contact path.</li><li>Confirm the event is time-critical, non-routine, within program scope, and not already distributed through another planned path.</li><li>Select the specific authorized event code and correct county, zone, statewide, land, or marine coverage.</li></ol>
+<h4>Message and distribution</h4><ul><li>Preserve agency attribution and supplied facts; state the hazard, location, protective action, valid time, and information source.</li><li>Do not include unverified details or unnecessary personal information.</li><li>Review broadcast instructions, geographic codes, expiration, polygon when supplied, and word limits.</li><li>After issuance, verify storage and every configured destination, then retain the authority contact and receipt in the operational record.</li></ul>
+</section>
+</article>
+        <article id="specialized" data-guide-keywords="satellite goes models forecast dss locations gfe watches tropical desk color tables inventory data feeds notifications change log">
+<h2>20. Specialized desks and data tools</h2>
+<h3>Satellite</h3>
+<ol>
+<li>Select the product and sector that match the operational question, then confirm the image timestamp before interpretation.</li>
+<li>Use Native GOES controls when native-resolution imagery is needed. Adjust opacity or animation speed without hiding warning geometry.</li>
+<li>For lightning, verify the valid time and distinguish observed flashes from model or forecast layers.</li>
+<li>If imagery stalls, try another sector or product and check Data &amp; Server before treating the last frame as current.</li>
+</ol>
+<h3>Models</h3>
+<ol>
+<li>Select the model, field, run, and forecast hour. Confirm all four values after switching workspaces or map panels.</li>
+<li>Compare consecutive runs and observations before using a field as decision support. A single model frame is not an issued alert.</li>
+<li>Check units, valid time, legend, and accumulation period. Remove or lower model opacity during geometry review.</li>
+</ol>
+<h3>DSS Locations</h3>
+<p>Use the editor to create or update decision-support locations with a clear name, coordinates, and operational notes. Verify the point on the map before saving, avoid sensitive personal information, and remove obsolete locations through the approved administrative process.</p>
+<h3>GFE Hazards</h3>
+<ol>
+<li>Review active events before selecting a hazard and complete zones only.</li>
+<li>Confirm product details, start/end times, generated text, and conflicts with active events.</li>
+<li>Use the correct lifecycle action for changes; do not create a second event to replace an update.</li>
+</ol>
+<h3>Watch desk</h3>
+<p>Select the watch type, number, duration, and threats; place and refine the watch box; review included offices and areas; then complete coordination before issuance. Confirm PDS status, hail/wind values, timing, box orientation, and the final area list.</p>
+<h3>Tropical forecast editor</h3>
+<p>Set storm identity first, then enter forecast positions in chronological order. Review valid times, status, intensity, coordinates, cone display, and labels. Save to the shared tropical desk only after checking for another operator’s newer work.</p>
+<h3>Display and feed controls</h3>
+<ul>
+<li>Radar color tables change presentation, not data values. Confirm the legend after every change.</li>
+<li>Radar inventory shows product/frame availability; missing inventory is not proof of no weather.</li>
+<li>Data &amp; Server lists feed health and notifications. Record persistent failures and their operational impact.</li>
+<li>Review the change log after deployments so interface or workflow changes are known before live operations.</li>
+</ul>
+</article>
+        <article id="continuity" data-guide-keywords="handoff outage escalation failover recovery backup restore rollback account role permission logout drill verification incident">
+<h2>21. Continuity, access, and recovery</h2>
+<h3>Shift handoff</h3>
+<p>Record active products, saved drafts, edit locks, operated offices, data outages, coordination in progress, unresolved distribution failures, and the next required update times. The incoming operator should repeat the start-of-shift checks before accepting the desk.</p>
+<h3>Roles and account safety</h3>
+<ul>
+<li>Use only the permissions assigned to your role. Mutual Aid, template administration, audit access, and cross-office actions require explicit authorization.</li>
+<li>Do not share accounts or leave an authenticated workstation unattended. Sign out at the end of the shift and after using a shared device.</li>
+<li>If access is unexpectedly elevated, reduced, or assigned to the wrong office, stop affected actions and contact an administrator.</li>
+</ul>
+<h3>Outage and escalation</h3>
+<ol>
+<li>Identify whether the failure affects the browser, application server, one data feed, authoring, storage, or distribution.</li>
+<li>Preserve error text, timestamps, product IDs, receipts, and screenshots. Avoid repeated issuance attempts.</li>
+<li>Use an approved alternate source or workstation when available and clearly mark stale data.</li>
+<li>Escalate through the configured operations contact with impact, start time, affected offices, actions attempted, and current workaround.</li>
+<li>After recovery, verify feed freshness, active-product inventory, locks, drafts, and every distribution destination before resuming normal work.</li>
+</ol>
+<h3>Backup, restore, and rollback</h3>
+<p>Before administrative template changes, preserve the current definition and record its owner and revision. Restore or roll back only through the approved administrative workflow, then reload the saved definition and test generation in Practice Mode. Never use a production issuance as a rollback test.</p>
+<h3>Practice drills and post-issue verification</h3>
+<ul>
+<li>Run drills in Practice Mode with a stated scenario, observer, expected result, and cleanup plan.</li>
+<li>After issuance, verify the stored event, map geometry, text, timing, public display when applicable, and each receipt destination.</li>
+<li>Document defects and near misses with enough detail to reproduce them; do not include unnecessary personal data.</li>
+</ul>
+</article>
+        <article id="glossary" data-guide-keywords="glossary acronym definitions awips cta cwa dss eas etn ffw fls flw gfe hwo lsr mnd mrms mws mww npw nwem nwps pds rfw smw spc sps svr tml tor ugc vtec wfo wmo wsw">
+<h2>22. Acronym and terminology glossary</h2>
+<p>Use this quick reference when reviewing forms, generated products, map layers, and distribution records.</p>
+<dl class="guidance-glossary">
+<dt>AOP</dt><dd>Annual Operating Plan; locally coordinated operating criteria and procedures.</dd>
+<dt>AWIPS ID</dt><dd>Short product identifier used to classify and route operational text products.</dd>
+<dt>CTA</dt><dd>Call to Action; protective guidance telling the audience what to do.</dd>
+<dt>CWA</dt><dd>County Warning Area; the geographic responsibility area assigned to an operational office.</dd>
+<dt>DSS</dt><dd>Decision Support Services; operational support for partners, incidents, and saved locations.</dd>
+<dt>EAS</dt><dd>Emergency Alert System; a broadcast distribution channel for qualifying emergency messages.</dd>
+<dt>ETN</dt><dd>Event Tracking Number; the sequence number identifying an event within its product family and year.</dd>
+<dt>FFW</dt><dd>Flash Flood Warning; an urgent polygon-based warning for imminent or ongoing flash flooding.</dd>
+<dt>FLS</dt><dd>Flood Statement; a follow-up or information product for an existing flood event.</dd>
+<dt>FLW</dt><dd>Flood Warning; a warning used for areal or forecast-point flooding workflows.</dd>
+<dt>GFE</dt><dd>Graphical Forecast Editor; the zone-based hazard workspace and event inventory.</dd>
+<dt>HAZ</dt><dd>Hazard Services; the guided product-authoring workflow in Ops.</dd>
+<dt>HWO</dt><dd>Hazardous Weather Outlook; a multi-day summary of potential hazardous weather.</dd>
+<dt>IPAWS</dt><dd>Integrated Public Alert and Warning System; infrastructure used to distribute qualifying public alerts.</dd>
+<dt>LSR</dt><dd>Local Storm Report; a preliminary report of significant observed weather.</dd>
+<dt>MND</dt><dd>Mass News Disseminator header; a broadcast-oriented text line used by applicable products.</dd>
+<dt>MRMS</dt><dd>Multi-Radar Multi-Sensor; a national radar mosaic and derived-data system.</dd>
+<dt>MWS</dt><dd>Marine Weather Statement; marine information or a follow-up for certain marine warnings.</dd>
+<dt>MWW</dt><dd>Marine Weather Message; the product family for zone-based marine watches, warnings, and advisories.</dd>
+<dt>NPW</dt><dd>Non-Precipitation Weather Product; the family used for wind, heat, cold, fog, dust, and related hazards.</dd>
+<dt>NWEM</dt><dd>Non-Weather Emergency Message; a relayed public-safety message for qualifying non-weather emergencies.</dd>
+<dt>NWPS</dt><dd>National Water Prediction Service; river observations, forecasts, thresholds, and hydrographs used by the gauge tools.</dd>
+<dt>PDS</dt><dd>Particularly Dangerous Situation; an enhanced designation reserved for exceptional qualifying threats.</dd>
+<dt>Practice Mode</dt><dd>A non-operational mode that keeps test products from normal public and external distribution.</dd>
+<dt>RFW</dt><dd>Red Flag Warning; a fire-weather product for critical combinations of fuels and weather.</dd>
+<dt>SMW</dt><dd>Special Marine Warning; a short-fused warning for hazardous convective conditions over water.</dd>
+<dt>SPC</dt><dd>Storm Prediction Center; the national-center source represented by the outlook, discussion, and watch tools.</dd>
+<dt>SPS</dt><dd>Special Weather Statement; a short-term product for hazards requiring heightened awareness below warning criteria.</dd>
+<dt>SVR</dt><dd>Severe Thunderstorm Warning; a polygon warning for qualifying severe wind or hail.</dd>
+<dt>TIME…MOT…LOC</dt><dd>A coded block describing observation time, storm motion, and current or projected location.</dd>
+<dt>TML</dt><dd>Time-Motion-Location information generated from the storm position and motion controls.</dd>
+<dt>TOR</dt><dd>Tornado Warning; a polygon warning for an imminent or ongoing tornado threat.</dd>
+<dt>UGC</dt><dd>Universal Geographic Code; the county, forecast-zone, fire-zone, or marine-zone identifiers defining product coverage.</dd>
+<dt>VTEC</dt><dd>Valid Time Event Code; the coded event action, office, phenomenon, significance, tracking number, and valid period.</dd>
+<dt>WFO</dt><dd>Weather Forecast Office; the three-letter office identity selected for an operational workspace.</dd>
+<dt>WMO header</dt><dd>The routing header at the beginning of an operational text product.</dd>
+<dt>WSW</dt><dd>Winter Weather Message; the product family for zone-based winter watches, warnings, and advisories.</dd>
+</dl>
+</article>
+        <article id="trouble" data-guide-keywords="troubleshooting error forbidden radar missing warning gauge cache overlap issue">
+<h2>23. Troubleshooting reference</h2>
+<dl>
+<dt>Forbidden: access audit permission required</dt>
+<dd>Confirm the user’s explicit audit permission/group and refresh the login session after permissions change.</dd>
+<dt>Gauge unavailable</dt>
+<dd>Retry Refresh Gauge, check NWPS health, and open the source hydrograph. Never silently substitute stale/manual data.</dd>
+<dt>No gauge forecast</dt>
+<dd>The station may be observation-only. Use only available official data and follow the applicable non-forecast workflow.</dd>
+<dt>Red radar frame</dt>
+<dd>The frame failed or is unavailable. Select a valid scan and inspect Data &amp; Server.</dd>
+<dt>Radar site error</dt>
+<dd>Try another product/source/site, verify timestamps, and inspect feed health.</dd>
+<dt>Form value missing from generated text</dt>
+<dd>Regenerate Review. If still absent, verify that its field token exists in the applicable template section.</dd>
+<dt>Template reload loses labels</dt>
+<dd>Confirm the saved definition contains the full fields list and field-block tokens, not only default section prose.</dd>
+<dt>Public alert missing</dt>
+<dd>Check Practice Mode, expiration/action, map filters, and the distribution receipt.</dd>
+<dt>Alert appears twice</dt>
+<dd>Check whether two inventories/layers are enabled or duplicate active records exist; do not issue again until identified.</dd>
+<dt>Wrong product on top</dt>
+<dd>Review administrative layer priority and refresh both public views after saving.</dd>
+<dt>Zone clicks do not work</dt>
+<dd>Enable zone selection and confirm active-product hit layers are not intercepting input.</dd>
+<dt>Issue button appears stuck</dt>
+<dd>Wait for the receipt and inspect server status. Repeated clicks may create duplicate attempts.</dd>
+<dt>Stored warning text not found</dt>
+<dd>Confirm exact product ID, action, save state, and retention; the URL parameters are case/record specific.</dd>
+<dt>Old content after an update</dt>
+<dd>Refresh the page. If necessary, use a cache-bypassing reload after confirming the server is running the new version.</dd>
+</dl>
+</article>
+      </div>
+    </section>
+  </main>
+  <button class="guidance-to-top" id="guidanceToTop" type="button" aria-label="Back to top">↑</button>
+  <script>
+  (() => {
+    const search = document.querySelector('#guidanceSearch');
+    const articles = [...document.querySelectorAll('#guidanceContent > article')];
+    const links = [...document.querySelectorAll('.guidance-toc a')];
+    const results = document.querySelector('#guidanceResults');
+    const topButton = document.querySelector('#guidanceToTop');
+    const filterGuide = () => {
+      const query = search.value.trim().toLowerCase();
+      let shown = 0;
+      articles.forEach((article) => {
+        const text = `${article.dataset.guideKeywords || ''} ${article.textContent}`.toLowerCase();
+        const match = !query || text.includes(query);
+        article.hidden = !match;
+        shown += Number(match);
+      });
+      links.forEach((link) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        link.hidden = Boolean(query && target?.hidden);
+      });
+      results.textContent = query ? `${shown} ${shown === 1 ? 'chapter' : 'chapters'} found for “${search.value.trim()}”` : '';
+    };
+    search.addEventListener('input', filterGuide);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName)) {
+        event.preventDefault(); search.focus();
+      } else if (event.key === 'Escape' && document.activeElement === search) {
+        search.value = ''; filterGuide(); search.blur();
+      }
+    });
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) links.forEach((link) => link.classList.toggle('is-active', link.hash === `#${entry.target.id}`));
+      }), { rootMargin: '-20% 0px -70%' });
+      articles.forEach((article) => observer.observe(article));
+    }
+    const updateTopButton = () => topButton.classList.toggle('is-visible', window.scrollY > 650);
+    window.addEventListener('scroll', updateTopButton, { passive: true });
+    topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    updateTopButton();
+  })();
+  </script>
+</body>
+</html>

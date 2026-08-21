@@ -1,0 +1,63 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ZASNet Weather Service Alerts API",
+    "version": "1.0.0",
+    "description": "Read-only access to active ZASNet watches, warnings, and advisories. This is not an official National Weather Service feed."
+  },
+  "servers": [{ "url": "/", "description": "Current ZASNet host" }],
+  "tags": [{ "name": "Alerts" }],
+  "paths": {
+    "/api/public/alerts/active": {
+      "get": {
+        "tags": ["Alerts"], "summary": "List active alerts", "operationId": "listActiveAlerts",
+        "parameters": [
+          { "$ref": "#/components/parameters/Area" }, { "$ref": "#/components/parameters/Zone" },
+          { "$ref": "#/components/parameters/Point" }, { "$ref": "#/components/parameters/Event" },
+          { "$ref": "#/components/parameters/Code" }, { "$ref": "#/components/parameters/Severity" },
+          { "$ref": "#/components/parameters/Urgency" }, { "$ref": "#/components/parameters/Certainty" },
+          { "$ref": "#/components/parameters/Limit" }, { "$ref": "#/components/parameters/Cursor" }
+        ],
+        "responses": { "200": { "description": "Active alerts", "content": { "application/geo+json": { "schema": { "$ref": "#/components/schemas/AlertCollection" } } } } }
+      }
+    },
+    "/api/public/alerts/active/area/{state}": {
+      "get": { "tags": ["Alerts"], "summary": "List active alerts by state", "operationId": "listActiveAlertsByArea", "parameters": [{ "name": "state", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^[A-Z]{2}$" } }], "responses": { "200": { "description": "Active alerts", "content": { "application/geo+json": { "schema": { "$ref": "#/components/schemas/AlertCollection" } } } } } }
+    },
+    "/api/public/alerts/active/zone/{zone}": {
+      "get": { "tags": ["Alerts"], "summary": "List active alerts by UGC zone", "operationId": "listActiveAlertsByZone", "parameters": [{ "name": "zone", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Active alerts", "content": { "application/geo+json": { "schema": { "$ref": "#/components/schemas/AlertCollection" } } } } } }
+    },
+    "/api/public/alerts/active/count": {
+      "get": { "tags": ["Alerts"], "summary": "Count active alerts", "operationId": "countActiveAlerts", "responses": { "200": { "description": "Counts by event", "content": { "application/json": { "schema": { "type": "object", "required": ["total", "events"], "properties": { "total": { "type": "integer" }, "events": { "type": "object", "additionalProperties": { "type": "integer" } } } } } } } }
+    },
+    "/api/public/alerts/{id}": {
+      "get": { "tags": ["Alerts"], "summary": "Get an active alert", "operationId": "getAlert", "parameters": [{ "$ref": "#/components/parameters/AlertId" }], "responses": { "200": { "description": "Alert", "content": { "application/geo+json": { "schema": { "$ref": "#/components/schemas/Alert" } } } }, "404": { "$ref": "#/components/responses/NotFound" } } }
+    },
+    "/api/public/alerts/{id}.txt": {
+      "get": { "tags": ["Alerts"], "summary": "Get bulletin text", "operationId": "getAlertText", "parameters": [{ "$ref": "#/components/parameters/AlertId" }], "responses": { "200": { "description": "Complete bulletin", "content": { "text/plain": { "schema": { "type": "string" } } } }, "404": { "$ref": "#/components/responses/NotFound" } } }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Area": { "name": "area", "in": "query", "description": "Two-letter state or territory code; repeat or comma-separate for multiple values.", "schema": { "type": "string" } },
+      "Zone": { "name": "zone", "in": "query", "description": "UGC county or forecast-zone identifier.", "schema": { "type": "string" } },
+      "Point": { "name": "point", "in": "query", "description": "Latitude,longitude.", "schema": { "type": "string", "pattern": "^-?[0-9.]+,-?[0-9.]+$" } },
+      "Event": { "name": "event", "in": "query", "schema": { "type": "string" } },
+      "Code": { "name": "code", "in": "query", "description": "ZASNet/AWIPS product code.", "schema": { "type": "string" } },
+      "Severity": { "name": "severity", "in": "query", "schema": { "type": "string", "enum": ["Extreme", "Severe", "Moderate", "Minor", "Unknown"] } },
+      "Urgency": { "name": "urgency", "in": "query", "schema": { "type": "string", "enum": ["Immediate", "Expected", "Future", "Past", "Unknown"] } },
+      "Certainty": { "name": "certainty", "in": "query", "schema": { "type": "string", "enum": ["Observed", "Likely", "Possible", "Unlikely", "Unknown"] } },
+      "Limit": { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 500, "default": 500 } },
+      "Cursor": { "name": "cursor", "in": "query", "schema": { "type": "integer", "minimum": 0, "default": 0 } },
+      "AlertId": { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+    },
+    "responses": { "NotFound": { "description": "Alert not found or no longer active", "content": { "application/problem+json": { "schema": { "type": "object" } } } } },
+    "schemas": {
+      "Geometry": { "oneOf": [{ "type": "object", "required": ["type", "coordinates"], "properties": { "type": { "const": "Polygon" }, "coordinates": { "type": "array" } } }, { "type": "object", "required": ["type", "coordinates"], "properties": { "type": { "const": "MultiPolygon" }, "coordinates": { "type": "array" } } }, { "type": "null" }] },
+      "AlertProperties": { "type": "object", "required": ["id", "event", "status", "severity", "certainty", "urgency"], "properties": { "id": { "type": "string" }, "productId": { "type": "string" }, "areaDesc": { "type": "string" }, "geocode": { "type": "object", "properties": { "SAME": { "type": "array", "items": { "type": "string" } }, "UGC": { "type": "array", "items": { "type": "string" } } } }, "affectedZones": { "type": "array", "items": { "type": "string", "format": "uri" } }, "sent": { "type": ["string", "null"], "format": "date-time" }, "effective": { "type": ["string", "null"], "format": "date-time" }, "onset": { "type": ["string", "null"], "format": "date-time" }, "expires": { "type": ["string", "null"], "format": "date-time" }, "ends": { "type": ["string", "null"], "format": "date-time" }, "status": { "type": "string", "enum": ["Actual"] }, "messageType": { "type": "string" }, "category": { "type": "string", "enum": ["Met"] }, "severity": { "type": "string" }, "certainty": { "type": "string" }, "urgency": { "type": "string" }, "event": { "type": "string" }, "sender": { "type": "string" }, "senderName": { "type": "string" }, "headline": { "type": "string" }, "description": { "type": "string" }, "instruction": { "type": "string" }, "response": { "type": "string" }, "parameters": { "type": "object" } } },
+      "Alert": { "type": "object", "required": ["id", "type", "geometry", "properties"], "properties": { "id": { "type": "string", "format": "uri" }, "type": { "const": "Feature" }, "geometry": { "$ref": "#/components/schemas/Geometry" }, "properties": { "$ref": "#/components/schemas/AlertProperties" } } },
+      "AlertCollection": { "type": "object", "required": ["type", "features", "pagination"], "properties": { "type": { "const": "FeatureCollection" }, "features": { "type": "array", "items": { "$ref": "#/components/schemas/Alert" } }, "title": { "type": "string" }, "updated": { "type": ["string", "null"], "format": "date-time" }, "pagination": { "type": "object", "required": ["next"], "properties": { "next": { "type": ["string", "null"], "format": "uri" } } } } }
+    }
+  }
+}
+}

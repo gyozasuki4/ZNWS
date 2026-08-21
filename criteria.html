@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="only light">
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Interactive maps of the thresholds used by ZASNet automated weather-alert screening.">
+  <meta property="og:title" content="ZASNet · Alert Criteria Maps">
+  <meta property="og:image" content="/ZNWS.png">
+  <title>ZASNet · Alert Criteria Maps</title>
+  <link rel="icon" href="/ZNWS.png">
+  <link rel="stylesheet" href="/public-brand.css">
+  <link rel="stylesheet" href="/public-v2.css">
+  <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+  <link rel="stylesheet" href="/criteria.css?v=20260811-5">
+</head>
+<body class="criteria-page">
+  <header class="criteria-header">
+    <a class="brand" href="/"><img src="/znwsnew.png?v=20260805-header-fit" alt="ZASNet Weather Service"><span hidden>ZASNet Weather Service</span></a>
+    <div><p>Public reference</p><h1>Alert criteria maps</h1></div>
+    <a class="home-link" href="/">Live weather</a>
+  </header>
+
+  <main class="criteria-shell">
+    <aside class="criteria-panel" aria-label="Criteria controls">
+      <div class="panel-intro">
+        <p class="eyebrow">Visual threshold library</p>
+        <h2 id="hazardTitle">Red Flag Warning</h2>
+        <p id="hazardSummary">Loading criteria…</p>
+      </div>
+
+      <label class="criteria-field" for="hazardSelect"><span>Alert product</span><select id="hazardSelect"></select></label>
+      <section class="criteria-readout" aria-live="polite">
+        <span id="metricLabel">Threshold</span>
+        <strong id="metricValue">—</strong>
+        <p id="criteriaRule">Select a zone for details.</p>
+      </section>
+
+      <section class="criteria-legend" aria-labelledby="legendTitle">
+        <h3 id="legendTitle">Map legend</h3>
+        <div id="legend"></div>
+      </section>
+
+      <section class="criteria-source">
+        <span>Criteria source</span>
+        <strong id="sourceName">ZASNet automation configuration</strong>
+        <p id="sourceNote"></p>
+      </section>
+    </aside>
+
+    <section class="criteria-map-card">
+      <div class="map-heading">
+        <div><span id="mapZoneType">Fire-weather zones</span><h2 id="mapHeading">Relative-humidity threshold</h2></div>
+        <span class="criteria-badge">Criteria · not a forecast</span>
+      </div>
+      <div class="criteria-image-frame"><img id="criteriaMapImage" src="/api/public/criteria-map.png?hazard=Criteria%20sectors&amp;metric=combined&amp;v=20260812-4" width="1400" height="1078" alt="Seven national criteria sectors"><div class="image-error" id="imageError" hidden></div></div>
+      <div class="map-status" id="mapStatus" role="status">Loading zone boundaries…</div>
+      <div class="map-help">Choose an alert product to create a shareable URL. Thin dark lines are criteria zones; heavy black lines are research-sector boundaries. Colors show thresholds, not current weather or active alerts.</div>
+    </section>
+  </main>
+
+  <aside class="criteria-disclaimer"><strong>How to read this page</strong><span>These maps document the thresholds currently encoded in ZASNet's automated screening. An alert may also require duration, timing, fuels, confidence, an active confirming product, or locally determined criteria. “Local/station” means no honest nationwide numeric value is configured.</span></aside>
+
+  <script src="/criteria.js?v=20260812-5"></script>
+</body>
+</html>

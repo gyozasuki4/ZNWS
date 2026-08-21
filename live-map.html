@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <title>ZASNet · Interactive Live Weather Map</title>
+  <meta name="description" content="Interactive national radar, satellite, and active ZASNet weather alerts.">
+  <link rel="icon" href="/ZNWS.png">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="/public.css">
+  <link rel="stylesheet" href="/live-map.css?v=20260807-alerts-below-map">
+  <link rel="stylesheet" href="/live-map-theme.css?v=20260803-radar-controls">
+</head>
+<body>
+  <main class="public-shell">
+    <header class="public-header">
+      <a class="brand live-map-brand" href="/"><span class="brand-mark"><img src="/ZNWS.png" alt=""></span><span><span class="eyebrow">ZASNet Weather Service</span><h1>Interactive live map</h1></span></a>
+      <div class="header-meta">
+        <p class="status" id="statusLine">Loading live weather…</p>
+        <a class="ops-link" href="/">Overview</a>
+      </div>
+    </header>
+
+    <aside class="alert-rail">
+      <form class="location-search" id="locationSearchForm" autocomplete="off">
+        <label for="locationSearch">Find a location</label>
+        <div><input id="locationSearch" placeholder="ZIP code or city, state" aria-controls="locationResults"><button type="submit">Go</button></div>
+        <div id="locationResults" class="location-results" hidden></div>
+      </form>
+      <div class="map-layer-options">
+        <label class="toggle"><input id="wpcEroToggle" type="checkbox"> WPC rainfall outlook</label>
+        <label class="field-inline">Day <select id="wpcEroDay"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label>
+      </div>
+      <div class="rail-head"><h2>Active products</h2><span class="count-pill" id="alertCount">0</span></div>
+      <div class="alert-list" id="alertList"><p class="empty">Loading active products…</p></div>
+      <div class="rail-foot"><p class="hint">Select a product or colored area for details. Search results can open a point forecast.</p><div class="public-key"><span><i class="key-watch"></i>Watch or advisory fill</span><span><i class="key-warning"></i>Warning polygon</span></div></div>
+    </aside>
+    <section class="public-map live-map-stage" aria-label="Interactive national live weather map">
+      <div class="live-map-frame-header"><div><span>National weather desk</span><strong>Active weather · United States</strong></div><dl><div><dt>Products</dt><dd id="mapActiveCount">Loading</dd></div><div><dt>Radar</dt><dd id="radarTimeLabel">Latest</dd></div><div><dt>Satellite</dt><dd id="satelliteStatus">Off</dd></div><div><dt>Refresh</dt><dd>30 seconds</dd></div></dl></div>
+      <div class="live-map-modes" role="group" aria-label="Live map layers">
+        <label><input id="radarToggle" type="checkbox" checked><span>Radar</span></label>
+        <label><input id="satelliteToggle" type="checkbox"><span>GeoColor</span></label>
+        <select id="radarSourceSelect" aria-label="Radar source"><option value="iem">IEM live radar</option><option value="rainviewer">Animated radar</option><option value="noaa-wms">NOAA MRMS</option></select>
+        <select id="radarProductSelect" aria-label="IEM radar product"><option value="n0q">High-resolution reflectivity</option><option value="n0r">Legacy reflectivity</option></select>
+        <div class="live-radar-transport" aria-label="Radar animation controls"><button id="radarPreviousButton" type="button" aria-label="Previous radar frame">‹</button><button id="radarPlayButton" class="live-radar-play" type="button" aria-label="Play radar animation" aria-pressed="false"><span id="radarPlayIcon">▶</span><b id="radarPlayLabel">Play</b></button><button id="radarNextButton" type="button" aria-label="Next radar frame">›</button><select id="radarSpeedSelect" aria-label="Radar animation speed"><option value="1400">Slow</option><option value="900" selected>Normal</option><option value="500">Fast</option></select></div>
+        <label class="live-opacity">Opacity <input id="radarOpacity" type="range" min="10" max="100" value="78"></label>
+      </div>
+      <div id="publicMap" class="live-map-canvas"></div>
+      <div class="radar-legend-inline" id="radarLegend"><strong id="radarLegendTitle">Reflectivity · dBZ</strong><div class="radar-bar"></div><div class="radar-scale" id="radarLegendScale"><span>-20</span><span>20</span><span>40</span><span>60+</span></div></div>
+      <img class="live-map-logo" src="/ZNWS.png" alt="ZASNet Weather Service">
+    </section>
+  </main>
+
+  <dialog id="productDialog" class="product-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><h2 id="dialogTitle">Weather product</h2><pre id="dialogBody"></pre></form></dialog>
+  <script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
+  <script src="/public-tracking.js?v=20260806-sitewide" data-public-tracking="true"></script>
+  <script src="/public.js?v=20260806-solid-borderless-polygons"></script>
+</body>
+</html>

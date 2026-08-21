@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="color-scheme" content="dark light">
+    <title>ZASNet · Local Weather</title>
+    <meta name="description" content="Local active weather alerts and products from ZASNet Weather Service.">
+    <link rel="icon" href="/ZNWS.png">
+    <link rel="stylesheet" href="/alerts-graphic.css">
+    <link rel="stylesheet" href="/alerts-enhancements.css">
+    <link rel="stylesheet" href="/public-brand.css">
+    <link rel="stylesheet" href="/public-v2.css">
+    <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+    <link rel="stylesheet" href="/local-site.css?v=20260807-wfo-svg-alerts-right">
+    <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+  </head>
+  <body class="public-alerts public-wfo">
+    <header class="site-nav">
+      <a class="brand" href="/"><img src="/znwsnew.png?v=20260805-wide-wfo-header" alt="ZASNet Weather Service"><span>ZASNet<small>Weather Service</small></span></a>
+      <nav aria-label="Public weather navigation"><a href="/">Live weather</a><a href="/severe-weather">Severe outlooks</a><a href="/weather-maps">Weather maps</a><a href="/models">Models</a><a href="/tropics">Tropics</a></nav>
+    </header>
+    <main>
+      <section class="wfo-hero"><div><p class="eyebrow">Local forecast office</p><h1 id="localTitle">Local active weather</h1><p id="localOfficeMeta">Loading office information and active products…</p></div><div class="wfo-hero-status"><span id="wfoCodeBadge">WFO</span><small><i></i> Live local view</small></div></section>
+      <section class="local-workspace">
+        <aside class="map-tools" aria-label="Local map controls"><div><p class="eyebrow">Map controls</p><h2>Local overview</h2><nav id="wfoNeighborNav" class="wfo-neighbor-nav wfo-neighbor-compass" aria-label="Surrounding forecast offices"><span class="wfo-neighbor-loading">Finding nearby offices…</span></nav></div><label class="map-search" for="wfoSearch">Switch forecast office<input id="wfoSearch" type="search" autocomplete="off" placeholder="City or WFO code"><div id="wfoSearchResults" hidden></div></label><div class="local-product-summary"><p>Active products</p><div class="summary" id="alertSummary"><span>Checking this office…</span></div></div><div class="map-actions"><button id="refreshMap" type="button">Refresh map</button></div><small>Map layers and issued products update automatically every 30 seconds.</small></aside>
+        <div class="local-map"><header><span>Forecast office view</span><strong>Alerts · Radar · Forecast</strong></header><section class="graphic-card" id="mapCard"><div id="graphic" class="graphic" aria-live="polite"><p>Loading local alerts…</p></div></section></div>
+      </section>
+      <section class="product-panel"><div><p class="eyebrow">Product details</p><h2 id="productTitle">Select an alert</h2><p id="productDetail">Choose a colored area or product in the legend to read the issued product.</p></div><a id="wfoLink" href="/">Back to national map →</a><pre id="productText" hidden></pre></section>
+      <footer class="site-footer"><span>ZASNet Weather Service</span><p>For situational awareness. Follow official National Weather Service warnings and local emergency instructions.</p><a href="/">Live weather</a></footer>
+    </main>
+    <script src="/public-menu.js?v=20260815-black-theme-8"></script>
+    <script src="/alerts-graphic.js?v=20260807-map-live"></script>
+  </body>
+</html>

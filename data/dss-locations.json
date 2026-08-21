@@ -1,0 +1,48 @@
+{
+  "zsmith": [
+    {
+      "id": "fd267194-219b-47a5-ad46-a430028462b3",
+      "name": "Nixon's House",
+      "notes": "",
+      "latitude": 44.40687,
+      "longitude": -68.98878,
+      "expiresAt": null,
+      "createdAt": "2026-07-15T02:34:11.570Z",
+      "updatedAt": "2026-07-15T02:34:11.570Z"
+    },
+    {
+      "id": "c48816b1-1e66-4155-b4f4-b936f953d5c5",
+      "name": "Riverton",
+      "notes": "",
+      "latitude": 43.02632,
+      "longitude": -108.3828,
+      "expiresAt": null,
+      "createdAt": "2026-07-15T12:06:02.713Z",
+      "updatedAt": "2026-07-15T12:06:02.713Z"
+    },
+    {
+      "id": "20d5d3c8-158e-4d55-a2eb-820f23a81b1b",
+      "name": "Smith's",
+      "notes": "",
+      "latitude": 35.74818,
+      "longitude": -86.90288,
+      "expiresAt": null,
+      "createdAt": "2026-07-15T12:06:38.366Z",
+      "updatedAt": "2026-07-15T12:06:38.366Z"
+    }
+  ],
+  "ohx": [],
+  "riw": [],
+  "dlh": [
+    {
+      "id": "4da0c5d2-6fa4-42a8-a637-4c0541cc09d3",
+      "name": "Dane's",
+      "notes": "",
+      "latitude": 45.93045,
+      "longitude": -90.45521,
+      "expiresAt": null,
+      "createdAt": "2026-07-18T02:59:36.585Z",
+      "updatedAt": "2026-07-18T02:59:36.585Z"
+    }
+  ]
+}

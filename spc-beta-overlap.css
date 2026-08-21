@@ -1,0 +1,21 @@
+.map-key .overlap {
+  background: repeating-linear-gradient(135deg, #f2ba4b 0 3px, #3b4650 3px 6px);
+}
+.overlap-workflow {
+  margin-top: 9px;
+  padding: 9px;
+  border: 1px solid #9a742d;
+  border-radius: 6px;
+  background: #2a2419;
+  color: #f5dfae;
+  font-size: .68rem;
+  line-height: 1.4;
+}
+.overlap-workflow strong { display: block; color: #ffd477; }
+.overlap-workflow button {
+  margin-top: 7px;
+  padding: 6px 8px;
+  border-color: #b98a32;
+  background: #392c16;
+  color: #ffe3a4;
+}

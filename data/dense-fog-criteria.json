@@ -1,0 +1,66 @@
+{
+  "hazard": "Dense Fog Advisory",
+  "vtec": "FG.Y",
+  "status": "research-only",
+  "updated": "2026-08-12",
+  "baseline": {
+    "visibilityMiles": 0.25,
+    "coveragePercent": 1,
+    "durationHours": 1,
+    "coverageMeaning": "Any NDFD grid cell intersecting the forecast-zone polygon may qualify the entire zone.",
+    "fogSignalRequired": true,
+    "source": "https://www.weather.gov/safety/fog-ww"
+  },
+  "officeOverrides": {
+    "OTX": {
+      "visibilityMiles": 0.25,
+      "coveragePercent": 1,
+      "durationHours": 1,
+      "source": "https://www.weather.gov/otx/NWS_Products_and_Criteria",
+      "confidence": "official-partial"
+    },
+    "OKX": {
+      "visibilityMiles": 0.25,
+      "coveragePercent": 1,
+      "durationHours": 1,
+      "source": "https://www.weather.gov/okx/wwa_definitions",
+      "confidence": "official-partial"
+    },
+    "DMX": {
+      "visibilityMiles": 0.25,
+      "coveragePercent": 1,
+      "durationHours": 1,
+      "source": "https://www.weather.gov/dmx/dssfog",
+      "confidence": "official-partial"
+    },
+    "JAN": {
+      "visibilityMiles": 0.25,
+      "coveragePercent": 1,
+      "durationHours": 1,
+      "source": "https://www.weather.gov/jan/productguide_nonprecip",
+      "confidence": "official-partial"
+    },
+    "CHS": {
+      "visibilityMiles": 0.25,
+      "coveragePercent": 1,
+      "durationHours": 1,
+      "source": "https://www.weather.gov/chs/criteria",
+      "confidence": "official-partial"
+    }
+  },
+  "regionalRules": {
+    "Alaska": {
+      "enabledByDefault": false,
+      "note": "Alaska Region exempts some zones because frequent fog is not considered advisory-level locally. Zone-specific eligibility must be loaded before Alaska automation.",
+      "source": "https://www.weather.gov/media/directives/010_pdfs/pd01005013a072002curr.pdf",
+      "confidence": "official-explicit"
+    }
+  },
+  "candidateCoveragePercentages": [1, 25, 50],
+  "candidateDurationHours": [1, 2, 3],
+  "notes": [
+    "A one-percent coverage setting represents an any-point pathway, not a literal areal percentage calculation.",
+    "The operational ZASNet rule intentionally uses the same any-point, one-valid-hour gate nationwide even where local NWS guidance describes widespread or longer-duration fog.",
+    "This file is not consumed by live alert automation."
+  ]
+}

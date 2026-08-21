@@ -1,0 +1,9 @@
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.topbar,.site-nav,header.site-header{min-height:80px}
+.topbar .brand,.site-nav .brand,header.site-header .brand{gap:12px;font-size:1rem}
+.topbar .brand>span,.site-nav .brand>span,header.site-header .brand>span,body.public-tropics>header .brand>span{display:none!important}.topbar .brand img,.site-nav .brand img,header.site-header .brand img,body.public-tropics>header .brand img{content:url("/znwsnew.png")!important;width:clamp(190px,25vw,300px)!important;height:auto!important;max-height:84px!important;object-fit:contain!important;border:0;border-radius:0;background:transparent}
+header.site-header.public-main-header{padding-inline:max(22px,calc((100vw - 1160px)/2));border-bottom:1px solid rgba(213,240,255,.16);background:rgba(5,15,23,.5);backdrop-filter:blur(14px)}
+header.site-header.public-main-header::after{display:none}
+header.site-header.public-main-header .brand img{border:0;object-fit:contain;object-position:center}
+header.site-header.public-main-header .brand small{color:#a8dffc;font-size:.61rem;letter-spacing:.14em}
+@media(max-width:720px){.topbar,.site-nav,header.site-header{min-height:78px;height:78px}.topbar .brand img,.site-nav .brand img,header.site-header .brand img,body.public-tropics>header .brand img{width:190px!important;height:auto!important;max-height:65px!important}.topbar .brand,.site-nav .brand,header.site-header .brand{gap:9px}}

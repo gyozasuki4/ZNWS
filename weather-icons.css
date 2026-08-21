@@ -1,0 +1,149 @@
+/* ZNWS weather icons — generated bitmap tiles (soft squares, not circles) */
+.znws-weather-icon{
+  position:relative;
+  display:inline-grid;
+  flex:0 0 auto;
+  width:64px;
+  height:64px;
+  place-items:center;
+  overflow:hidden;
+  border:0;
+  border-radius:16px;
+  background:transparent;
+  box-shadow:0 5px 14px #174c7316;
+}
+.znws-weather-icon.is-bitmap{
+  border:0;
+  background:transparent;
+}
+.znws-weather-icon.is-bitmap img{
+  display:block;
+  width:100%;
+  height:100%;
+  margin:0;
+  border:0;
+  border-radius:inherit;
+  object-fit:cover;
+  box-shadow:none;
+}
+.znws-weather-icon.current-icon{width:78px;height:78px;border-radius:18px}
+.znws-weather-icon.hourly-icon{width:54px;height:54px;border-radius:13px}
+.znws-weather-icon.daily-icon{width:56px;height:56px;border-radius:14px}
+
+/* —— Home page: compact icons that never cover copy —— */
+.home-weather-icon,
+.znws-weather-icon.home-weather-icon{
+  width:36px!important;
+  height:36px!important;
+  border-radius:9px!important;
+  box-shadow:0 2px 8px #174c7314!important;
+}
+.home-current-icon,
+.znws-weather-icon.home-current-icon{
+  width:40px!important;
+  height:40px!important;
+  border-radius:10px!important;
+  box-shadow:0 2px 8px #174c7314!important;
+}
+
+.local-current-title{
+  display:flex;
+  min-width:0;
+  align-items:center;
+  gap:10px;
+}
+.local-current-title .znws-weather-icon{
+  flex:0 0 auto;
+}
+.local-current-title h3{
+  min-width:0;
+  margin:0;
+  line-height:1.2;
+}
+
+/* Period cards: icon column + text column */
+.local-periods article.has-weather-icon,
+.local-periods article:has(> .znws-weather-icon){
+  display:grid!important;
+  grid-template-columns:40px minmax(0,1fr)!important;
+  align-items:center!important;
+  column-gap:10px!important;
+  row-gap:2px!important;
+}
+.local-periods article.has-weather-icon > .znws-weather-icon,
+.local-periods article > .znws-weather-icon{
+  grid-column:1;
+  grid-row:1;
+  width:36px!important;
+  height:36px!important;
+  margin:0!important;
+}
+.local-periods article.has-weather-icon > div,
+.local-periods article > .znws-weather-icon + div{
+  grid-column:2;
+  grid-row:1;
+  display:grid;
+  min-width:0;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:1px 8px;
+  align-items:baseline;
+}
+.local-periods article.has-weather-icon > div > strong,
+.local-periods article > .znws-weather-icon + div > strong{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.local-periods article.has-weather-icon > div > small,
+.local-periods article > .znws-weather-icon + div > small,
+.local-periods article.has-weather-icon small{
+  grid-column:1 / -1;
+  min-width:0;
+  margin-top:2px;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+
+/* public.html / new-public-site home panel */
+body.new-public-site .local-current-title .znws-weather-icon,
+body.new-public-site .local-current-title .home-current-icon{
+  width:36px!important;
+  height:36px!important;
+  border-radius:8px!important;
+}
+body.new-public-site .home-local-panel .local-periods article.has-weather-icon,
+body.new-public-site .home-local-panel .local-periods article:has(> .znws-weather-icon){
+  grid-template-columns:40px minmax(0,1fr)!important;
+  column-gap:9px!important;
+}
+body.new-public-site .home-local-panel .local-periods article > .znws-weather-icon{
+  width:34px!important;
+  height:34px!important;
+  border-radius:8px!important;
+}
+
+/* public-home standalone page */
+.public-home .local-periods article.has-weather-icon,
+.public-home .local-periods article:has(> .znws-weather-icon){
+  grid-template-columns:40px minmax(0,1fr)!important;
+  column-gap:9px!important;
+}
+.public-home .local-periods article > .znws-weather-icon{
+  width:34px!important;
+  height:34px!important;
+}
+
+@media(max-width:650px){
+  .znws-weather-icon.current-icon{width:66px;height:66px;border-radius:15px}
+  .home-current-icon,
+  .znws-weather-icon.home-current-icon{width:36px!important;height:36px!important}
+  .local-periods article.has-weather-icon,
+  .local-periods article:has(> .znws-weather-icon){
+    grid-template-columns:36px minmax(0,1fr)!important;
+  }
+  .local-periods article > .znws-weather-icon{
+    width:32px!important;
+    height:32px!important;
+  }
+}

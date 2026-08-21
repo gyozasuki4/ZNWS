@@ -1,0 +1,105 @@
+{
+  "updatedAt": "2026-08-06T18:58:48.668Z",
+  "updatedBy": "riw",
+  "templates": {
+    "AQ.A": {
+      "what": "{{FIELD_AGENCYMESSAGE}}",
+      "where": "",
+      "when": "",
+      "impacts": "",
+      "details": "",
+      "cta": "",
+      "fullTemplate": "",
+      "fields": [
+        {
+          "key": "issuingAgency",
+          "label": "Issuing state/local air quality agency",
+          "type": "text",
+          "placeholder": "Wyoming Department of Environmental Quality, Air Quality Division",
+          "placement": "template",
+          "enabled": true
+        },
+        {
+          "key": "headline",
+          "label": "Agency-supplied alert headline",
+          "type": "text",
+          "placeholder": "Air Quality Alert in effect until midnight tonight",
+          "placement": "template",
+          "enabled": true
+        },
+        {
+          "key": "agencyMessage",
+          "label": "Agency-supplied message",
+          "type": "text",
+          "placeholder": "Paste or accurately relay the complete agency message",
+          "placement": "what",
+          "enabled": true
+        },
+        {
+          "key": "aqiValue",
+          "label": "EPA Air Quality Index value",
+          "type": "number",
+          "placeholder": "101",
+          "placement": "details",
+          "enabled": true
+        },
+        {
+          "key": "codeLevel",
+          "label": "Agency code level / health concern",
+          "type": "text",
+          "placeholder": "Orange - Unhealthy for Sensitive Groups",
+          "placement": "details",
+          "enabled": true
+        },
+        {
+          "key": "pollutant",
+          "label": "Primary pollutant / source",
+          "type": "text",
+          "placeholder": "Fine particulate matter from wildfire smoke",
+          "placement": "details",
+          "enabled": true
+        },
+        {
+          "key": "sensitiveGroups",
+          "label": "Sensitive groups / health effects",
+          "type": "text",
+          "placeholder": "Children, older adults, and people with heart or lung disease",
+          "placement": "impacts",
+          "enabled": true
+        },
+        {
+          "key": "agencyActions",
+          "label": "Agency-supplied precautions",
+          "type": "text",
+          "placeholder": "Limit prolonged or heavy outdoor exertion",
+          "placement": "impacts",
+          "enabled": true
+        },
+        {
+          "key": "agencyContact",
+          "label": "Agency website / phone / additional information",
+          "type": "text",
+          "placeholder": "Agency website or hotline",
+          "placement": "details",
+          "enabled": true
+        }
+      ],
+      "sections": {
+        "what": true,
+        "where": true,
+        "when": true,
+        "impacts": true,
+        "details": true,
+        "cta": false
+      },
+      "isCustom": true,
+      "name": "Air Quality Alert",
+      "product": "AQA",
+      "group": "Air quality",
+      "style": "standard",
+      "zoneType": "public",
+      "color": "#808080",
+      "priority": 200
+    }
+  }
+}

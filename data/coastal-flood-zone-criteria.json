@@ -1,0 +1,5289 @@
+{
+  "generatedAt": "2026-08-12T05:06:59.609Z",
+  "source": "2024-2026 NWS CFW product MLLW category tables joined to NOAA CO-OPS stations",
+  "rule": "dominant mapping >=70%, at least 2 mentions, unique station-name match >=0.50 with >=0.15 margin",
+  "acceptedCount": 27,
+  "ambiguousCount": 97,
+  "accepted": [
+    {
+      "ugc": "DEZ001",
+      "stationId": "8551910",
+      "stationName": "Reedy Point",
+      "historicalGauge": "Delaware River at Reedy Point",
+      "minorFeet": 7.2,
+      "moderateFeet": 8.2,
+      "majorFeet": 9.2,
+      "mentions": 219,
+      "totalGaugeMentions": 220,
+      "dominance": 0.995,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "DEZ004",
+      "stationId": "8557380",
+      "stationName": "Lewes",
+      "historicalGauge": "Delaware Bay at Lewes",
+      "minorFeet": 6,
+      "moderateFeet": 7,
+      "majorFeet": 8,
+      "mentions": 82,
+      "totalGaugeMentions": 82,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "GAZ117",
+      "stationId": "8670870",
+      "stationName": "Fort Pulaski",
+      "historicalGauge": "Fort Pulaski GA",
+      "minorFeet": 9.5,
+      "moderateFeet": 10,
+      "majorFeet": 10.5,
+      "mentions": 77,
+      "totalGaugeMentions": 77,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "GAZ119",
+      "stationId": "8670870",
+      "stationName": "Fort Pulaski",
+      "historicalGauge": "Fort Pulaski GA",
+      "minorFeet": 9.5,
+      "moderateFeet": 10,
+      "majorFeet": 10.5,
+      "mentions": 2,
+      "totalGaugeMentions": 2,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "GAZ217",
+      "stationId": "8670870",
+      "stationName": "Fort Pulaski",
+      "historicalGauge": "Fort Pulaski GA",
+      "minorFeet": 9.5,
+      "moderateFeet": 10,
+      "majorFeet": 10.5,
+      "mentions": 2,
+      "totalGaugeMentions": 2,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "MAZ024",
+      "stationId": "8449130",
+      "stationName": "Nantucket Island",
+      "historicalGauge": "Nantucket Harbor",
+      "minorFeet": 5,
+      "moderateFeet": 6.5,
+      "majorFeet": 8,
+      "mentions": 8,
+      "totalGaugeMentions": 8,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "MDZ012",
+      "stationId": "8573364",
+      "stationName": "Tolchester Beach",
+      "historicalGauge": "Chesapeake Bay at Tolchester Beach",
+      "minorFeet": 3.5,
+      "moderateFeet": 4.5,
+      "majorFeet": 5.5,
+      "mentions": 87,
+      "totalGaugeMentions": 104,
+      "dominance": 0.837,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "MDZ016",
+      "stationId": "8635027",
+      "stationName": "Dahlgren",
+      "historicalGauge": "Upper Machodoc Creek at Dahlgren",
+      "minorFeet": 3.5,
+      "moderateFeet": 5,
+      "majorFeet": 7,
+      "mentions": 221,
+      "totalGaugeMentions": 251,
+      "dominance": 0.88,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ094",
+      "stationId": "8656483",
+      "stationName": "Beaufort, Duke Marine Lab",
+      "historicalGauge": "Beaufort Marine Lab NC",
+      "minorFeet": 5,
+      "moderateFeet": 5.5,
+      "majorFeet": 6.5,
+      "mentions": 5,
+      "totalGaugeMentions": 5,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ106",
+      "stationId": "8658163",
+      "stationName": "Wrightsville Beach",
+      "historicalGauge": "Mercer Pier at Wrightsville Beach",
+      "minorFeet": 6,
+      "moderateFeet": 8,
+      "majorFeet": 10,
+      "mentions": 153,
+      "totalGaugeMentions": 156,
+      "dominance": 0.981,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ107",
+      "stationId": "8658120",
+      "stationName": "Wilmington",
+      "historicalGauge": "Cape Fear River at Wilmington",
+      "minorFeet": 5.5,
+      "moderateFeet": 6.8,
+      "majorFeet": 10,
+      "mentions": 617,
+      "totalGaugeMentions": 617,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ108",
+      "stationId": "8658163",
+      "stationName": "Wrightsville Beach",
+      "historicalGauge": "Mercer Pier at Wrightsville Beach",
+      "minorFeet": 6,
+      "moderateFeet": 8,
+      "majorFeet": 10,
+      "mentions": 22,
+      "totalGaugeMentions": 22,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ109",
+      "stationId": "8658120",
+      "stationName": "Wilmington",
+      "historicalGauge": "Cape Fear River at Wilmington",
+      "minorFeet": 5.5,
+      "moderateFeet": 6.8,
+      "majorFeet": 10,
+      "mentions": 13,
+      "totalGaugeMentions": 13,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ110",
+      "stationId": "8658163",
+      "stationName": "Wrightsville Beach",
+      "historicalGauge": "Mercer Pier at Wrightsville Beach",
+      "minorFeet": 6,
+      "moderateFeet": 8,
+      "majorFeet": 10,
+      "mentions": 74,
+      "totalGaugeMentions": 83,
+      "dominance": 0.892,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ195",
+      "stationId": "8656483",
+      "stationName": "Beaufort, Duke Marine Lab",
+      "historicalGauge": "Beaufort Marine Lab NC",
+      "minorFeet": 5,
+      "moderateFeet": 5.5,
+      "majorFeet": 6.5,
+      "mentions": 128,
+      "totalGaugeMentions": 144,
+      "dominance": 0.889,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NCZ196",
+      "stationId": "8656483",
+      "stationName": "Beaufort, Duke Marine Lab",
+      "historicalGauge": "Beaufort Marine Lab NC",
+      "minorFeet": 5,
+      "moderateFeet": 5.5,
+      "majorFeet": 6.5,
+      "mentions": 109,
+      "totalGaugeMentions": 110,
+      "dominance": 0.991,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NJZ016",
+      "stationId": "8551910",
+      "stationName": "Reedy Point",
+      "historicalGauge": "Delaware River at Reedy Point",
+      "minorFeet": 7.2,
+      "moderateFeet": 8.2,
+      "majorFeet": 9.2,
+      "mentions": 220,
+      "totalGaugeMentions": 221,
+      "dominance": 0.995,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NJZ019",
+      "stationId": "8539094",
+      "stationName": "Burlington, Delaware River",
+      "historicalGauge": "Delaware River at Burlington",
+      "minorFeet": 9.3,
+      "moderateFeet": 10.3,
+      "majorFeet": 11.3,
+      "mentions": 37,
+      "totalGaugeMentions": 43,
+      "dominance": 0.86,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "NYZ176",
+      "stationId": "8516945",
+      "stationName": "Kings Point",
+      "historicalGauge": "LITTLE NECK BAY AT KINGS POINT NY",
+      "minorFeet": 10,
+      "moderateFeet": 10.5,
+      "majorFeet": 13,
+      "mentions": 8,
+      "totalGaugeMentions": 11,
+      "dominance": 0.727,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "PAZ106",
+      "stationId": "8539094",
+      "stationName": "Burlington, Delaware River",
+      "historicalGauge": "Delaware River at Burlington",
+      "minorFeet": 9.3,
+      "moderateFeet": 10.3,
+      "majorFeet": 11.3,
+      "mentions": 41,
+      "totalGaugeMentions": 42,
+      "dominance": 0.976,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "SCZ048",
+      "stationId": "8670870",
+      "stationName": "Fort Pulaski",
+      "historicalGauge": "Fort Pulaski GA",
+      "minorFeet": 9.5,
+      "moderateFeet": 10,
+      "majorFeet": 10.5,
+      "mentions": 78,
+      "totalGaugeMentions": 78,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "SCZ054",
+      "stationId": "8661070",
+      "stationName": "Springmaid Pier",
+      "historicalGauge": "Springmaid Pier at Myrtle Beach",
+      "minorFeet": 7,
+      "moderateFeet": 8.5,
+      "majorFeet": 10.5,
+      "mentions": 156,
+      "totalGaugeMentions": 168,
+      "dominance": 0.929,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "SCZ056",
+      "stationId": "8661070",
+      "stationName": "Springmaid Pier",
+      "historicalGauge": "Springmaid Pier at Myrtle Beach",
+      "minorFeet": 7,
+      "moderateFeet": 8.5,
+      "majorFeet": 10.5,
+      "mentions": 32,
+      "totalGaugeMentions": 32,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "SCZ148",
+      "stationId": "8670870",
+      "stationName": "Fort Pulaski",
+      "historicalGauge": "Fort Pulaski GA",
+      "minorFeet": 9.5,
+      "moderateFeet": 10,
+      "majorFeet": 10.5,
+      "mentions": 2,
+      "totalGaugeMentions": 2,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "VAZ055",
+      "stationId": "8635027",
+      "stationName": "Dahlgren",
+      "historicalGauge": "Upper Machodoc Creek at Dahlgren",
+      "minorFeet": 3.5,
+      "moderateFeet": 5,
+      "majorFeet": 7,
+      "mentions": 2,
+      "totalGaugeMentions": 2,
+      "dominance": 1,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "VAZ057",
+      "stationId": "8635027",
+      "stationName": "Dahlgren",
+      "historicalGauge": "Upper Machodoc Creek at Dahlgren",
+      "minorFeet": 3.5,
+      "moderateFeet": 5,
+      "majorFeet": 7,
+      "mentions": 219,
+      "totalGaugeMentions": 251,
+      "dominance": 0.873,
+      "nameMatchScore": 1
+    },
+    {
+      "ugc": "VAZ096",
+      "stationId": "8638610",
+      "stationName": "Sewells Point",
+      "historicalGauge": "SEWELLS POINT VA",
+      "minorFeet": 4.5,
+      "moderateFeet": 5.5,
+      "majorFeet": 6.5,
+      "mentions": 6,
+      "totalGaugeMentions": 6,
+      "dominance": 1,
+      "nameMatchScore": 1
+    }
+  ],
+  "ambiguous": [
+    {
+      "ugc": "CTZ009",
+      "total": 678,
+      "confidence": 0.252,
+      "candidates": [
+        {
+          "ugc": "CTZ009",
+          "gauge": "STAMFORD HARBOR AT STAMFORD CT",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.9,
+          "majorFeet": 12.3,
+          "mentions": 171
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "BRIDGEPORT HARBOR AT BRIDGEPORT CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 10.2,
+          "majorFeet": 11.2,
+          "mentions": 169
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "LITTLE NECK BAY AT KINGS POINT NY",
+          "minorFeet": 10,
+          "moderateFeet": 10.5,
+          "majorFeet": 13,
+          "mentions": 123
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "HUDSON RIVER AT PIERMONT NY",
+          "minorFeet": 5.9,
+          "moderateFeet": 6.9,
+          "majorFeet": 7.9,
+          "mentions": 81
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "NEW HAVEN HARBOR AT NEW HAVEN CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 9.3,
+          "majorFeet": 10.6,
+          "mentions": 42
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "WEST POND AT GLEN COVE NY",
+          "minorFeet": 10.1,
+          "moderateFeet": 11.1,
+          "majorFeet": 13.1,
+          "mentions": 29
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "FLAX POND AT OLD FIELD NY",
+          "minorFeet": 9.2,
+          "moderateFeet": 10.2,
+          "majorFeet": 12.2,
+          "mentions": 23
+        },
+        {
+          "ugc": "CTZ009",
+          "gauge": "HUDSON RIVER AT PIERMONT NY",
+          "minorFeet": 6.4,
+          "moderateFeet": 7.4,
+          "majorFeet": 8.4,
+          "mentions": 21
+        }
+      ]
+    },
+    {
+      "ugc": "CTZ010",
+      "total": 129,
+      "confidence": 0.186,
+      "candidates": [
+        {
+          "ugc": "CTZ010",
+          "gauge": "NEW HAVEN HARBOR AT NEW HAVEN CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 9.3,
+          "majorFeet": 10.6,
+          "mentions": 24
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "BRIDGEPORT HARBOR AT BRIDGEPORT CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 10.2,
+          "majorFeet": 11.2,
+          "mentions": 19
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "FLAX POND AT OLD FIELD NY",
+          "minorFeet": 9.2,
+          "moderateFeet": 10.2,
+          "majorFeet": 12.2,
+          "mentions": 14
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "LITTLE NECK BAY AT KINGS POINT NY",
+          "minorFeet": 10,
+          "moderateFeet": 10.5,
+          "majorFeet": 13,
+          "mentions": 13
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "THAMES RIVER AT NEW LONDON CT",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7.8,
+          "mentions": 11
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "WEST POND AT GLEN COVE NY",
+          "minorFeet": 10.1,
+          "moderateFeet": 11.1,
+          "majorFeet": 13.1,
+          "mentions": 11
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "KILL VAN KULL AT BERGEN POINT NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.6,
+          "mentions": 3
+        },
+        {
+          "ugc": "CTZ010",
+          "gauge": "NEWARK BAY AT PVSC AT NEWARK NJ",
+          "minorFeet": 7.4,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.7,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "CTZ011",
+      "total": 52,
+      "confidence": 0.519,
+      "candidates": [
+        {
+          "ugc": "CTZ011",
+          "gauge": "THAMES RIVER AT NEW LONDON CT",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7.8,
+          "mentions": 27
+        },
+        {
+          "ugc": "CTZ011",
+          "gauge": "NEW HAVEN HARBOR AT NEW HAVEN CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 9.3,
+          "majorFeet": 10.6,
+          "mentions": 25
+        }
+      ]
+    },
+    {
+      "ugc": "CTZ012",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "CTZ012",
+          "gauge": "THAMES RIVER AT NEW LONDON CT",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7.8,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "DCZ001",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "DCZ001",
+          "gauge": "Upper Machodoc Creek at Dahlgren",
+          "minorFeet": 3.5,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "DEZ002",
+      "total": 651,
+      "confidence": 0.438,
+      "candidates": [
+        {
+          "ugc": "DEZ002",
+          "gauge": "Murderkill River at Bowers Beach",
+          "minorFeet": 6.6,
+          "moderateFeet": 7.6,
+          "majorFeet": 8.6,
+          "mentions": 285
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 145
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Maurice River at Bivalve",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 125
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 32
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 32
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 11
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 6
+        },
+        {
+          "ugc": "DEZ002",
+          "gauge": "Arthur Kill at Perth Amboy",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "DEZ003",
+      "total": 427,
+      "confidence": 0.536,
+      "candidates": [
+        {
+          "ugc": "DEZ003",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 229
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 64
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 64
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 23
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 18
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Arthur Kill at Perth Amboy",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 9
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Sandy Hook Bay at Sandy Hook",
+          "minorFeet": 6.7,
+          "moderateFeet": 7.7,
+          "majorFeet": 8.7,
+          "mentions": 8
+        },
+        {
+          "ugc": "DEZ003",
+          "gauge": "Watson Creek at Manasquan",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.7,
+          "majorFeet": 7.7,
+          "mentions": 8
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ007",
+      "total": 936,
+      "confidence": 0.075,
+      "candidates": [
+        {
+          "ugc": "MAZ007",
+          "gauge": "Gloucester Harbor",
+          "minorFeet": 11.5,
+          "moderateFeet": 13,
+          "majorFeet": 15,
+          "mentions": 70
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Merrimack River near Newburyport MA",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13.5,
+          "mentions": 70
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Scituate MA",
+          "minorFeet": 11.5,
+          "moderateFeet": 13.5,
+          "majorFeet": 15.5,
+          "mentions": 60
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Boston Harbor",
+          "minorFeet": 12.5,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 56
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Revere",
+          "minorFeet": 12.5,
+          "moderateFeet": 14.5,
+          "majorFeet": 16,
+          "mentions": 56
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Buzzards Bay at Woods Hole",
+          "minorFeet": 5.5,
+          "moderateFeet": 7,
+          "majorFeet": 8.5,
+          "mentions": 55
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Chatham MA - East Coast",
+          "minorFeet": 9,
+          "moderateFeet": 11.5,
+          "majorFeet": 13,
+          "mentions": 55
+        },
+        {
+          "ugc": "MAZ007",
+          "gauge": "Chatham - South side",
+          "minorFeet": 9,
+          "moderateFeet": 10.5,
+          "majorFeet": 11.5,
+          "mentions": 55
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ015",
+      "total": 74,
+      "confidence": 0.189,
+      "candidates": [
+        {
+          "ugc": "MAZ015",
+          "gauge": "Boston Harbor",
+          "minorFeet": 12.5,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 14
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Revere",
+          "minorFeet": 12.5,
+          "moderateFeet": 14.5,
+          "majorFeet": 16,
+          "mentions": 14
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Scituate MA",
+          "minorFeet": 11.5,
+          "moderateFeet": 13.5,
+          "majorFeet": 15.5,
+          "mentions": 6
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Buzzards Bay at Woods Hole",
+          "minorFeet": 5.5,
+          "moderateFeet": 7,
+          "majorFeet": 8.5,
+          "mentions": 4
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Chatham MA - East Coast",
+          "minorFeet": 9,
+          "moderateFeet": 11.5,
+          "majorFeet": 13,
+          "mentions": 4
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Chatham - South side",
+          "minorFeet": 9,
+          "moderateFeet": 10.5,
+          "majorFeet": 11.5,
+          "mentions": 4
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Provincetown Harbor",
+          "minorFeet": 13,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 4
+        },
+        {
+          "ugc": "MAZ015",
+          "gauge": "Dennis - Sesuit Harbor",
+          "minorFeet": 13,
+          "moderateFeet": 14.5,
+          "majorFeet": 16,
+          "mentions": 4
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ019",
+      "total": 65,
+      "confidence": 0.077,
+      "candidates": [
+        {
+          "ugc": "MAZ019",
+          "gauge": "Green Harbor",
+          "minorFeet": 11.5,
+          "moderateFeet": 13.5,
+          "majorFeet": 15.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Scituate MA",
+          "minorFeet": 11.5,
+          "moderateFeet": 13.5,
+          "majorFeet": 15.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Buzzards Bay at Woods Hole",
+          "minorFeet": 5.5,
+          "moderateFeet": 7,
+          "majorFeet": 8.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Chatham MA - East Coast",
+          "minorFeet": 9,
+          "moderateFeet": 11.5,
+          "majorFeet": 13,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Chatham - South side",
+          "minorFeet": 9,
+          "moderateFeet": 10.5,
+          "majorFeet": 11.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Hyannis Harbor",
+          "minorFeet": 5,
+          "moderateFeet": 6.5,
+          "majorFeet": 8.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Provincetown Harbor",
+          "minorFeet": 13,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 5
+        },
+        {
+          "ugc": "MAZ019",
+          "gauge": "Dennis - Sesuit Harbor",
+          "minorFeet": 13,
+          "moderateFeet": 14.5,
+          "majorFeet": 16,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ020",
+      "total": 381,
+      "confidence": 0.084,
+      "candidates": [
+        {
+          "ugc": "MAZ020",
+          "gauge": "Mount Hope Bay near Bristol Point RI",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "Westerly RI at Watch Hill",
+          "minorFeet": 5,
+          "moderateFeet": 8,
+          "majorFeet": 9.5,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "Newport Harbor",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "Newport South Coast Beaches",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "Mount Hope Bay near Fall River MA",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "New Bedford Hurricane Barrier",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9.5,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "Westport",
+          "minorFeet": 6,
+          "moderateFeet": 8,
+          "majorFeet": 10,
+          "mentions": 32
+        },
+        {
+          "ugc": "MAZ020",
+          "gauge": "Narragansett Bay at Fox Point",
+          "minorFeet": 7,
+          "moderateFeet": 9,
+          "majorFeet": 10.5,
+          "mentions": 27
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ021",
+      "total": 4,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "MAZ021",
+        "gauge": "Buzzards Bay at Mattapoisett",
+        "minorFeet": 8.5,
+        "moderateFeet": 10,
+        "majorFeet": 12,
+        "mentions": 4
+      },
+      "stationMatches": [
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        },
+        {
+          "stationId": "9452400",
+          "name": "Skagway, Taiya Inlet",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ022",
+      "total": 32,
+      "confidence": 0.094,
+      "candidates": [
+        {
+          "ugc": "MAZ022",
+          "gauge": "Buzzards Bay at Woods Hole",
+          "minorFeet": 5.5,
+          "moderateFeet": 7,
+          "majorFeet": 8.5,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Chatham MA - East Coast",
+          "minorFeet": 9,
+          "moderateFeet": 11.5,
+          "majorFeet": 13,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Chatham - South side",
+          "minorFeet": 9,
+          "moderateFeet": 10.5,
+          "majorFeet": 11.5,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Hyannis Harbor",
+          "minorFeet": 5,
+          "moderateFeet": 6.5,
+          "majorFeet": 8.5,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Provincetown Harbor",
+          "minorFeet": 13,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Dennis - Sesuit Harbor",
+          "minorFeet": 13,
+          "moderateFeet": 14.5,
+          "majorFeet": 16,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Sandwich Harbor",
+          "minorFeet": 12,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 3
+        },
+        {
+          "ugc": "MAZ022",
+          "gauge": "Wings Neck",
+          "minorFeet": 6.5,
+          "moderateFeet": 9,
+          "majorFeet": 11.5,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "MAZ023",
+      "total": 47,
+      "confidence": 0.383,
+      "candidates": [
+        {
+          "ugc": "MAZ023",
+          "gauge": "Vineyard Haven",
+          "minorFeet": 4.5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 18
+        },
+        {
+          "ugc": "MAZ023",
+          "gauge": "Edgartown",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 15
+        },
+        {
+          "ugc": "MAZ023",
+          "gauge": "Nantucket Harbor",
+          "minorFeet": 5,
+          "moderateFeet": 6.5,
+          "majorFeet": 8,
+          "mentions": 11
+        },
+        {
+          "ugc": "MAZ023",
+          "gauge": "Edgartown",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 6.5,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ008",
+      "total": 3,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "MDZ008",
+        "gauge": "Chesapeake Bay at Havre de Grace MD",
+        "minorFeet": 4,
+        "moderateFeet": 5.5,
+        "majorFeet": 7,
+        "mentions": 3
+      },
+      "stationMatches": [
+        {
+          "stationId": "8573927",
+          "name": "Chesapeake City",
+          "score": 0.5
+        },
+        {
+          "stationId": "8638901",
+          "name": "CBBT, Chesapeake Channel",
+          "score": 0.3333333333333333
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ011",
+      "total": 335,
+      "confidence": 0.427,
+      "candidates": [
+        {
+          "ugc": "MDZ011",
+          "gauge": "Chesapeake Bay at Bowleys Quarters",
+          "minorFeet": 3,
+          "moderateFeet": 3.8,
+          "majorFeet": 5,
+          "mentions": 143
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "NW Branch Patapsco River at Baltimore MD",
+          "minorFeet": 3.4,
+          "moderateFeet": 4.6,
+          "majorFeet": 6,
+          "mentions": 84
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "NW Branch Patapsco River at Baltimore MD",
+          "minorFeet": 3,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 59
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "Chesapeake Bay at Havre de Grace MD",
+          "minorFeet": 4,
+          "moderateFeet": 5.5,
+          "majorFeet": 7,
+          "mentions": 20
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "Chesapeake Bay at North Beach",
+          "minorFeet": 3,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 11
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "Patuxent River at Solomons Island",
+          "minorFeet": 3,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 11
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "Severn River at Annapolis",
+          "minorFeet": 2.6,
+          "moderateFeet": 3.3,
+          "majorFeet": 6,
+          "mentions": 3
+        },
+        {
+          "ugc": "MDZ011",
+          "gauge": "Upper Machodoc Creek at Dahlgren",
+          "minorFeet": 3.5,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ014",
+      "total": 590,
+      "confidence": 0.658,
+      "candidates": [
+        {
+          "ugc": "MDZ014",
+          "gauge": "Severn River at Annapolis",
+          "minorFeet": 2.6,
+          "moderateFeet": 3.3,
+          "majorFeet": 5,
+          "mentions": 388
+        },
+        {
+          "ugc": "MDZ014",
+          "gauge": "Severn River at Annapolis",
+          "minorFeet": 2.6,
+          "moderateFeet": 3.3,
+          "majorFeet": 6,
+          "mentions": 202
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ015",
+      "total": 68,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "MDZ015",
+        "gauge": "Eastern Bay at Claiborne",
+        "minorFeet": 3.4,
+        "moderateFeet": 4.4,
+        "majorFeet": 5.4,
+        "mentions": 68
+      },
+      "stationMatches": [
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        },
+        {
+          "stationId": "9452400",
+          "name": "Skagway, Taiya Inlet",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ017",
+      "total": 329,
+      "confidence": 0.939,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "MDZ017",
+        "gauge": "St Marys River at Straits Point",
+        "minorFeet": 3,
+        "moderateFeet": 3.5,
+        "majorFeet": 5,
+        "mentions": 309
+      },
+      "stationMatches": [
+        {
+          "stationId": "9415020",
+          "name": "Point Reyes",
+          "score": 0.5
+        },
+        {
+          "stationId": "8551910",
+          "name": "Reedy Point",
+          "score": 0.5
+        },
+        {
+          "stationId": "8720219",
+          "name": "Dames Point",
+          "score": 0.5
+        },
+        {
+          "stationId": "8516945",
+          "name": "Kings Point",
+          "score": 0.5
+        },
+        {
+          "stationId": "8636580",
+          "name": "Windmill Point",
+          "score": 0.5
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ018",
+      "total": 391,
+      "confidence": 0.501,
+      "candidates": [
+        {
+          "ugc": "MDZ018",
+          "gauge": "Chesapeake Bay at North Beach",
+          "minorFeet": 3,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 196
+        },
+        {
+          "ugc": "MDZ018",
+          "gauge": "Patuxent River at Solomons Island",
+          "minorFeet": 3,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 195
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ021",
+      "total": 1111,
+      "confidence": 0.316,
+      "candidates": [
+        {
+          "ugc": "MDZ021",
+          "gauge": "CAMBRIDGE MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 351
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "BISHOPS HEAD MD",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.7,
+          "majorFeet": 4.2,
+          "mentions": 351
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "CRISFIELD MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 300
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "LEWISETTA VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 18
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 18
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "DAHLGREN/COLONIAL BEACH VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 14
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "OCEAN CITY INLET MD",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 11
+        },
+        {
+          "ugc": "MDZ021",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 10
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ022",
+      "total": 25,
+      "confidence": 0.48,
+      "candidates": [
+        {
+          "ugc": "MDZ022",
+          "gauge": "BISHOPS HEAD MD",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.7,
+          "majorFeet": 4.2,
+          "mentions": 12
+        },
+        {
+          "ugc": "MDZ022",
+          "gauge": "CRISFIELD MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 12
+        },
+        {
+          "ugc": "MDZ022",
+          "gauge": "OCEAN CITY INLET MD",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ023",
+      "total": 48,
+      "confidence": 0.313,
+      "candidates": [
+        {
+          "ugc": "MDZ023",
+          "gauge": "BISHOPS HEAD MD",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.7,
+          "majorFeet": 4.2,
+          "mentions": 15
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "CRISFIELD MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 15
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 3
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 3
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "CHINCOTEAGUE INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 3
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "WACHAPREAGUE VA",
+          "minorFeet": 6.5,
+          "moderateFeet": 7.5,
+          "majorFeet": 8,
+          "mentions": 3
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 3
+        },
+        {
+          "ugc": "MDZ023",
+          "gauge": "OYSTER VA",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8.5,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ024",
+      "total": 326,
+      "confidence": 0.457,
+      "candidates": [
+        {
+          "ugc": "MDZ024",
+          "gauge": "OCEAN CITY INLET MD",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 149
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 27
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 25
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "CHINCOTEAGUE INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 25
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "WACHAPREAGUE VA",
+          "minorFeet": 6.5,
+          "moderateFeet": 7.5,
+          "majorFeet": 8,
+          "mentions": 25
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "TANGIER ISLAND, VA",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.8,
+          "majorFeet": 4.2,
+          "mentions": 25
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "HARBORTON VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 25
+        },
+        {
+          "ugc": "MDZ024",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 12
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ025",
+      "total": 384,
+      "confidence": 0.266,
+      "candidates": [
+        {
+          "ugc": "MDZ025",
+          "gauge": "OCEAN CITY INLET MD",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 102
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 38
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 38
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "CHINCOTEAGUE INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 38
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "WACHAPREAGUE VA",
+          "minorFeet": 6.5,
+          "moderateFeet": 7.5,
+          "majorFeet": 8,
+          "mentions": 38
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "TANGIER ISLAND, VA",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.8,
+          "majorFeet": 4.2,
+          "mentions": 38
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "HARBORTON VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 38
+        },
+        {
+          "ugc": "MDZ025",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 27
+        }
+      ]
+    },
+    {
+      "ugc": "MDZ508",
+      "total": 161,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "MDZ508",
+        "gauge": "Chesapeake Bay at Havre de Grace MD",
+        "minorFeet": 4,
+        "moderateFeet": 5.5,
+        "majorFeet": 7,
+        "mentions": 161
+      },
+      "stationMatches": [
+        {
+          "stationId": "8573927",
+          "name": "Chesapeake City",
+          "score": 0.5
+        },
+        {
+          "stationId": "8638901",
+          "name": "CBBT, Chesapeake Channel",
+          "score": 0.3333333333333333
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "MEZ023",
+      "total": 350,
+      "confidence": 0.266,
+      "candidates": [
+        {
+          "ugc": "MEZ023",
+          "gauge": "Seavey Island / Portsmouth NH",
+          "minorFeet": 11.5,
+          "moderateFeet": 12.5,
+          "majorFeet": 13.5,
+          "mentions": 93
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Hampton Harbor NH",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13,
+          "mentions": 93
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Portland ME",
+          "minorFeet": 12,
+          "moderateFeet": 13,
+          "majorFeet": 14,
+          "mentions": 88
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Boothbay Harbor ME",
+          "minorFeet": 13,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 31
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Bath ME",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13,
+          "mentions": 27
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Scarborough River Test Point",
+          "minorFeet": 14,
+          "moderateFeet": 15,
+          "majorFeet": 16,
+          "mentions": 6
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Arrowsic Test Point",
+          "minorFeet": 11.5,
+          "moderateFeet": 12.5,
+          "majorFeet": 13.5,
+          "mentions": 4
+        },
+        {
+          "ugc": "MEZ023",
+          "gauge": "Bath ME",
+          "minorFeet": 9.5,
+          "moderateFeet": 11,
+          "majorFeet": 12,
+          "mentions": 4
+        }
+      ]
+    },
+    {
+      "ugc": "MEZ025",
+      "total": 18,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "MEZ025",
+          "gauge": "Bath ME",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13,
+          "mentions": 9
+        },
+        {
+          "ugc": "MEZ025",
+          "gauge": "Boothbay Harbor ME",
+          "minorFeet": 13,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 9
+        }
+      ]
+    },
+    {
+      "ugc": "MEZ029",
+      "total": 104,
+      "confidence": 0.115,
+      "candidates": [
+        {
+          "ugc": "MEZ029",
+          "gauge": "Schoodic Point",
+          "minorFeet": 20.9,
+          "moderateFeet": 23.9,
+          "majorFeet": 26.9,
+          "mentions": 12
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Seawall Road",
+          "minorFeet": 17,
+          "moderateFeet": 20,
+          "majorFeet": 23,
+          "mentions": 12
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Stonington Harbor",
+          "minorFeet": 14.2,
+          "moderateFeet": 17.2,
+          "majorFeet": 20.2,
+          "mentions": 12
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Winter Harbor",
+          "minorFeet": 14.9,
+          "moderateFeet": 17.9,
+          "majorFeet": 20.9,
+          "mentions": 12
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Machias",
+          "minorFeet": 16.9,
+          "moderateFeet": 19.9,
+          "majorFeet": 22.9,
+          "mentions": 12
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Roque Bluffs State Park",
+          "minorFeet": 18.9,
+          "moderateFeet": 21.9,
+          "majorFeet": 24.9,
+          "mentions": 12
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Bar Harbor",
+          "minorFeet": 15.5,
+          "moderateFeet": 17,
+          "majorFeet": 18,
+          "mentions": 8
+        },
+        {
+          "ugc": "MEZ029",
+          "gauge": "Deer Isle Causeway",
+          "minorFeet": 14.9,
+          "moderateFeet": 17,
+          "majorFeet": 20.9,
+          "mentions": 8
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ015",
+      "total": 40,
+      "confidence": 0.3,
+      "candidates": [
+        {
+          "ugc": "NCZ015",
+          "gauge": "COROLLA NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 12
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 8
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 8
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "LYNNHAVEN INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 8
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "Sewells Point VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "Chesapeake Bay Bridge Tunnel VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 1
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "Lynnhaven Inlet VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "NCZ015",
+          "gauge": "Corolla NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ017",
+      "total": 57,
+      "confidence": 0.281,
+      "candidates": [
+        {
+          "ugc": "NCZ017",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 16
+        },
+        {
+          "ugc": "NCZ017",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 16
+        },
+        {
+          "ugc": "NCZ017",
+          "gauge": "LYNNHAVEN INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 16
+        },
+        {
+          "ugc": "NCZ017",
+          "gauge": "COROLLA NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 9
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ045",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "NCZ045",
+          "gauge": "Duck NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ102",
+      "total": 462,
+      "confidence": 0.4,
+      "candidates": [
+        {
+          "ugc": "NCZ102",
+          "gauge": "COROLLA NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 185
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "LYNNHAVEN INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 77
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 76
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 76
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 6
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 6
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "OYSTER VA",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8.5,
+          "mentions": 6
+        },
+        {
+          "ugc": "NCZ102",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ203",
+      "total": 218,
+      "confidence": 0.642,
+      "candidates": [
+        {
+          "ugc": "NCZ203",
+          "gauge": "Duck NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 140
+        },
+        {
+          "ugc": "NCZ203",
+          "gauge": "Oregon Inlet NC",
+          "minorFeet": 3,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 41
+        },
+        {
+          "ugc": "NCZ203",
+          "gauge": "Coast Guard Hatteras NC",
+          "minorFeet": 2.5,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 34
+        },
+        {
+          "ugc": "NCZ203",
+          "gauge": "DUCK NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "NCZ203",
+          "gauge": "OREGON INLET NC",
+          "minorFeet": 3,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "NCZ203",
+          "gauge": "Ocracoke Inlet NC",
+          "minorFeet": 3,
+          "moderateFeet": 4,
+          "majorFeet": 5.5,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ204",
+      "total": 50,
+      "confidence": 0.7,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "NCZ204",
+        "gauge": "Ocracoke Inlet NC",
+        "minorFeet": 3,
+        "moderateFeet": 4,
+        "majorFeet": 5.5,
+        "mentions": 35
+      },
+      "stationMatches": [
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        },
+        {
+          "stationId": "9452400",
+          "name": "Skagway, Taiya Inlet",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "NCZ205",
+      "total": 32,
+      "confidence": 0.969,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "NCZ205",
+        "gauge": "Coast Guard Hatteras NC",
+        "minorFeet": 2.5,
+        "moderateFeet": 3.5,
+        "majorFeet": 4.5,
+        "mentions": 31
+      },
+      "stationMatches": [
+        {
+          "stationId": "8736897",
+          "name": "Coast Guard Sector Mobile",
+          "score": 0.5
+        },
+        {
+          "stationId": "8654467",
+          "name": "USCG Station Hatteras",
+          "score": 0.5
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "NHZ014",
+      "total": 352,
+      "confidence": 0.267,
+      "candidates": [
+        {
+          "ugc": "NHZ014",
+          "gauge": "Seavey Island / Portsmouth NH",
+          "minorFeet": 11.5,
+          "moderateFeet": 12.5,
+          "majorFeet": 13.5,
+          "mentions": 94
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Hampton Harbor NH",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13,
+          "mentions": 94
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Portland ME",
+          "minorFeet": 12,
+          "moderateFeet": 13,
+          "majorFeet": 14,
+          "mentions": 88
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Boothbay Harbor ME",
+          "minorFeet": 13,
+          "moderateFeet": 14,
+          "majorFeet": 15,
+          "mentions": 31
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Bath ME",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13,
+          "mentions": 27
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Scarborough River Test Point",
+          "minorFeet": 14,
+          "moderateFeet": 15,
+          "majorFeet": 16,
+          "mentions": 6
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Arrowsic Test Point",
+          "minorFeet": 11.5,
+          "moderateFeet": 12.5,
+          "majorFeet": 13.5,
+          "mentions": 4
+        },
+        {
+          "ugc": "NHZ014",
+          "gauge": "Bath ME",
+          "minorFeet": 9.5,
+          "moderateFeet": 11,
+          "majorFeet": 12,
+          "mentions": 4
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ006",
+      "total": 470,
+      "confidence": 0.194,
+      "candidates": [
+        {
+          "ugc": "NJZ006",
+          "gauge": "KILL VAN KULL AT BERGEN POINT NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.6,
+          "mentions": 91
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "NEW YORK HARBOR AT THE BATTERY NY",
+          "minorFeet": 7,
+          "moderateFeet": 8.3,
+          "majorFeet": 9.4,
+          "mentions": 86
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "GREAT KILLS HARBOR AT GREAT KILLS NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 78
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "NEWARK BAY AT PVSC AT NEWARK NJ",
+          "minorFeet": 7.4,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.7,
+          "mentions": 70
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "ROCKAWAY INLET NY NEAR FLOYD BENNETT FIELD NY",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 47
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "JAMAICA BAY AT INWOOD NY",
+          "minorFeet": 7.8,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.3,
+          "mentions": 47
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 13
+        },
+        {
+          "ugc": "NJZ006",
+          "gauge": "REYNOLDS CHANNEL AT POINT LOOKOUT NY",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ012",
+      "total": 707,
+      "confidence": 0.28,
+      "candidates": [
+        {
+          "ugc": "NJZ012",
+          "gauge": "Arthur Kill at Perth Amboy",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 198
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Sandy Hook Bay at Sandy Hook",
+          "minorFeet": 6.7,
+          "moderateFeet": 7.7,
+          "majorFeet": 8.7,
+          "mentions": 187
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Watson Creek at Manasquan",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.7,
+          "majorFeet": 7.7,
+          "mentions": 187
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 64
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 19
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 14
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 14
+        },
+        {
+          "ugc": "NJZ012",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 14
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ013",
+      "total": 82,
+      "confidence": 0.39,
+      "candidates": [
+        {
+          "ugc": "NJZ013",
+          "gauge": "Sandy Hook Bay at Sandy Hook",
+          "minorFeet": 6.7,
+          "moderateFeet": 7.7,
+          "majorFeet": 8.7,
+          "mentions": 32
+        },
+        {
+          "ugc": "NJZ013",
+          "gauge": "Watson Creek at Manasquan",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.7,
+          "majorFeet": 7.7,
+          "mentions": 32
+        },
+        {
+          "ugc": "NJZ013",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 15
+        },
+        {
+          "ugc": "NJZ013",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ014",
+      "total": 101,
+      "confidence": 0.436,
+      "candidates": [
+        {
+          "ugc": "NJZ014",
+          "gauge": "Sandy Hook Bay at Sandy Hook",
+          "minorFeet": 6.7,
+          "moderateFeet": 7.7,
+          "majorFeet": 8.7,
+          "mentions": 44
+        },
+        {
+          "ugc": "NJZ014",
+          "gauge": "Watson Creek at Manasquan",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.7,
+          "majorFeet": 7.7,
+          "mentions": 44
+        },
+        {
+          "ugc": "NJZ014",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 11
+        },
+        {
+          "ugc": "NJZ014",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 2
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ015",
+      "total": 112,
+      "confidence": 0.589,
+      "candidates": [
+        {
+          "ugc": "NJZ015",
+          "gauge": "Delaware River at Burlington",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.3,
+          "majorFeet": 11.3,
+          "mentions": 66
+        },
+        {
+          "ugc": "NJZ015",
+          "gauge": "Delaware River at Philadelphia",
+          "minorFeet": 8.2,
+          "moderateFeet": 9.2,
+          "majorFeet": 10.2,
+          "mentions": 46
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ017",
+      "total": 361,
+      "confidence": 0.526,
+      "candidates": [
+        {
+          "ugc": "NJZ017",
+          "gauge": "Delaware River at Philadelphia",
+          "minorFeet": 8.2,
+          "moderateFeet": 9.2,
+          "majorFeet": 10.2,
+          "mentions": 190
+        },
+        {
+          "ugc": "NJZ017",
+          "gauge": "Delaware River at Burlington",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.3,
+          "majorFeet": 11.3,
+          "mentions": 161
+        },
+        {
+          "ugc": "NJZ017",
+          "gauge": "DELAWARE RIVER AT PHILADELPHIA",
+          "minorFeet": 8.2,
+          "moderateFeet": 9.2,
+          "majorFeet": 10.2,
+          "mentions": 5
+        },
+        {
+          "ugc": "NJZ017",
+          "gauge": "DELAWARE RIVER AT BURLINGTON",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.3,
+          "majorFeet": 11.3,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ020",
+      "total": 393,
+      "confidence": 0.705,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "NJZ020",
+        "gauge": "Barnegat Bay at Barnegat Light",
+        "minorFeet": 3.5,
+        "moderateFeet": 4.5,
+        "majorFeet": 5.5,
+        "mentions": 277
+      },
+      "stationMatches": [
+        {
+          "stationId": "8452944",
+          "name": "Conimicut Light",
+          "score": 0.5
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ021",
+      "total": 656,
+      "confidence": 0.373,
+      "candidates": [
+        {
+          "ugc": "NJZ021",
+          "gauge": "Maurice River at Bivalve",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 245
+        },
+        {
+          "ugc": "NJZ021",
+          "gauge": "Murderkill River at Bowers Beach",
+          "minorFeet": 6.6,
+          "moderateFeet": 7.6,
+          "majorFeet": 8.6,
+          "mentions": 119
+        },
+        {
+          "ugc": "NJZ021",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 99
+        },
+        {
+          "ugc": "NJZ021",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 99
+        },
+        {
+          "ugc": "NJZ021",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 58
+        },
+        {
+          "ugc": "NJZ021",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 25
+        },
+        {
+          "ugc": "NJZ021",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 11
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ022",
+      "total": 400,
+      "confidence": 0.318,
+      "candidates": [
+        {
+          "ugc": "NJZ022",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 127
+        },
+        {
+          "ugc": "NJZ022",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 109
+        },
+        {
+          "ugc": "NJZ022",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 109
+        },
+        {
+          "ugc": "NJZ022",
+          "gauge": "Barnegat Bay at Barnegat Light",
+          "minorFeet": 3.5,
+          "moderateFeet": 4.5,
+          "majorFeet": 5.5,
+          "mentions": 43
+        },
+        {
+          "ugc": "NJZ022",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 12
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ023",
+      "total": 155,
+      "confidence": 0.368,
+      "candidates": [
+        {
+          "ugc": "NJZ023",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 57
+        },
+        {
+          "ugc": "NJZ023",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 57
+        },
+        {
+          "ugc": "NJZ023",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 40
+        },
+        {
+          "ugc": "NJZ023",
+          "gauge": "Murderkill River at Bowers Beach",
+          "minorFeet": 6.6,
+          "moderateFeet": 7.6,
+          "majorFeet": 8.6,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ024",
+      "total": 36,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "NJZ024",
+          "gauge": "Atlantic Ocean at Atlantic City",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 18
+        },
+        {
+          "ugc": "NJZ024",
+          "gauge": "Delaware Bay at Lewes",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 9
+        },
+        {
+          "ugc": "NJZ024",
+          "gauge": "Cape May Harbor at Cape May",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 5
+        },
+        {
+          "ugc": "NJZ024",
+          "gauge": "Great Egg Harbor Bay at Ocean City",
+          "minorFeet": 5.3,
+          "moderateFeet": 6.3,
+          "majorFeet": 7.3,
+          "mentions": 4
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ025",
+      "total": 59,
+      "confidence": 0.729,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "NJZ025",
+        "gauge": "Atlantic Ocean at Atlantic City",
+        "minorFeet": 6,
+        "moderateFeet": 7,
+        "majorFeet": 8,
+        "mentions": 43
+      },
+      "stationMatches": [
+        {
+          "stationId": "8570283",
+          "name": "Ocean City Inlet",
+          "score": 1
+        },
+        {
+          "stationId": "8534720",
+          "name": "Atlantic City",
+          "score": 1
+        },
+        {
+          "stationId": "9419750",
+          "name": "Crescent City",
+          "score": 0.5
+        },
+        {
+          "stationId": "8551762",
+          "name": "Delaware City",
+          "score": 0.5
+        },
+        {
+          "stationId": "8722670",
+          "name": "Lake Worth Pier, Atlantic Ocean",
+          "score": 0.5
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ026",
+      "total": 54,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "NJZ026",
+        "gauge": "Barnegat Bay at Barnegat Light",
+        "minorFeet": 3.5,
+        "moderateFeet": 4.5,
+        "majorFeet": 5.5,
+        "mentions": 54
+      },
+      "stationMatches": [
+        {
+          "stationId": "8452944",
+          "name": "Conimicut Light",
+          "score": 0.5
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ027",
+      "total": 3,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "NJZ027",
+        "gauge": "Barnegat Bay at Barnegat Light",
+        "minorFeet": 3.5,
+        "moderateFeet": 4.5,
+        "majorFeet": 5.5,
+        "mentions": 3
+      },
+      "stationMatches": [
+        {
+          "stationId": "8452944",
+          "name": "Conimicut Light",
+          "score": 0.5
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ104",
+      "total": 4,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "NJZ104",
+          "gauge": "KILL VAN KULL AT BERGEN POINT NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.6,
+          "mentions": 2
+        },
+        {
+          "ugc": "NJZ104",
+          "gauge": "NEW YORK HARBOR AT THE BATTERY NY",
+          "minorFeet": 7,
+          "moderateFeet": 8.3,
+          "majorFeet": 9.4,
+          "mentions": 1
+        },
+        {
+          "ugc": "NJZ104",
+          "gauge": "NEWARK BAY AT PVSC AT NEWARK NJ",
+          "minorFeet": 7.4,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.7,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NJZ106",
+      "total": 9,
+      "confidence": 0.444,
+      "candidates": [
+        {
+          "ugc": "NJZ106",
+          "gauge": "KILL VAN KULL AT BERGEN POINT NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.6,
+          "mentions": 4
+        },
+        {
+          "ugc": "NJZ106",
+          "gauge": "NEWARK BAY AT PVSC AT NEWARK NJ",
+          "minorFeet": 7.4,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.7,
+          "mentions": 4
+        },
+        {
+          "ugc": "NJZ106",
+          "gauge": "GREAT KILLS HARBOR AT GREAT KILLS NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ071",
+      "total": 694,
+      "confidence": 0.223,
+      "candidates": [
+        {
+          "ugc": "NYZ071",
+          "gauge": "STAMFORD HARBOR AT STAMFORD CT",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.9,
+          "majorFeet": 12.3,
+          "mentions": 155
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "LITTLE NECK BAY AT KINGS POINT NY",
+          "minorFeet": 10,
+          "moderateFeet": 10.5,
+          "majorFeet": 13,
+          "mentions": 140
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "BRIDGEPORT HARBOR AT BRIDGEPORT CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 10.2,
+          "majorFeet": 11.2,
+          "mentions": 138
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "HUDSON RIVER AT PIERMONT NY",
+          "minorFeet": 5.9,
+          "moderateFeet": 6.9,
+          "majorFeet": 7.9,
+          "mentions": 92
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "WEST POND AT GLEN COVE NY",
+          "minorFeet": 10.1,
+          "moderateFeet": 11.1,
+          "majorFeet": 13.1,
+          "mentions": 42
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "FLAX POND AT OLD FIELD NY",
+          "minorFeet": 9.2,
+          "moderateFeet": 10.2,
+          "majorFeet": 12.2,
+          "mentions": 36
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "NEW HAVEN HARBOR AT NEW HAVEN CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 9.3,
+          "majorFeet": 10.6,
+          "mentions": 33
+        },
+        {
+          "ugc": "NYZ071",
+          "gauge": "HUDSON RIVER AT PIERMONT NY",
+          "minorFeet": 6.4,
+          "moderateFeet": 7.4,
+          "majorFeet": 8.4,
+          "mentions": 26
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ072",
+      "total": 285,
+      "confidence": 0.204,
+      "candidates": [
+        {
+          "ugc": "NYZ072",
+          "gauge": "NEW YORK HARBOR AT THE BATTERY NY",
+          "minorFeet": 7,
+          "moderateFeet": 8.3,
+          "majorFeet": 9.4,
+          "mentions": 58
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "KILL VAN KULL AT BERGEN POINT NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.6,
+          "mentions": 47
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "GREAT KILLS HARBOR AT GREAT KILLS NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 42
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "ROCKAWAY INLET NY NEAR FLOYD BENNETT FIELD NY",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 35
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "JAMAICA BAY AT INWOOD NY",
+          "minorFeet": 7.8,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.3,
+          "mentions": 35
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "NEWARK BAY AT PVSC AT NEWARK NJ",
+          "minorFeet": 7.4,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.7,
+          "mentions": 29
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 8
+        },
+        {
+          "ugc": "NYZ072",
+          "gauge": "MORICHES BAY AT EAST MORICHES NY",
+          "minorFeet": 4.3,
+          "moderateFeet": 5.3,
+          "majorFeet": 6.3,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ073",
+      "total": 92,
+      "confidence": 0.315,
+      "candidates": [
+        {
+          "ugc": "NYZ073",
+          "gauge": "LITTLE NECK BAY AT KINGS POINT NY",
+          "minorFeet": 10,
+          "moderateFeet": 10.5,
+          "majorFeet": 13,
+          "mentions": 29
+        },
+        {
+          "ugc": "NYZ073",
+          "gauge": "WEST POND AT GLEN COVE NY",
+          "minorFeet": 10.1,
+          "moderateFeet": 11.1,
+          "majorFeet": 13.1,
+          "mentions": 25
+        },
+        {
+          "ugc": "NYZ073",
+          "gauge": "FLAX POND AT OLD FIELD NY",
+          "minorFeet": 9.2,
+          "moderateFeet": 10.2,
+          "majorFeet": 12.2,
+          "mentions": 18
+        },
+        {
+          "ugc": "NYZ073",
+          "gauge": "NEW HAVEN HARBOR AT NEW HAVEN CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 9.3,
+          "majorFeet": 10.6,
+          "mentions": 9
+        },
+        {
+          "ugc": "NYZ073",
+          "gauge": "BRIDGEPORT HARBOR AT BRIDGEPORT CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 10.2,
+          "majorFeet": 11.2,
+          "mentions": 7
+        },
+        {
+          "ugc": "NYZ073",
+          "gauge": "THAMES RIVER AT NEW LONDON CT",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7.8,
+          "mentions": 4
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ074",
+      "total": 221,
+      "confidence": 0.213,
+      "candidates": [
+        {
+          "ugc": "NYZ074",
+          "gauge": "GREAT KILLS HARBOR AT GREAT KILLS NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.2,
+          "majorFeet": 9.2,
+          "mentions": 47
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "KILL VAN KULL AT BERGEN POINT NY",
+          "minorFeet": 7.2,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.6,
+          "mentions": 46
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "NEWARK BAY AT PVSC AT NEWARK NJ",
+          "minorFeet": 7.4,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.7,
+          "mentions": 35
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "NEW YORK HARBOR AT THE BATTERY NY",
+          "minorFeet": 7,
+          "moderateFeet": 8.3,
+          "majorFeet": 9.4,
+          "mentions": 34
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "ROCKAWAY INLET NY NEAR FLOYD BENNETT FIELD NY",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 16
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "JAMAICA BAY AT INWOOD NY",
+          "minorFeet": 7.8,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.3,
+          "mentions": 16
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 9
+        },
+        {
+          "ugc": "NYZ074",
+          "gauge": "REYNOLDS CHANNEL AT POINT LOOKOUT NY",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 9
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ075",
+      "total": 95,
+      "confidence": 0.295,
+      "candidates": [
+        {
+          "ugc": "NYZ075",
+          "gauge": "ROCKAWAY INLET NY NEAR FLOYD BENNETT FIELD NY",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 28
+        },
+        {
+          "ugc": "NYZ075",
+          "gauge": "JAMAICA BAY AT INWOOD NY",
+          "minorFeet": 7.8,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.3,
+          "mentions": 26
+        },
+        {
+          "ugc": "NYZ075",
+          "gauge": "NEW YORK HARBOR AT THE BATTERY NY",
+          "minorFeet": 7,
+          "moderateFeet": 8.3,
+          "majorFeet": 9.4,
+          "mentions": 25
+        },
+        {
+          "ugc": "NYZ075",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 6
+        },
+        {
+          "ugc": "NYZ075",
+          "gauge": "REYNOLDS CHANNEL AT POINT LOOKOUT NY",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 5
+        },
+        {
+          "ugc": "NYZ075",
+          "gauge": "HUDSON BAY AT FREEPORT NY",
+          "minorFeet": 6,
+          "moderateFeet": 6.5,
+          "majorFeet": 7.2,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ078",
+      "total": 93,
+      "confidence": 0.312,
+      "candidates": [
+        {
+          "ugc": "NYZ078",
+          "gauge": "FLAX POND AT OLD FIELD NY",
+          "minorFeet": 9.2,
+          "moderateFeet": 10.2,
+          "majorFeet": 12.2,
+          "mentions": 29
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "WEST POND AT GLEN COVE NY",
+          "minorFeet": 10.1,
+          "moderateFeet": 11.1,
+          "majorFeet": 13.1,
+          "mentions": 14
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "LITTLE NECK BAY AT KINGS POINT NY",
+          "minorFeet": 10,
+          "moderateFeet": 10.5,
+          "majorFeet": 13,
+          "mentions": 14
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "PECONIC RIVER AT RIVERHEAD NY",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.4,
+          "majorFeet": 7.2,
+          "mentions": 4
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "ORIENT HARBOR AT ORIENT POINT NY",
+          "minorFeet": 4.8,
+          "moderateFeet": 5.8,
+          "majorFeet": 6.8,
+          "mentions": 4
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "BRIDGEPORT HARBOR AT BRIDGEPORT CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 10.2,
+          "majorFeet": 11.2,
+          "mentions": 4
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "NEW HAVEN HARBOR AT NEW HAVEN CT",
+          "minorFeet": 8.7,
+          "moderateFeet": 9.3,
+          "majorFeet": 10.6,
+          "mentions": 4
+        },
+        {
+          "ugc": "NYZ078",
+          "gauge": "GREAT SOUTH BAY AT LINDENHURST NY",
+          "minorFeet": 3.1,
+          "moderateFeet": 3.6,
+          "majorFeet": 4.1,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ079",
+      "total": 321,
+      "confidence": 0.187,
+      "candidates": [
+        {
+          "ugc": "NYZ079",
+          "gauge": "ORIENT HARBOR AT ORIENT POINT NY",
+          "minorFeet": 4.8,
+          "moderateFeet": 5.8,
+          "majorFeet": 6.8,
+          "mentions": 60
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "PECONIC RIVER AT RIVERHEAD NY",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.4,
+          "majorFeet": 7.2,
+          "mentions": 59
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "FLAX POND AT OLD FIELD NY",
+          "minorFeet": 9.2,
+          "moderateFeet": 10.2,
+          "majorFeet": 12.2,
+          "mentions": 58
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "MORICHES BAY AT EAST MORICHES NY",
+          "minorFeet": 4.3,
+          "moderateFeet": 5.3,
+          "majorFeet": 6.3,
+          "mentions": 28
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "SHINNECOCK BAY AT PONQUOQUE NY",
+          "minorFeet": 4.9,
+          "moderateFeet": 5.9,
+          "majorFeet": 6.9,
+          "mentions": 28
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "FORT POND BAY AT MONTAUK NY",
+          "minorFeet": 4.1,
+          "moderateFeet": 4.9,
+          "majorFeet": 6.6,
+          "mentions": 26
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "GREAT SOUTH BAY AT LINDENHURST NY",
+          "minorFeet": 3.1,
+          "moderateFeet": 3.6,
+          "majorFeet": 4.1,
+          "mentions": 11
+        },
+        {
+          "ugc": "NYZ079",
+          "gauge": "GREAT SOUTH BAY AT WEST SAYVILLE NY",
+          "minorFeet": 3.1,
+          "moderateFeet": 3.6,
+          "majorFeet": 4.1,
+          "mentions": 11
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ080",
+      "total": 476,
+      "confidence": 0.162,
+      "candidates": [
+        {
+          "ugc": "NYZ080",
+          "gauge": "GREAT SOUTH BAY AT LINDENHURST NY",
+          "minorFeet": 3.1,
+          "moderateFeet": 3.6,
+          "majorFeet": 4.1,
+          "mentions": 77
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "GREAT SOUTH BAY AT WEST SAYVILLE NY",
+          "minorFeet": 3.1,
+          "moderateFeet": 3.6,
+          "majorFeet": 4.1,
+          "mentions": 77
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "GREAT SOUTH BAY AT WATCH HILL/FIRE ISLAND NY",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.7,
+          "majorFeet": 4.2,
+          "mentions": 77
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "MORICHES BAY AT EAST MORICHES NY",
+          "minorFeet": 4.3,
+          "moderateFeet": 5.3,
+          "majorFeet": 6.3,
+          "mentions": 75
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 37
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "REYNOLDS CHANNEL AT POINT LOOKOUT NY",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 37
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "HUDSON BAY AT FREEPORT NY",
+          "minorFeet": 6,
+          "moderateFeet": 6.5,
+          "majorFeet": 7.2,
+          "mentions": 37
+        },
+        {
+          "ugc": "NYZ080",
+          "gauge": "SHINNECOCK BAY AT PONQUOQUE NY",
+          "minorFeet": 4.9,
+          "moderateFeet": 5.9,
+          "majorFeet": 6.9,
+          "mentions": 19
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ081",
+      "total": 92,
+      "confidence": 0.25,
+      "candidates": [
+        {
+          "ugc": "NYZ081",
+          "gauge": "MORICHES BAY AT EAST MORICHES NY",
+          "minorFeet": 4.3,
+          "moderateFeet": 5.3,
+          "majorFeet": 6.3,
+          "mentions": 23
+        },
+        {
+          "ugc": "NYZ081",
+          "gauge": "SHINNECOCK BAY AT PONQUOQUE NY",
+          "minorFeet": 4.9,
+          "moderateFeet": 5.9,
+          "majorFeet": 6.9,
+          "mentions": 23
+        },
+        {
+          "ugc": "NYZ081",
+          "gauge": "PECONIC RIVER AT RIVERHEAD NY",
+          "minorFeet": 5.7,
+          "moderateFeet": 6.4,
+          "majorFeet": 7.2,
+          "mentions": 23
+        },
+        {
+          "ugc": "NYZ081",
+          "gauge": "FORT POND BAY AT MONTAUK NY",
+          "minorFeet": 4.1,
+          "moderateFeet": 4.9,
+          "majorFeet": 6.6,
+          "mentions": 17
+        },
+        {
+          "ugc": "NYZ081",
+          "gauge": "FORT POND BAY AT MONTAUK NY",
+          "minorFeet": 4.8,
+          "moderateFeet": 5.6,
+          "majorFeet": 7.3,
+          "mentions": 6
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ178",
+      "total": 361,
+      "confidence": 0.247,
+      "candidates": [
+        {
+          "ugc": "NYZ178",
+          "gauge": "ROCKAWAY INLET NY NEAR FLOYD BENNETT FIELD NY",
+          "minorFeet": 7.6,
+          "moderateFeet": 8.6,
+          "majorFeet": 9.6,
+          "mentions": 89
+        },
+        {
+          "ugc": "NYZ178",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 89
+        },
+        {
+          "ugc": "NYZ178",
+          "gauge": "JAMAICA BAY AT INWOOD NY",
+          "minorFeet": 7.8,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.3,
+          "mentions": 88
+        },
+        {
+          "ugc": "NYZ178",
+          "gauge": "REYNOLDS CHANNEL AT POINT LOOKOUT NY",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 47
+        },
+        {
+          "ugc": "NYZ178",
+          "gauge": "HUDSON BAY AT FREEPORT NY",
+          "minorFeet": 6,
+          "moderateFeet": 6.5,
+          "majorFeet": 7.2,
+          "mentions": 47
+        },
+        {
+          "ugc": "NYZ178",
+          "gauge": "10/09 AM   7.6/ 8.1   2.0/ 2.5   1.4/ 1.9     3      MINOR",
+          "minorFeet": 7.8,
+          "moderateFeet": 8.5,
+          "majorFeet": 9.3,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "NYZ179",
+      "total": 192,
+      "confidence": 0.333,
+      "candidates": [
+        {
+          "ugc": "NYZ179",
+          "gauge": "EAST ROCKAWAY INLET AT ATLANTIC BEACH NY",
+          "minorFeet": 6.2,
+          "moderateFeet": 7.2,
+          "majorFeet": 8.2,
+          "mentions": 64
+        },
+        {
+          "ugc": "NYZ179",
+          "gauge": "REYNOLDS CHANNEL AT POINT LOOKOUT NY",
+          "minorFeet": 6,
+          "moderateFeet": 7,
+          "majorFeet": 8,
+          "mentions": 64
+        },
+        {
+          "ugc": "NYZ179",
+          "gauge": "HUDSON BAY AT FREEPORT NY",
+          "minorFeet": 6,
+          "moderateFeet": 6.5,
+          "majorFeet": 7.2,
+          "mentions": 64
+        }
+      ]
+    },
+    {
+      "ugc": "PAZ070",
+      "total": 451,
+      "confidence": 0.521,
+      "candidates": [
+        {
+          "ugc": "PAZ070",
+          "gauge": "Delaware River at Philadelphia",
+          "minorFeet": 8.2,
+          "moderateFeet": 9.2,
+          "majorFeet": 10.2,
+          "mentions": 235
+        },
+        {
+          "ugc": "PAZ070",
+          "gauge": "Delaware River at Burlington",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.3,
+          "majorFeet": 11.3,
+          "mentions": 206
+        },
+        {
+          "ugc": "PAZ070",
+          "gauge": "DELAWARE RIVER AT PHILADELPHIA",
+          "minorFeet": 8.2,
+          "moderateFeet": 9.2,
+          "majorFeet": 10.2,
+          "mentions": 5
+        },
+        {
+          "ugc": "PAZ070",
+          "gauge": "DELAWARE RIVER AT BURLINGTON",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.3,
+          "majorFeet": 11.3,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "PAZ071",
+      "total": 10,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "PAZ071",
+          "gauge": "Delaware River at Burlington",
+          "minorFeet": 9.3,
+          "moderateFeet": 10.3,
+          "majorFeet": 11.3,
+          "mentions": 5
+        },
+        {
+          "ugc": "PAZ071",
+          "gauge": "Delaware River at Philadelphia",
+          "minorFeet": 8.2,
+          "moderateFeet": 9.2,
+          "majorFeet": 10.2,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "RIZ002",
+      "total": 381,
+      "confidence": 0.081,
+      "candidates": [
+        {
+          "ugc": "RIZ002",
+          "gauge": "Narragansett Bay at Fox Point",
+          "minorFeet": 7,
+          "moderateFeet": 9,
+          "majorFeet": 10.5,
+          "mentions": 31
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Narragansett Bay at Conimicut Point",
+          "minorFeet": 7,
+          "moderateFeet": 8.5,
+          "majorFeet": 10,
+          "mentions": 31
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Mount Hope Bay near Bristol Point RI",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 31
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Narragansett Bay at Quonset Point",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9.5,
+          "mentions": 31
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Westerly RI at Watch Hill",
+          "minorFeet": 5,
+          "moderateFeet": 8,
+          "majorFeet": 9.5,
+          "mentions": 28
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Newport Harbor",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 28
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Newport South Coast Beaches",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 28
+        },
+        {
+          "ugc": "RIZ002",
+          "gauge": "Mount Hope Bay near Fall River MA",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 28
+        }
+      ]
+    },
+    {
+      "ugc": "RIZ004",
+      "total": 135,
+      "confidence": 0.037,
+      "candidates": [
+        {
+          "ugc": "RIZ004",
+          "gauge": "Narragansett Bay at Conimicut Point",
+          "minorFeet": 7,
+          "moderateFeet": 8.5,
+          "majorFeet": 10,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Mount Hope Bay near Bristol Point RI",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Narragansett Bay at Quonset Point",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Westerly RI at Watch Hill",
+          "minorFeet": 5,
+          "moderateFeet": 8,
+          "majorFeet": 9.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Gloucester Harbor",
+          "minorFeet": 11.5,
+          "moderateFeet": 13,
+          "majorFeet": 15,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Merrimack River near Newburyport MA",
+          "minorFeet": 11,
+          "moderateFeet": 12,
+          "majorFeet": 13.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Newport Harbor",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ004",
+          "gauge": "Newport South Coast Beaches",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "RIZ006",
+      "total": 63,
+      "confidence": 0.175,
+      "candidates": [
+        {
+          "ugc": "RIZ006",
+          "gauge": "Westerly RI at Watch Hill",
+          "minorFeet": 5,
+          "moderateFeet": 8,
+          "majorFeet": 9.5,
+          "mentions": 11
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "Newport Harbor",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 11
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "Newport South Coast Beaches",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 11
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "Block Island at Old Harbor",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9,
+          "mentions": 8
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "Mount Hope Bay near Bristol Point RI",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "Mount Hope Bay near Fall River MA",
+          "minorFeet": 7,
+          "moderateFeet": 9.5,
+          "majorFeet": 12,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "New Bedford Hurricane Barrier",
+          "minorFeet": 6,
+          "moderateFeet": 7.5,
+          "majorFeet": 9.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "RIZ006",
+          "gauge": "Westport",
+          "minorFeet": 6,
+          "moderateFeet": 8,
+          "majorFeet": 10,
+          "mentions": 5
+        }
+      ]
+    },
+    {
+      "ugc": "RIZ008",
+      "total": 3,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "RIZ008",
+        "gauge": "Block Island at Old Harbor",
+        "minorFeet": 6,
+        "moderateFeet": 7.5,
+        "majorFeet": 9,
+        "mentions": 3
+      },
+      "stationMatches": [
+        {
+          "stationId": "8735180",
+          "name": "Dauphin Island",
+          "score": 0.5
+        },
+        {
+          "stationId": "8449130",
+          "name": "Nantucket Island",
+          "score": 0.5
+        },
+        {
+          "stationId": "8577330",
+          "name": "Solomons Island",
+          "score": 0.5
+        },
+        {
+          "stationId": "8419870",
+          "name": "Seavey Island",
+          "score": 0.5
+        },
+        {
+          "stationId": "9759110",
+          "name": "Magueyes Island",
+          "score": 0.5
+        }
+      ]
+    },
+    {
+      "ugc": "SCZ049",
+      "total": 272,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "SCZ049",
+        "gauge": "Charleston Harbor SC",
+        "minorFeet": 7,
+        "moderateFeet": 7.5,
+        "majorFeet": 8,
+        "mentions": 272
+      },
+      "stationMatches": [
+        {
+          "stationId": "9432780",
+          "name": "Charleston",
+          "score": 1
+        },
+        {
+          "stationId": "8665530",
+          "name": "Charleston",
+          "score": 1
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "SCZ050",
+      "total": 12,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "SCZ050",
+        "gauge": "Charleston Harbor SC",
+        "minorFeet": 7,
+        "moderateFeet": 7.5,
+        "majorFeet": 8,
+        "mentions": 12
+      },
+      "stationMatches": [
+        {
+          "stationId": "9432780",
+          "name": "Charleston",
+          "score": 1
+        },
+        {
+          "stationId": "8665530",
+          "name": "Charleston",
+          "score": 1
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "SCZ052",
+      "total": 14,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "SCZ052",
+        "gauge": "Tidal Berkeley SC",
+        "minorFeet": 8,
+        "moderateFeet": 8.5,
+        "majorFeet": 9,
+        "mentions": 14
+      },
+      "stationMatches": [
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        },
+        {
+          "stationId": "9452210",
+          "name": "Juneau",
+          "score": 0
+        },
+        {
+          "stationId": "9452400",
+          "name": "Skagway, Taiya Inlet",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "SCZ149",
+      "total": 27,
+      "confidence": 1,
+      "reason": "gauge-name match ambiguous",
+      "historical": {
+        "ugc": "SCZ149",
+        "gauge": "Charleston Harbor SC",
+        "minorFeet": 7,
+        "moderateFeet": 7.5,
+        "majorFeet": 8,
+        "mentions": 27
+      },
+      "stationMatches": [
+        {
+          "stationId": "9432780",
+          "name": "Charleston",
+          "score": 1
+        },
+        {
+          "stationId": "8665530",
+          "name": "Charleston",
+          "score": 1
+        },
+        {
+          "stationId": "9450460",
+          "name": "Ketchikan",
+          "score": 0
+        },
+        {
+          "stationId": "9451054",
+          "name": "Port Alexander",
+          "score": 0
+        },
+        {
+          "stationId": "9451600",
+          "name": "Sitka",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "ugc": "SCZ150",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "SCZ150",
+          "gauge": "Charleston Harbor SC",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ053",
+      "total": 6,
+      "confidence": 0.333,
+      "candidates": [
+        {
+          "ugc": "VAZ053",
+          "gauge": "NW Branch Patapsco River at Baltimore MD",
+          "minorFeet": 3,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 2
+        },
+        {
+          "ugc": "VAZ053",
+          "gauge": "Chesapeake Bay at Bowleys Quarters",
+          "minorFeet": 3,
+          "moderateFeet": 3.8,
+          "majorFeet": 5,
+          "mentions": 2
+        },
+        {
+          "ugc": "VAZ053",
+          "gauge": "Upper Machodoc Creek at Dahlgren",
+          "minorFeet": 3.5,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 2
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ054",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "VAZ054",
+          "gauge": "Upper Machodoc Creek at Dahlgren",
+          "minorFeet": 3.5,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ075",
+      "total": 1233,
+      "confidence": 0.278,
+      "candidates": [
+        {
+          "ugc": "VAZ075",
+          "gauge": "LEWISETTA VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 343
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "DAHLGREN/COLONIAL BEACH VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 5,
+          "majorFeet": 7,
+          "mentions": 343
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 342
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "TAPPAHANNOCK VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 84
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "WARE RIVER AT SCHLEY VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 40
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "CAMBRIDGE MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 14
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "BISHOPS HEAD MD",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.7,
+          "majorFeet": 4.2,
+          "mentions": 14
+        },
+        {
+          "ugc": "VAZ075",
+          "gauge": "GYWNNS ISLAND VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 13
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ076",
+      "total": 319,
+      "confidence": 0.411,
+      "candidates": [
+        {
+          "ugc": "VAZ076",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 131
+        },
+        {
+          "ugc": "VAZ076",
+          "gauge": "TAPPAHANNOCK VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 70
+        },
+        {
+          "ugc": "VAZ076",
+          "gauge": "WARE RIVER AT SCHLEY VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 40
+        },
+        {
+          "ugc": "VAZ076",
+          "gauge": "GYWNNS ISLAND VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 28
+        },
+        {
+          "ugc": "VAZ076",
+          "gauge": "WEST POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 28
+        },
+        {
+          "ugc": "VAZ076",
+          "gauge": "YORKTOWN VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 22
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ077",
+      "total": 33,
+      "confidence": 0.182,
+      "candidates": [
+        {
+          "ugc": "VAZ077",
+          "gauge": "LEWISETTA VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 6
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 6
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "CAMBRIDGE MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 4
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "BISHOPS HEAD MD",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.7,
+          "majorFeet": 4.2,
+          "mentions": 4
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "CRISFIELD MD",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 5,
+          "mentions": 4
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 2
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 2
+        },
+        {
+          "ugc": "VAZ077",
+          "gauge": "CHINCOTEAGUE INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 2
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ078",
+      "total": 96,
+      "confidence": 0.531,
+      "candidates": [
+        {
+          "ugc": "VAZ078",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 51
+        },
+        {
+          "ugc": "VAZ078",
+          "gauge": "WARE RIVER AT SCHLEY VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 40
+        },
+        {
+          "ugc": "VAZ078",
+          "gauge": "YORKTOWN VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 4
+        },
+        {
+          "ugc": "VAZ078",
+          "gauge": "TAPPAHANNOCK VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ081",
+      "total": 37,
+      "confidence": 0.27,
+      "candidates": [
+        {
+          "ugc": "VAZ081",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 10
+        },
+        {
+          "ugc": "VAZ081",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 9
+        },
+        {
+          "ugc": "VAZ081",
+          "gauge": "SMITHFIELD, VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 9
+        },
+        {
+          "ugc": "VAZ081",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 9
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ082",
+      "total": 572,
+      "confidence": 0.157,
+      "candidates": [
+        {
+          "ugc": "VAZ082",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 90
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 85
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "SMITHFIELD, VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 75
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "YORKTOWN VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 69
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 62
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 31
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "MONEY POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 31
+        },
+        {
+          "ugc": "VAZ082",
+          "gauge": "ELIZABETH RIVER AT MIDTOWN TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 31
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ083",
+      "total": 394,
+      "confidence": 0.213,
+      "candidates": [
+        {
+          "ugc": "VAZ083",
+          "gauge": "GYWNNS ISLAND VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 84
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "WEST POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 84
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "WARE RIVER AT SCHLEY VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 83
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "YORKTOWN VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 81
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 48
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 6
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 4
+        },
+        {
+          "ugc": "VAZ083",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 4
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ084",
+      "total": 353,
+      "confidence": 0.235,
+      "candidates": [
+        {
+          "ugc": "VAZ084",
+          "gauge": "WARE RIVER AT SCHLEY VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 83
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "YORKTOWN VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 83
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 73
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 27
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 27
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "MONEY POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 13
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "ELIZABETH RIVER AT MIDTOWN TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 13
+        },
+        {
+          "ugc": "VAZ084",
+          "gauge": "WESTERN BRANCH OF THE ELIZABETH RIVER VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 13
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ086",
+      "total": 24,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "VAZ086",
+          "gauge": "WINDMILL POINT VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 12
+        },
+        {
+          "ugc": "VAZ086",
+          "gauge": "WARE RIVER AT SCHLEY VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 12
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ089",
+      "total": 416,
+      "confidence": 0.286,
+      "candidates": [
+        {
+          "ugc": "VAZ089",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 119
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 118
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 81
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "SMITHFIELD, VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 39
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 13
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "MONEY POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 13
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "ELIZABETH RIVER AT MIDTOWN TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 13
+        },
+        {
+          "ugc": "VAZ089",
+          "gauge": "WESTERN BRANCH OF THE ELIZABETH RIVER VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 13
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ090",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "VAZ090",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ093",
+      "total": 174,
+      "confidence": 0.161,
+      "candidates": [
+        {
+          "ugc": "VAZ093",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 28
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 28
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 20
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "MONEY POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 20
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "ELIZABETH RIVER AT MIDTOWN TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 20
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "WESTERN BRANCH OF THE ELIZABETH RIVER VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 20
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "SMITHFIELD, VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 16
+        },
+        {
+          "ugc": "VAZ093",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 8
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ095",
+      "total": 958,
+      "confidence": 0.168,
+      "candidates": [
+        {
+          "ugc": "VAZ095",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 161
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 161
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "MONEY POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 161
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "ELIZABETH RIVER AT MIDTOWN TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 161
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "WESTERN BRANCH OF THE ELIZABETH RIVER VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 161
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 77
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "LYNNHAVEN INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 25
+        },
+        {
+          "ugc": "VAZ095",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 14
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ097",
+      "total": 12,
+      "confidence": 0.083,
+      "candidates": [
+        {
+          "ugc": "VAZ097",
+          "gauge": "MONEY POINT VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "ELIZABETH RIVER AT MIDTOWN TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "WESTERN BRANCH OF THE ELIZABETH RIVER VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "ELIZABETH RIVER AT GRANDY VILLAGE VA",
+          "minorFeet": 5,
+          "moderateFeet": 6,
+          "majorFeet": 7,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "JAMES RIVER AT SCOTLAND/JAMESTOWN VA",
+          "minorFeet": 4,
+          "moderateFeet": 4.5,
+          "majorFeet": 5,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ097",
+          "gauge": "SMITHFIELD, VA",
+          "minorFeet": 3.5,
+          "moderateFeet": 4,
+          "majorFeet": 4.5,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ098",
+      "total": 905,
+      "confidence": 0.286,
+      "candidates": [
+        {
+          "ugc": "VAZ098",
+          "gauge": "LYNNHAVEN INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 259
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 258
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "CHESAPEAKE BAY BRIDGE TUNNEL VA",
+          "minorFeet": 5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 258
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "COROLLA NC",
+          "minorFeet": 5.5,
+          "moderateFeet": 6,
+          "majorFeet": 6.5,
+          "mentions": 96
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "OYSTER VA",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8.5,
+          "mentions": 5
+        },
+        {
+          "ugc": "VAZ098",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 3
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ099",
+      "total": 1706,
+      "confidence": 0.148,
+      "candidates": [
+        {
+          "ugc": "VAZ099",
+          "gauge": "SAXIS VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 252
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 252
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "CHINCOTEAGUE INLET VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 251
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "WACHAPREAGUE VA",
+          "minorFeet": 6.5,
+          "moderateFeet": 7.5,
+          "majorFeet": 8,
+          "mentions": 251
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 174
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "OYSTER VA",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8.5,
+          "mentions": 174
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "TANGIER ISLAND, VA",
+          "minorFeet": 3.2,
+          "moderateFeet": 3.8,
+          "majorFeet": 4.2,
+          "mentions": 128
+        },
+        {
+          "ugc": "VAZ099",
+          "gauge": "HARBORTON VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 127
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ100",
+      "total": 209,
+      "confidence": 0.325,
+      "candidates": [
+        {
+          "ugc": "VAZ100",
+          "gauge": "NASSAWADOX CREEK AT BAYFORD VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 68
+        },
+        {
+          "ugc": "VAZ100",
+          "gauge": "KIPTOPEKE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 68
+        },
+        {
+          "ugc": "VAZ100",
+          "gauge": "OYSTER VA",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8.5,
+          "mentions": 68
+        },
+        {
+          "ugc": "VAZ100",
+          "gauge": "OCEAN CITY INLET MD",
+          "minorFeet": 4,
+          "moderateFeet": 5,
+          "majorFeet": 6,
+          "mentions": 2
+        },
+        {
+          "ugc": "VAZ100",
+          "gauge": "Nassawadox Creek at Bayford VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ100",
+          "gauge": "Kiptopeke VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5,
+          "majorFeet": 5.5,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ100",
+          "gauge": "Oyster VA",
+          "minorFeet": 7,
+          "moderateFeet": 7.5,
+          "majorFeet": 8.5,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ521",
+      "total": 1,
+      "confidence": 1,
+      "candidates": [
+        {
+          "ugc": "VAZ521",
+          "gauge": "TAPPAHANNOCK VA",
+          "minorFeet": 3,
+          "moderateFeet": 3.5,
+          "majorFeet": 4,
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ524",
+      "total": 18,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "VAZ524",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 9
+        },
+        {
+          "ugc": "VAZ524",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 9
+        }
+      ]
+    },
+    {
+      "ugc": "VAZ525",
+      "total": 4,
+      "confidence": 0.5,
+      "candidates": [
+        {
+          "ugc": "VAZ525",
+          "gauge": "SEWELLS POINT VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 2
+        },
+        {
+          "ugc": "VAZ525",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6,
+          "mentions": 1
+        },
+        {
+          "ugc": "VAZ525",
+          "gauge": "FORT MONROE VA",
+          "minorFeet": 4.5,
+          "moderateFeet": 5.5,
+          "majorFeet": 6.5,
+          "mentions": 1
+        }
+      ]
+    }
+  ]
+}

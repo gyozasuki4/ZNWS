@@ -1,0 +1,2278 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZNCave Weather Operations</title>
+    <!-- Theme comes from server uiPrefs after prefs load (default light). -->
+    <link href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260811-hive-production-radar-outage">
+  </head>
+  <body>
+    <div id="practiceModeBanner" class="practice-mode-banner" hidden aria-hidden="true" role="status">
+      <strong>PRACTICE MODE</strong>
+      <span>Products stay ops-only — not sent to Mattermost, public map, or GR warning server.</span>
+    </div>
+    <main class="app-shell">
+      <aside class="tool-rail" aria-label="Weather operations tools">
+        <div class="rail-brand" title="ZNCave Weather Operations">
+          <img src="ZNWS.png" alt="ZASNet Weather Service">
+        </div>
+        <div class="rail-nav">
+          <button type="button" class="rail-button" data-panel-target="mapPanel" title="Map settings">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v9h13v-9M9 19v-5h6v5"/></svg>
+            <span class="rail-label">Map</span>
+          </button>
+          <button type="button" class="rail-button" data-panel-target="layersPanel" title="Layers">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h14"/><circle cx="8" cy="6" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="10" cy="18" r="1.5"/></svg>
+            <span class="rail-label">Layers</span>
+          </button>
+          <button type="button" class="rail-button" data-panel-target="radarPanel" title="Radar">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            <span class="rail-label">Radar</span>
+          </button>
+          <button type="button" class="rail-button" data-panel-target="satellitePanel" title="Satellite">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M5.5 5.5a9 9 0 0 1 13 0M3 3a12.5 12.5 0 0 1 18 0M8 16l-3 5M16 16l3 5"/></svg>
+            <span class="rail-label">Sat</span>
+          </button>
+          <button type="button" class="rail-button" data-panel-target="modelsPanel" title="Forecast models">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 17c2-5 4-7 7-7 2.5 0 3.5 2 5.5 2 1.3 0 2.4-.7 3.5-2M4 20c2-3 4-4.5 6.5-4.5 2.4 0 3.8 1.5 5.8 1.5 1.4 0 2.5-.5 3.7-1.5M5 7h5M7.5 4.5v5"/></svg>
+            <span class="rail-label">Models</span>
+          </button>
+          <button type="button" class="rail-button" data-panel-target="hazardsPanel" title="Hazard Services (H)">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 2.8 20h18.4L12 3Z"/><path d="M12 9v5M12 17h.01"/></svg>
+            <span class="rail-label">HAZ</span>
+          </button>
+          <div class="rail-more" id="railMore">
+            <button type="button" class="rail-button rail-more-toggle" id="railMoreToggle" aria-expanded="false" aria-haspopup="menu" aria-controls="railMoreMenu" title="More tools">
+              <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+              <span class="rail-label">More</span>
+            </button>
+            <div class="rail-more-menu" id="railMoreMenu" role="menu" hidden>
+              <p class="rail-more-heading">Operations</p>
+              <button type="button" class="rail-more-item" role="menuitem" data-panel-target="operationsPanel" title="WFO, practice mode, mutual aid">
+                <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h5M8 17h3"/></svg>
+                <span>Ops settings</span>
+              </button>
+              <button type="button" class="rail-more-item" role="menuitem" data-panel-target="dssPanel" title="DSS locations">
+                <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 4.5 6 12 6 12s6-7.5 6-12a6 6 0 0 0-6-6Z"/><circle cx="12" cy="9" r="2"/></svg>
+                <span>DSS points</span>
+              </button>
+              <p class="rail-more-heading">Centers</p>
+              <button type="button" class="rail-more-item" role="menuitem" data-panel-target="nhcPanel" title="NHC tropical forecast">
+                <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3c5 0 9 4 9 9s-4 9-9 9a7 7 0 0 1-7-7c0-3.3 2.7-6 6-6 2.2 0 4 1.8 4 4 0 1.7-1.3 3-3 3-1.1 0-2-.9-2-2"/></svg>
+                <span>NHC tropics</span>
+              </button>
+              <button type="button" class="rail-more-item" role="menuitem" data-panel-target="spcPanel" data-external-href="/spc" title="Open SPC Watch Operations">
+                <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 18 8 6h12l-4 12H4Z"/><path d="M9 10h7M8 14h7"/></svg>
+                <span>SPC watches</span>
+              </button>
+              <p class="rail-more-heading">System</p>
+              <button type="button" class="rail-more-item" role="menuitem" data-panel-target="dataPanel" title="Data and server health">
+                <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19V9M9 19V5M14 19v-7M19 19V3M2 19h20"/></svg>
+                <span>Data &amp; server</span>
+              </button>
+            </div>
+          </div>
+          <!-- Legacy entries remain for keyboard / deep links; not shown on the rail. -->
+          <button type="button" class="rail-button" data-panel-target="warningsPanel" title="Legacy Warning Tools" hidden>
+            <span class="rail-label">Warn</span>
+          </button>
+          <button type="button" class="rail-button" data-panel-target="gfePanel" title="Legacy GFE Zone Hazards" hidden>
+            <span class="rail-label">GFE</span>
+          </button>
+        </div>
+        <div class="rail-user" id="railUser">
+          <div class="rail-user-avatar" id="railUserAvatar" aria-hidden="true">?</div>
+          <div class="rail-user-meta">
+            <span class="rail-user-name" id="railUserName">…</span>
+            <span class="rail-user-handle" id="railUserHandle"></span>
+          </div>
+          <a class="rail-signout" id="railSignOut" href="/auth/logout" title="Sign out of Authentik">
+            <svg class="rail-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2v9M6.3 5.7a8 8 0 1 0 11.4 0"/></svg>
+            <span class="rail-label">Out</span>
+          </a>
+        </div>
+      </aside>
+
+      <section class="panel-dock is-collapsed" id="panelDock" aria-label="Tool panels">
+        <button type="button" class="dock-resize-handle" id="dockResizeHandle" aria-label="Resize tool panel" title="Drag to resize tool panel"></button>
+        <header class="dock-header">
+          <div class="dock-title-block">
+            <p class="eyebrow">Operations</p>
+            <h1>Map</h1>
+          </div>
+          <div class="dock-header-actions">
+            <a class="status-pill public-map-link" href="https://zasnetwx.com/operations-guide" target="_blank" rel="noopener" title="Open the standalone Operations Guide">Guide</a>
+            <a class="status-pill public-map-link" href="/public.html" target="_blank" rel="noopener" title="Open public alerts map">Public</a>
+            <p class="status-pill" id="connectionStatus">Online</p>
+            <button type="button" class="dock-close" id="dockCloseButton" title="Close panel" aria-label="Close panel">×</button>
+          </div>
+        </header>
+        <p class="user-line" id="userLine" hidden>Loading user...</p>
+
+        <section class="panel tool-panel is-active" id="mapPanel" data-panel-title="Map">
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Base map</h3></header>
+            <div class="ops-section-body">
+              <label class="field fixed-base">
+                <span>Base layer</span>
+                <select id="baseLayerSelect">
+                  <option value="gray">Gray Operations</option>
+                  <option value="blank">Satellite Imagery</option>
+                </select>
+              </label>
+              <div class="button-grid">
+                <button type="button" id="homeButton" title="Center on selected CWA"><span aria-hidden="true">⌂</span> CWA</button>
+                <button type="button" id="locateButton" title="Center on this browser's location"><span aria-hidden="true">◎</span> Locate</button>
+              </div>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Layout</h3></header>
+            <div class="ops-section-body">
+              <label class="field">
+                <span>Map panels</span>
+                <select id="panelLayoutSelect">
+                  <option value="1">Single</option>
+                  <option value="2">Dual (1×2)</option>
+                  <option value="4">Quad (2×2)</option>
+                  <option value="main3">Main + 3 independent</option>
+                </select>
+              </label>
+              <label class="layer-toggle map-panel-link-toggle">
+                <input type="checkbox" id="panelViewsLinkedToggle" checked>
+                <span>Link panel navigation</span>
+              </label>
+              <p class="hint">Turn off to pan and zoom each panel independently.</p>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>City labels</h3></header>
+            <div class="ops-section-body">
+              <label class="field">
+                <span>Density</span>
+                <select id="cityDensitySelect">
+                  <option value="sparse">Sparse · larger cities</option>
+                  <option value="balanced" selected>Balanced · zoom dependent</option>
+                  <option value="dense">Dense · down to 5,000</option>
+                  <option value="super-dense">Super dense · down to 1,000</option>
+                  <option value="extreme-dense">Extreme dense · down to 500</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Text size <strong id="cityTextSizeValue">100%</strong></span>
+                <input id="cityTextSizeInput" type="range" min="70" max="160" step="5" value="100">
+              </label>
+              <p class="hint">Smaller cities appear as you zoom in; labels avoid collisions automatically.</p>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Appearance</h3></header>
+            <div class="ops-section-body">
+              <label class="field">
+                <span>Chrome theme</span>
+                <select id="uiThemeSelect" title="Chrome theme for rail, menus, and dialogs. Map stays as-is.">
+                  <option value="light" selected>Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </label>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel" id="layersPanel" data-panel-title="Layers">
+          <div class="panel-header panel-header-inline">
+            <div class="panel-header-actions"><button type="button" class="compact-button" id="collapseLayersButton" title="Collapse every layer section">Collapse all</button><button type="button" class="compact-button" id="resetLayersButton" title="Reset layer settings">Reset</button></div>
+          </div>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Saved setup</h3></header>
+            <div class="ops-section-body layer-setup-box">
+              <label class="field"><span>Setup</span><select id="mapSetupSelect"><option value="">Current / unsaved</option></select></label>
+              <label class="field"><span>Name</span><input id="mapSetupNameInput" type="text" maxlength="40" placeholder="e.g. Severe operations"></label>
+              <div class="layer-setup-actions">
+                <button type="button" class="compact-button" id="newMapSetupButton">New</button>
+                <button type="button" class="compact-button" id="saveMapSetupButton">Save</button>
+                <button type="button" class="compact-button" id="loadMapSetupButton">Load</button>
+                <button type="button" class="compact-button" id="deleteMapSetupButton">Delete</button>
+              </div>
+              <p class="hint">Pane layout, views, radar, and layer stack. Camera restores each session.</p>
+            </div>
+          </section>
+          <section class="ops-section ops-section-layers">
+            <header class="ops-section-head"><h3>Active layers</h3></header>
+            <div class="ops-section-body">
+              <label class="layer-search"><span class="sr-only">Search layers</span><input id="layerSearchInput" type="search" placeholder="Search layers…" autocomplete="off"><kbd>/</kbd></label>
+              <div class="layer-favorites" id="layerFavorites" hidden></div>
+              <p class="layer-search-empty" id="layerSearchEmpty" hidden>No layers match this search.</p>
+              <div class="layer-list" id="layerList"></div>
+              <p class="save-state" id="saveState" title="Preferences are stored per signed-in user on the server">Preferences save per signed-in user.</p>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel" id="radarPanel" data-panel-title="Radar">
+          <p class="radar-panel-context" id="radarPanelContext" hidden></p>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Source</h3></header>
+            <div class="ops-section-body field-grid">
+              <label class="field">
+                <span>Source</span>
+                <select id="radarSourceSelect">
+                  <option value="local" selected>Site radar (Level 3)</option>
+                  <option value="iem">National NOAA MRMS (animated)</option>
+                  <option value="iem-static">National IEM NEXRAD (latest)</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Radar site</span>
+                <select id="radarSiteSelect"></select>
+              </label>
+              <label class="field" id="nationalLoopDurationField" hidden>
+                <span>Loop duration</span>
+                <select id="nationalLoopDurationSelect">
+                  <option value="30">30 minutes</option>
+                  <option value="60" selected>1 hour</option>
+                  <option value="120">2 hours</option>
+                  <option value="240">4 hours</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Animation speed</span>
+                <select id="radarAnimationSpeedSelect">
+                  <option value="1600">Slow</option>
+                  <option value="1050" selected>Normal</option>
+                  <option value="700">Fast</option>
+                  <option value="450">Very fast</option>
+                </select>
+              </label>
+              <label class="field" id="singleProductField">
+                <span>Panel product</span>
+                <select id="radarProductSelect">
+                  <optgroup label="Level 3 — Site products">
+                    <option value="reflectivitylevel3">BR-L3 · Reflectivity</option>
+                    <option value="velocitylevel3">VEL-L3 · Velocity</option>
+                    <option value="compositereflectivity">CR · Composite reflectivity</option>
+                    <option value="vil">VIL · Vert. Integrated Liquid</option>
+                    <option value="precip1h">1h · One-hour precip</option>
+                    <option value="precip3h">3h · Three-hour precip</option>
+                    <option value="stormtotal">STP · Storm total precip</option>
+                    <option value="echotops">ET · Digital echo tops</option>
+                    <option value="stormvelocity">SRV · Storm-relative velocity</option>
+                    <option value="correlation">CC · Correlation coefficient</option>
+                    <option value="differentialreflectivity">ZDR · Differential reflectivity</option>
+                    <option value="specificdifferentialphase">KDP · Specific differential phase</option>
+                    <option value="hydrometeor">HHC · Hydrometeor classification</option>
+                  </optgroup>
+                  <optgroup label="MRMS — National products">
+                    <option value="mesh60">MESH track · Max hail past 60 min</option>
+                    <option value="mesh">MESH instant · Current 2-min analysis</option>
+                  </optgroup>
+                </select>
+              </label>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Display</h3></header>
+            <div class="ops-section-body">
+              <label class="field">
+                <span>Reflectivity cutoff <strong id="reflectivityCutoffValue">15 dBZ</strong></span>
+                <input type="range" id="reflectivityCutoffInput" min="-30" max="40" step="1" value="15">
+              </label>
+              <p class="hint">Values below the cutoff are hidden on Level 3 reflectivity.</p>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Color tables</h3></header>
+            <div class="ops-section-body">
+              <div class="field-grid">
+                <label class="field"><span>Product family</span><select id="radarPaletteProductSelect">
+                  <optgroup label="Level 3">
+                    <option value="reflectivity">Reflectivity (BR, BR-L3, CR)</option>
+                    <option value="velocity">Velocity (VEL, VEL-L3)</option>
+                  </optgroup>
+                  <optgroup label="Level 3">
+                    <option value="vil">Vertically Integrated Liquid</option>
+                    <option value="precip1h">One-hour precipitation</option>
+                    <option value="precip3h">Three-hour precipitation</option>
+                    <option value="stormtotal">Storm-total precipitation</option>
+                    <option value="echotops">Echo tops</option>
+                    <option value="stormvelocity">Storm-relative velocity</option>
+                    <option value="correlation">Correlation coefficient</option>
+                    <option value="differentialreflectivity">Differential reflectivity</option>
+                    <option value="specificdifferentialphase">Specific differential phase</option>
+                  </optgroup>
+                </select></label>
+                <label class="field"><span>Table</span><select id="radarPaletteSelect"><option value="default">Cave default</option></select></label>
+              </div>
+              <input type="file" id="radarPaletteFileInput" accept=".pal,text/plain" hidden>
+              <div class="button-grid radar-palette-actions">
+                <button type="button" id="radarPaletteImportButton">Import GR .pal</button>
+                <button type="button" id="radarPaletteDeleteButton">Delete</button>
+                <button type="button" id="radarPaletteResetButton">Default</button>
+              </div>
+              <p class="hint" id="radarPaletteStatus">GRLevelX Color and SolidColor entries apply live and save per user.</p>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Inventory</h3></header>
+            <div class="ops-section-body">
+              <input type="hidden" id="radarSiteInput" value="KOHX">
+              <div class="radar-summary" id="radarSummary">No radar files loaded.</div>
+              <div class="radar-list" id="radarFileList"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel" id="satellitePanel" data-panel-title="Satellite">
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Product</h3></header>
+            <div class="ops-section-body field-grid">
+              <label class="field">
+                <span>Imagery</span>
+                <select id="satProductSelect">
+                  <option value="none" selected>Off</option>
+                  <optgroup label="Visible">
+                    <option value="abi01">Band 01 · Blue visible</option>
+                    <option value="abi02">Band 02 · Red visible (0.5 km)</option>
+                    <option value="abi03">Band 03 · Veggie</option>
+                    <option value="truecolor">True Color RGB</option>
+                    <option value="geocolorRe">GeoColor RGB · RealEarth CONUS</option>
+                    <option value="geocolor">Merged GeoColor · NESDIS archive</option>
+                  </optgroup>
+                  <optgroup label="Near-IR">
+                    <option value="abi04">Band 04 · Cirrus (1.37 µm)</option>
+                    <option value="abi05">Band 05 · Snow / ice</option>
+                    <option value="abi06">Band 06 · Cloud particle size</option>
+                  </optgroup>
+                  <optgroup label="Water vapor">
+                    <option value="abi08">Band 08 · Upper-level water vapor</option>
+                    <option value="abi09">Band 09 · Mid-level water vapor</option>
+                    <option value="abi10">Band 10 · Low-level water vapor</option>
+                  </optgroup>
+                  <optgroup label="Infrared">
+                    <option value="abi07">Band 07 · Shortwave IR / fire</option>
+                    <option value="abi11">Band 11 · Cloud phase</option>
+                    <option value="abi12">Band 12 · Ozone</option>
+                    <option value="abi13">Band 13 · Clean IR</option>
+                    <option value="abi14">Band 14 · Longwave IR</option>
+                    <option value="abi15">Band 15 · Dirty IR</option>
+                    <option value="abi16">Band 16 · CO₂ longwave IR</option>
+                  </optgroup>
+                  <optgroup label="RGB composites">
+                    <option value="convection">Day Convection RGB</option>
+                    <option value="irSandwich">IR Sandwich RGB</option>
+                    <option value="nightMicro">Night Microphysics RGB</option>
+                    <option value="dayMicro">Day Microphysics RGB</option>
+                    <option value="airmass">Air Mass RGB</option>
+                    <option value="dust">Dust RGB</option>
+                    <option value="fireTemp">Fire Temperature RGB</option>
+                    <option value="snowFog">Day Snow-Fog RGB</option>
+                    <option value="cloudPhase">Cloud Phase RGB</option>
+                    <option value="waterVaporRgb">Differential Water Vapor RGB</option>
+                    <option value="so2">SO₂ RGB</option>
+                    <option value="ash">Volcanic Ash RGB</option>
+                  </optgroup>
+                  <optgroup label="Native (single frame)">
+                    <option value="native">Native high-resolution GOES</option>
+                  </optgroup>
+                </select>
+              </label>
+              <label class="field" id="satLoopDurationField">
+                <span>Loop duration</span>
+                <select id="satLoopDurationSelect">
+                  <option value="15" selected>15 minutes</option>
+                  <option value="30">30 minutes</option>
+                  <option value="60">1 hour</option>
+                  <option value="120">2 hours</option>
+                  <option value="240">4 hours</option>
+                  <option value="360">6 hours</option>
+                </select>
+              </label>
+              <label class="field" id="satAnimationSpeedField">
+                <span>Animation speed</span>
+                <select id="satAnimationSpeedSelect">
+                  <option value="1400">Slow</option>
+                  <option value="850" selected>Normal</option>
+                  <option value="500">Fast</option>
+                  <option value="320">Very fast</option>
+                </select>
+              </label>
+            </div>
+          </section>
+          <section class="ops-section" id="satNativeSection" hidden>
+            <header class="ops-section-head"><h3>Native GOES</h3></header>
+            <div class="ops-section-body field-grid">
+              <label class="field">
+                <span>Satellite</span>
+                <select id="satGoesSatellite">
+                  <option value="east" selected>GOES-19 East</option>
+                  <option value="west">GOES-18 West</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Sector</span>
+                <select id="satGoesSector">
+                  <option value="conus" selected>CONUS</option>
+                  <option value="full">Full Disk</option>
+                  <option value="m1">Mesoscale 1</option>
+                  <option value="m2">Mesoscale 2</option>
+                </select>
+              </label>
+              <label class="field satellite-band-field">
+                <span>ABI product</span>
+                <select id="satGoesProduct">
+                  <option value="geocolor" selected>GeoColor · high-resolution ground + clouds</option>
+                  <option value="band1">Band 01 · 0.47 µm · Blue visible</option>
+                  <option value="band2">Band 02 · 0.64 µm · Red visible · 0.5 km</option>
+                  <option value="band3">Band 03 · 0.86 µm · Veggie</option>
+                  <option value="band4">Band 04 · 1.37 µm · Cirrus</option>
+                  <option value="band5">Band 05 · 1.61 µm · Snow / ice</option>
+                  <option value="band6">Band 06 · 2.24 µm · Cloud particle size</option>
+                  <option value="band7">Band 07 · 3.9 µm · Shortwave IR window</option>
+                  <option value="band8">Band 08 · 6.2 µm · Upper-level water vapor</option>
+                  <option value="band9">Band 09 · 6.9 µm · Mid-level water vapor</option>
+                  <option value="band10">Band 10 · 7.3 µm · Low-level water vapor</option>
+                  <option value="band11">Band 11 · 8.4 µm · Cloud-top phase</option>
+                  <option value="band12">Band 12 · 9.6 µm · Ozone</option>
+                  <option value="band13">Band 13 · 10.3 µm · Clean longwave IR</option>
+                  <option value="band14">Band 14 · 11.2 µm · Longwave IR window</option>
+                  <option value="band15">Band 15 · 12.3 µm · Dirty longwave IR</option>
+                  <option value="band16">Band 16 · 13.3 µm · CO₂ longwave IR</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Image detail</span>
+                <select id="satGoesDetail">
+                  <option value="standard" selected>Standard · smooth natural color</option>
+                  <option value="high">High detail · crisp local contrast</option>
+                </select>
+              </label>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Lightning</h3></header>
+            <div class="ops-section-body">
+              <label class="toggle-row"><input type="checkbox" id="satGlmLightning"><span>GLM lightning flashes</span></label>
+              <label class="toggle-row"><input type="checkbox" id="satGlmFed"><span>GLM flash density (FED-style)</span></label>
+              <label class="field">
+                <span>Density period</span>
+                <select id="satGlmFedMinutes">
+                  <option value="1">1 minute</option>
+                  <option value="5" selected>5 minutes</option>
+                  <option value="15">15 minutes</option>
+                </select>
+              </label>
+              <label class="width-label"><span>Density opacity <strong id="satGlmFedOpacityValue">75%</strong></span><input type="range" id="satGlmFedOpacity" min="20" max="100" step="5" value="75"></label>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Load</h3></header>
+            <div class="ops-section-body">
+              <div class="button-grid">
+                <button type="button" class="compact-button" id="satLoadButton">Load satellite</button>
+                <button type="button" class="compact-button" id="satClearButton">Clear</button>
+              </div>
+              <div class="radar-summary" id="satSummary">Select a product and load satellite imagery.</div>
+              <p class="hint">Non-native GOES (IR, water vapor, GeoColor) loads a NESDIS archive loop with a radar-style timeline. Native GOES is a single high-resolution frame.</p>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel ops-models-panel" id="modelsPanel" data-panel-title="Models">
+          <div class="panel-header panel-header-inline">
+            <span class="model-ops-freshness" id="opsModelFreshness">Loading…</span>
+          </div>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Selection</h3></header>
+            <div class="ops-section-body field-grid">
+              <label class="field"><span>Model</span><select id="opsModelSource"><option value="hrrr">NOAA HRRR</option><option value="ncep">ZNWS-WRF</option></select></label>
+              <label class="field"><span>Run</span><select id="opsModelRun" disabled><option>Loading runs…</option></select></label>
+              <label class="field"><span>Product</span><select id="opsModelProduct"><optgroup label="ZNWS-WRF · Experimental"><option value="zasSevere">Severe Storm Composite</option><option value="zasTornado">Tornado Signal</option><option value="zasWind">Damaging Wind Signal</option><option value="zasConfidence">Severe Confidence</option><option value="zasStormMode">Storm Mode</option><option value="zasFlood">Flash-Flood Signal V1</option><option value="zasFloodV2">Flash-Flood Signal V2</option></optgroup><optgroup label="Severe"><option value="refc">Composite reflectivity</option><option value="ref1km">1-km AGL reflectivity</option><option value="refcuh75">Reflectivity + UH 75</option><option value="uh03">Hourly maximum 0–3 km UH</option><option value="runuh03">Run-to-date maximum 0–3 km UH</option><option value="uh03run">0–3 km UH run maximum</option><option value="mucape">Most-unstable CAPE</option><option value="mucin">Most-unstable CIN</option><option value="sbcape">Surface-based CAPE</option><option value="sbcin">Surface-based CIN</option><option value="srh01">0–1 km storm-relative helicity</option><option value="srh03">0–3 km storm-relative helicity</option><option value="bs06">0–6 km bulk wind shear</option><option value="maxuvv">Maximum updraft velocity</option><option value="maxdvv">Maximum downdraft velocity</option><option value="stp">Significant tornado parameter</option><option value="scp">Supercell composite parameter</option><option value="lightning">Lightning</option><option value="gust">Surface wind gusts</option><option value="zasHail">Hail Signal</option><option value="zasWinter">Winter Impact Index</option></optgroup><optgroup label="Precipitation and winter"><option value="prate">Precipitation rate</option><option value="apcp">Accumulated precipitation</option><option value="pwat">Precipitable water</option><option value="preciptype">Precipitation type</option><option value="snowwe">Snowfall water equivalent</option><option value="fzra">Freezing-rain water equivalent</option><option value="snowtotal">Snow accumulation</option></optgroup><optgroup label="Surface and sky"><option value="temperature">2-meter temperature</option><option value="dewpoint">2-meter dew point</option><option value="humidity">2-meter relative humidity</option><option value="wind">10-meter wind speed</option><option value="winddir">10-meter wind direction</option><option value="pressure">Mean sea-level pressure</option><option value="visibility">Surface visibility</option><option value="ceiling">Cloud ceiling</option><option value="apparent">Wind chill / heat index</option><option value="cloud">Total cloud cover</option><option value="smoke">Near-surface smoke</option><option value="smokevert">Vertically integrated smoke</option></optgroup></select></label>
+              <label class="field"><span>Region</span><select id="opsModelRegion"><option value="">Full United States</option><option value="central-us">Central US</option><option value="northeast">Northeast</option><option value="northern-plains">Northern Plains</option><option value="ohio-valley">Ohio Valley</option><option value="southeast">Southeast</option><option value="southern-plains">Southern Plains</option><option value="west">West</option><option value="tennessee">Tennessee</option><option value="wyoming">Wyoming</option></select></label>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Forecast time</h3></header>
+            <div class="ops-section-body">
+              <div class="ops-model-time"><button type="button" id="opsModelPrevious" aria-label="Previous forecast frame">‹</button><button type="button" id="opsModelPlay" aria-label="Play model forecast">▶</button><button type="button" id="opsModelNext" aria-label="Next forecast frame">›</button><select id="opsModelHour" aria-label="Forecast hour" disabled><option>Awaiting frames…</option></select></div>
+              <input class="ops-model-timeline" id="opsModelTimeline" type="range" min="0" max="0" value="0" disabled aria-label="Model forecast timeline">
+              <div class="ops-model-meta"><strong id="opsModelValid">Awaiting valid time</strong><span id="opsModelRunMeta">Latest available run</span></div>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Map overlay</h3></header>
+            <div class="ops-section-body ops-model-overlay-controls">
+              <label class="toggle-row"><input type="checkbox" id="opsModelOverlayToggle"><span>Show on Ops map</span></label>
+              <label class="width-label" hidden><span>Opacity <strong id="opsModelOpacityValue">100%</strong></span><input type="range" id="opsModelOpacity" min="100" max="100" step="5" value="100"></label>
+              <small id="opsModelOverlayStatus">Overlay is off · full opacity under borders and city labels.</small>
+              <div class="button-grid"><a class="ops-model-full-link" href="/models" target="_blank" rel="noopener">Full workstation</a></div>
+              <p class="hint">Forecast guidance only — pair with radar and official NWS products.</p>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel" id="operationsPanel" data-panel-title="Operations">
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Office</h3></header>
+            <div class="ops-section-body">
+              <label class="field">
+                <span>WFO / CWA</span>
+                <select id="wfoSelect">
+                  <option value="OHX">OHX · Nashville, TN</option>
+                  <option value="RIW">RIW · Riverton, WY</option>
+                  <option value="PSR">PSR · Phoenix, AZ</option>
+                  <option value="BIS">BIS · Bismarck, ND</option>
+                  <option value="DLH">DLH · Duluth, MN</option>
+                </select>
+              </label>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Interface</h3></header>
+            <div class="ops-section-body field-grid">
+              <label class="field">
+                <span>Appearance</span>
+                <select id="uiThemeSelectOps" title="Same as Map → Appearance">
+                  <option value="light" selected>Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Density</span>
+                <select id="uiDensitySelect">
+                  <option value="compact">Compact</option>
+                  <option value="standard" selected>Standard</option>
+                  <option value="comfortable">Comfortable</option>
+                </select>
+              </label>
+              <button type="button" id="focusModeButton">Map focus mode</button>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Modes</h3></header>
+            <div class="ops-section-body">
+              <label class="toggle-row ops-practice-toggle">
+                <input type="checkbox" id="practiceModeToggle">
+                <span>Practice mode (ops only)</span>
+              </label>
+              <div class="mutual-aid-section">
+                <label class="toggle-row">
+                  <input type="checkbox" id="mutualAidToggle">
+                  <span>Mutual aid mode</span>
+                </label>
+                <div class="field-grid mutual-aid-fields" id="mutualAidFields" hidden>
+                  <label class="field">
+                    <span>Assist WFO</span>
+                    <select id="mutualAidWfoSelect">
+                      <option value="OHX">OHX · Nashville TN</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>Radar site</span>
+                    <input type="text" id="mutualAidRadarInput" maxlength="24" placeholder="e.g. KLVX or KOHX, KHTX">
+                  </label>
+                </div>
+                <div class="button-grid mutual-aid-actions" id="mutualAidActions" hidden>
+                  <button type="button" id="mutualAidApplyButton">Apply assist</button>
+                  <button type="button" id="mutualAidClearButton">Return normal</button>
+                </div>
+                <p class="hint mutual-aid-hint" id="mutualAidHint" hidden>Warnings, UGC, CWA trim, and radar follow the assisted WFO.</p>
+              </div>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Map position</h3></header>
+            <div class="ops-section-body">
+              <div class="readout-card">
+                <div class="readout"><span>Cursor</span><strong id="cursorReadout">--</strong></div>
+                <div class="readout"><span>Center</span><strong id="centerReadout">--</strong></div>
+                <div class="readout"><span>Zoom</span><strong id="zoomReadout">--</strong></div>
+              </div>
+            </div>
+          </section>
+          <section class="ops-section warn-audit-section">
+            <header class="ops-section-head">
+              <h3>Audit log</h3>
+              <button type="button" class="compact-button" id="warnAuditClearButton" title="Clear audit log">Clear</button>
+            </header>
+            <div class="ops-section-body">
+              <div class="warn-audit-list" id="warnAuditList">
+                <p class="warn-areas-empty">No warning actions logged yet.</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel" id="dssPanel" data-panel-title="DSS Locations">
+          <div class="panel-header panel-header-inline">
+            <button type="button" class="compact-button" id="dssNewButton">New</button>
+          </div>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Editor</h3></header>
+            <div class="ops-section-body dss-editor">
+              <p class="hint">Save decision-support points for your account. Expired points remove automatically.</p>
+              <input type="hidden" id="dssIdInput">
+              <label class="field"><span>Name</span><input id="dssNameInput" maxlength="100" placeholder="Event or location name"></label>
+              <div class="field-grid">
+                <label class="field"><span>Latitude</span><input id="dssLatitudeInput" inputmode="decimal" placeholder="35.1234"></label>
+                <label class="field"><span>Longitude</span><input id="dssLongitudeInput" inputmode="decimal" placeholder="-86.5678"></label>
+              </div>
+              <button type="button" id="dssPickMapButton">Pick on map</button>
+              <label class="field"><span>Expiration</span><select id="dssExpirationSelect">
+                <option value="6">6 hours</option><option value="12">12 hours</option><option value="24" selected>24 hours</option>
+                <option value="72">3 days</option><option value="168">7 days</option><option value="custom">Custom date/time</option><option value="indefinite">Indefinite</option>
+              </select></label>
+              <label class="field" id="dssCustomExpirationField" hidden><span>Expires</span><input id="dssCustomExpirationInput" type="datetime-local"></label>
+              <label class="field"><span>Notes</span><textarea id="dssNotesInput" rows="3" maxlength="1000" placeholder="Contacts, event details, briefing notes…"></textarea></label>
+              <div class="button-grid"><button type="button" id="dssSaveButton">Save</button><button type="button" id="dssCancelButton">Clear</button></div>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Saved locations</h3></header>
+            <div class="ops-section-body">
+              <div class="dss-location-list" id="dssLocationList"><p class="layer-meta">No saved DSS locations.</p></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel haz-panel" id="hazardsPanel" data-panel-title="Hazard Services">
+          <div class="panel-header"><div><p class="eyebrow">Authoring</p><h2>Hazard Services</h2></div><div class="warn-header-actions"><button type="button" class="warn-help-button" id="hazHelpButton" aria-label="Hazard Services help and hotkeys" title="Help and hotkeys">i</button><span class="warn-badge" id="hazStatusBadge">Select</span></div></div>
+          <div id="hazCatalogView">
+            <p class="hint">Choose a category, then a hazard. Polygon warnings use WarnGen; zone-based hazards use GFE.</p>
+            <div class="haz-category-list" id="hazCategoryList"></div>
+          </div>
+          <div id="hazEditorView" hidden>
+            <button type="button" class="haz-back" id="hazBackButton">← All hazards</button>
+            <div class="haz-product-heading"><p class="eyebrow" id="hazCategoryLabel">Convection</p><h3 id="hazProductTitle">Tornado Warning</h3></div>
+            <nav class="haz-workflow" id="hazWorkflow" aria-label="Hazard workflow"><button type="button" data-haz-stage="validity">1 <span>Validity</span></button><button type="button" data-haz-stage="geometry">2 <span>Geometry</span></button><button type="button" data-haz-stage="details">3 <span>Details</span></button><button type="button" data-haz-stage="locations">4 <span>Locations</span></button><button type="button" data-haz-stage="review">5 <span>Review</span></button></nav>
+            <div class="haz-draft-state" id="hazDraftState"><span aria-hidden="true"></span><strong>New draft</strong><small>Changes are not saved yet.</small></div>
+            <section class="haz-form-section"><h3>Validity</h3><div class="field-grid"><label class="field"><span>Start time</span><input type="datetime-local" id="hazStartTime"></label><label class="field" id="hazDurationField"><span>Duration</span><select id="hazDurationSelect"><option value="30">30 minutes</option><option value="45" selected>45 minutes</option><option value="60">60 minutes</option><option value="custom">Custom</option></select></label><label class="field" id="hazEndTimeField" hidden><span>End time</span><input type="datetime-local" id="hazEndTime"></label></div><div class="button-grid" id="hazEndModeField" hidden><button type="button" id="hazKeepEndButton">Keep initial end time</button><button type="button" id="hazEditEndButton">Edit end time</button></div><label class="field" id="hazCustomDurationField" hidden><span>Custom duration (minutes)</span><input type="number" id="hazCustomDuration" min="5" max="360" step="5" value="45"></label></section>
+            <section class="haz-form-section"><h3>Geometry</h3><div class="haz-compact-tools"><button type="button" class="compact-button" id="hazPlaceStormButton"><span id="hazPlaceStormLabel">Drag to storm</span></button><button type="button" class="compact-button" id="hazTrackStormButton" hidden>Track storm</button><button type="button" class="compact-button" id="hazSelectAllZonesButton" hidden>Select all zones</button><button type="button" class="compact-button" id="hazClearZonesButton" hidden>Clear zones</button></div><div class="field-grid"><label class="field"><span>Motion direction</span><input type="text" id="hazMotionDirection" placeholder="Calculated or manual"></label><label class="field"><span>Speed (mph)</span><input type="number" id="hazMotionSpeed" min="0" max="100" step="5" placeholder="Calculated"></label></div><p class="hint" id="hazGeometryHint">Red marks the current storm location. Step back to another frame and click the storm to add a blue prior position, then use Track storm.</p></section>
+            <section class="haz-form-section" id="hazDetailsSection"><h3>Details</h3><div id="hazPolygonDetails"><label class="field" id="hazImpactField"><span>Impact level</span><select id="hazImpactLevel"><option value="weak">Weak</option><option value="base" selected>Base</option><option value="considerable">Considerable</option><option value="emergency">Emergency</option></select></label><fieldset class="haz-radio-group"><legend>Source</legend><label><input type="radio" name="hazSource" value="doppler" checked> Radar indicated</label><label><input type="radio" name="hazSource" value="spotter"> Trained spotter</label><label><input type="radio" name="hazSource" value="lawEnforcement"> Law enforcement</label><label><input type="radio" name="hazSource" value="emergencyManagement"> Emergency management</label><label><input type="radio" name="hazSource" value="public"> Public</label></fieldset><label class="field" id="hazWindField" hidden><span>Wind threat</span><select id="hazWind"><option value="none">None</option><option value="60" selected>60 mph</option><option value="70">70 mph</option><option value="80">80 mph</option><option value="90">90 mph</option><option value="100">100 mph</option></select></label><label class="field"><span>Hail threat</span><select id="hazHail"><option value="none">None</option><option value="penny">Penny · 0.75 in</option><option value="nickel">Nickel · 0.88 in</option><option value="quarter" selected>Quarter · 1.00 in</option><option value="halfdollar">Half dollar · 1.25 in</option><option value="pingpong">Ping pong ball · 1.50 in</option><option value="golfball">Golf ball · 1.75 in</option><option value="twoinch">2.00 in</option><option value="tennis">Tennis ball · 2.50 in</option><option value="baseball">Baseball · 2.75 in</option><option value="threeinch">3.00 in</option><option value="softball">Softball · 4.00 in</option><option value="grapefruit">Grapefruit · 4.50 in</option></select></label></div><div id="hazZoneDetails" hidden><div class="field-grid" id="hazZoneHazardFields"></div><label class="field"><span>Impacts</span><textarea id="hazZoneImpacts" rows="4"></textarea></label><label class="field"><span>Additional details</span><textarea id="hazZoneAdditionalDetails" rows="3" placeholder="Optional local details"></textarea></label></div></section>
+            <section class="haz-form-section"><h3>Affected locations</h3><label class="toggle-row"><input type="radio" name="hazLocations" value="cities" checked><span>List of cities</span></label><label class="toggle-row"><input type="radio" name="hazLocations" value="chronological"><span>Chronological city list</span></label><label class="toggle-row"><input type="radio" name="hazLocations" value="pathcast"><span>Pathcast</span></label><div class="haz-location-preview" id="hazLocationPreview">Locations populate after the threat geometry is placed.</div></section>
+            <section class="haz-form-section"><h3>Special / CTAs</h3><div id="hazPolygonCtas"><label class="toggle-row"><input type="checkbox" id="hazCtaPrimary" checked><span>Primary protective-action CTA</span></label><label class="toggle-row"><input type="checkbox" id="hazCtaNight"><span>Nighttime CTA</span></label><label class="toggle-row"><input type="checkbox" id="hazCtaVehicle"><span>Vehicle / mobile-home CTA</span></label><label class="toggle-row"><input type="checkbox" id="hazCtaReport"><span>Report severe weather</span></label></div><p class="hint" id="hazZoneCtaNote" hidden>The official hazard-specific precautionary/preparedness statement is included automatically from the product template.</p></section>
+            <section class="haz-form-section" id="hazProductTemplateFields" hidden><h3>Product details</h3><div id="hazProductTemplateFieldsBody"></div></section>
+            <div class="haz-inline-validation" id="hazInlineValidation" aria-live="polite" hidden></div>
+            <div class="haz-footer-actions"><button type="button" class="haz-destructive" id="hazDiscardButton">Discard</button><button type="button" class="haz-destructive" id="hazCancelWarningButton" hidden>Cancel warning</button><button type="button" id="hazSaveDraftButton">Save draft</button><button type="button" class="warning-button" id="hazReviewButton">Review and issue</button></div>
+          </div>
+        </section>
+
+        <section class="panel tool-panel" id="warningsPanel" data-panel-title="WarnGen">
+          <div class="panel-header">
+            <h2>WarnGen</h2>
+            <div class="warn-header-actions">
+              <button type="button" class="warn-help-button" id="warnHelpButton" aria-label="WarnGen help" title="How WarnGen polygons work">i</button>
+              <span class="warn-badge" id="warnStatusBadge">Draft</span>
+            </div>
+          </div>
+
+          <div class="warn-operational-state" aria-live="polite">
+            <span class="warn-mode-indicator" id="warnModeIndicator">New warning mode · issued polygons protected</span>
+            <span class="warn-radar-pin" id="warnRadarPin" hidden>Radar pinned</span>
+          </div>
+
+          <div class="warn-section warn-active-section">
+            <h3>Active warnings</h3>
+            <div class="warn-active-list" id="warnActiveList">
+              <p class="warn-areas-empty">No active warnings. Issue a draft to pin it here.</p>
+            </div>
+            <div class="warn-remote-drafts" id="warnRemoteDrafts" hidden></div>
+            <div class="button-grid warn-tools">
+              <button type="button" id="warnNewDraftButton">New draft</button>
+              <button type="button" id="warnLoadActiveButton" disabled>Load selected</button>
+            </div>
+          </div>
+
+          <nav class="warn-stepper" aria-label="WarnGen workflow">
+            <button type="button" data-warn-step-target="draw">Draw</button>
+            <button type="button" data-warn-step-target="motion">Motion</button>
+            <button type="button" data-warn-step-target="threats">Threats</button>
+            <button type="button" data-warn-step-target="areas">Areas</button>
+            <button type="button" data-warn-step-target="text">Text</button>
+            <button type="button" data-warn-step-target="issue">Issue</button>
+          </nav>
+          <p class="warn-step-context" id="warnStepContext">Define the product, storm type, and editable threat polygon.</p>
+
+          <div class="field-grid warn-setup-grid" data-warn-step="draw">
+            <label class="field">
+              <span>Product</span>
+              <select id="warnProductSelect">
+                <option value="SVR">SVR · Severe Thunderstorm</option>
+                <option value="TOR">TOR · Tornado</option>
+                <option value="FFW">FFW · Flash Flood</option>
+                <option value="FAW">FLW · Areal Flood Warning</option>
+                <option value="FAY">FLS · Flood Advisory</option>
+                <option value="FRW">FRW · Fire Warning</option>
+                <option value="SQW">SQW · Snow Squall Warning</option>
+                <option value="DSW">DSW · Dust Storm Warning</option>
+                <option value="DSY">DSY · Dust Advisory</option>
+                <option value="SPS">SPS · Special Weather Statement</option>
+                <option value="SMW">SMW · Special Marine Warning</option>
+                <option value="MWS">MWS · Marine Weather Statement</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Storm type</span>
+              <select id="warnStormType">
+                <option value="cell">Cell</option>
+                <option value="line">Line</option>
+              </select>
+            </label>
+          </div>
+          <div class="field-grid warn-meta-grid" data-warn-step="draw issue">
+            <label class="field">
+              <span>VTEC action</span>
+              <select id="warnActionSelect">
+                <option value="NEW">NEW · Issue</option>
+                <option value="CON">CON · Continue / Update</option>
+                <option value="EXT">EXT · Extend</option>
+                <option value="CAN">CAN · Cancel</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Product ID <em class="field-note">(auto · sequential)</em></span>
+              <input type="text" id="warnEtnDisplay" readonly placeholder="Assigned on Issue NEW (e.g. OHXSVR0001)" value="" title="ETN is assigned automatically per WFO + product when you Issue. You never type this.">
+            </label>
+          </div>
+
+          <div class="warn-section warn-control-section" data-warn-step="draw">
+            <h3>Draw threat area</h3>
+            <div class="button-grid warn-tools">
+              <button type="button" id="warnDrawButton">Draw</button>
+              <button type="button" id="warnUndoButton">Undo</button>
+              <button type="button" id="warnFinishButton">Finish</button>
+              <button type="button" id="warnClearPolyButton">Clear</button>
+              <button type="button" id="warnTrimCwaButton" title="Hotkey 5 · Clip polygon to the selected CWA boundary"><kbd>5</kbd> Trim CWA</button>
+            </div>
+            <p class="hint">Press <kbd>Enter</kbd> or double-click to finish the polygon. Trim to CWA removes any part outside the active office CWA.</p>
+          </div>
+
+          <div class="warn-section warn-motion-section" data-warn-step="motion">
+            <h3>Storm location &amp; motion</h3>
+            <div class="button-grid warn-tools">
+              <button type="button" id="warnMarkLocationButton" title="Hotkey 1"><kbd>1</kbd> Location</button>
+              <button type="button" id="warnLineStartButton">Line A</button>
+              <button type="button" id="warnLineEndButton">Line B</button>
+              <button type="button" id="warnMotion1Button" title="Hotkey 2"><kbd>2</kbd> Current storm</button>
+              <button type="button" id="warnMotion2Button" title="Hotkey 3"><kbd>3</kbd> Previous storm</button>
+              <button type="button" id="warnTrackButton" title="Calculate storm motion and redraw the warning">Track</button>
+            </div>
+            <p class="hint">AWIPS-style track: set the red current storm position, step back 3–4 scans, set the blue previous position, then press Track. For a line, use its midpoint for motion and Line A/B for its width. Use <kbd>4</kbd> to redraw from an existing track or <kbd>5</kbd> to trim to the CWA.</p>
+            <label class="field">
+              <span>Location phrase</span>
+              <input type="text" id="warnLocationPhrase" placeholder="e.g. 12 miles southwest of Nashville">
+            </label>
+            <div class="field-grid warn-motion-fields">
+              <label class="field">
+                <span>Direction</span>
+                <input type="text" id="warnMotionDir" placeholder="northeast">
+              </label>
+              <label class="field">
+                <span>Speed (mph)</span>
+                <input type="number" id="warnMotionSpeed" min="0" max="100" step="5" placeholder="35">
+              </label>
+            </div>
+            <label class="toggle-row">
+              <input type="checkbox" id="warnStationary">
+              <span>Nearly stationary</span>
+            </label>
+            <p class="hint" id="warnMotionHint">Scrub the radar timeline, then mark the storm feature on two different frames.</p>
+          </div>
+
+          <div class="warn-section warn-duration-section" data-warn-step="motion">
+            <h3>Duration</h3>
+            <label class="field">
+              <span>Duration (min)</span>
+              <input type="number" id="warnDuration" min="5" max="360" step="5" value="45">
+            </label>
+            <p class="hint" id="warnProjectionHint">Set storm motion to draw a projected track for the warning duration.</p>
+          </div>
+
+          <!-- ── SVR options ── -->
+          <div class="warn-section warn-product-opts" id="warnOptsSvr" data-product="SVR" data-warn-step="threats">
+            <h3>Basis &amp; threats · SVR</h3>
+            <label class="field">
+              <span>Basis</span>
+              <select id="warnBasisSelect">
+                <option value="doppler">Doppler radar indicated</option>
+                <option value="meteorologists">ZASNetwork meteorologists detected</option>
+                <option value="trainedSpotters">Trained spotters reported</option>
+                <option value="lawEnforcement">Law enforcement reported</option>
+                <option value="emergencyMgmt">Emergency management reported</option>
+                <option value="public">Public reported</option>
+                <option value="broadcastMedia">Broadcast media reported</option>
+              </select>
+            </label>
+            <div class="field-grid" id="warnThreatFields">
+              <label class="field">
+                <span>Wind</span>
+                <select id="warnWindSelect">
+                  <option value="none">None</option>
+                  <option value="60" selected>60 mph</option>
+                  <option value="70">70 mph</option>
+                  <option value="80">80 mph</option>
+                  <option value="90">90 mph</option>
+                  <option value="100">100 mph</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Hail</span>
+                <select id="warnHailSelect">
+                  <option value="none">None</option>
+                  <option value="penny">Penny · 0.75&quot;</option>
+                  <option value="nickel">Nickel · 0.88&quot;</option>
+                  <option value="quarter" selected>Quarter · 1.00&quot;</option>
+                  <option value="halfdollar">Half dollar · 1.25&quot;</option>
+                  <option value="pingpong">Ping pong ball · 1.50&quot;</option>
+                  <option value="golfball">Golf ball · 1.75&quot;</option>
+                  <option value="twoinch">2.00"</option>
+                  <option value="tennis">Tennis ball · 2.50&quot;</option>
+                  <option value="baseball">Baseball · 2.75&quot;</option>
+                  <option value="threeinch">3.00"</option>
+                  <option value="softball">Softball · 4.00&quot;</option>
+                  <option value="grapefruit">Grapefruit · 4.50&quot;</option>
+                  <option value="dvd">DVD · 5.00&quot;</option>
+                </select>
+              </label>
+            </div>
+            <h3 class="warn-subhead">CTAs · SVR</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnTornadoPossible"> <span>Tornado possible tag</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnObservedHail"> <span>Hail observed</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnObservedWind"> <span>Wind observed</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaGeneric" checked> <span>Generic severe CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaHail"> <span>Large hail CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaHailWind"> <span>Large hail and damaging wind CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaVeryLargeHail"> <span>Very large destructive hail CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaExtremeWinds"> <span>Extreme winds CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaGustFront"> <span>Gust-front / outflow CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaSquallLine"> <span>Squall-line CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaSupercell"> <span>Supercell all-hazards CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaWindHailIndicated"> <span>Wind-driven hail · indicated CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaWindHailObserved"> <span>Wind-driven hail · observed CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaTorrentialRain"> <span>Torrential rainfall CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaBoaters"> <span>Boaters / lake CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaLightning"> <span>Lightning CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnCtaLE"> <span>Report to LE / ZASNetwork</span></label>
+          </div>
+
+          <!-- ── TOR options (from NWS TOR.vm) ── -->
+          <div class="warn-section warn-product-opts" id="warnOptsTor" data-product="TOR" data-warn-step="threats" hidden>
+            <h3>Source · TOR</h3>
+            <label class="field">
+              <span>Basis / source</span>
+              <select id="warnTorSource">
+                <option value="doppler">Doppler radar indicated (radar-indicated tornado threat)</option>
+                <option value="dopplerSquall">Doppler radar — severe squall line</option>
+                <option value="confirmedDoppler">Doppler radar tracking a confirmed tornado</option>
+                <option value="confirmedLarge">Radar + spotters — large &amp; extremely dangerous tornado</option>
+                <option value="meteorologistsTOR">ZASNetwork mets — capable of producing a tornado</option>
+                <option value="meteorologistsSquall">ZASNetwork mets — severe squall line</option>
+                <option value="meteorologistsLarge">ZASNetwork mets — large &amp; extremely dangerous tornado</option>
+                <option value="spotter">Trained spotters reported a tornado</option>
+                <option value="lawEnforcement">Law enforcement reported a tornado</option>
+                <option value="emergencyManagement">Emergency management reported a tornado</option>
+                <option value="public">Public reported a tornado</option>
+                <option value="broadcastMedia">Broadcast media reported a tornado</option>
+                <option value="waterspout">Waterspout moving onshore</option>
+                <option value="spotterFunnelCloud">Spotters reported a funnel cloud</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Additional hail threat</span>
+              <select id="warnTorHail">
+                <option value="none" selected>None</option>
+                <option value="penny">Penny · 0.75&quot;</option>
+                <option value="nickel">Nickel · 0.88&quot;</option>
+                <option value="quarter">Quarter · 1.00&quot;</option>
+                <option value="halfdollar">Half dollar · 1.25&quot;</option>
+                <option value="pingpong">Ping pong ball · 1.50&quot;</option>
+                <option value="golfball">Golf ball · 1.75&quot;</option>
+                <option value="twoinch">2.00"</option>
+                <option value="tennis">Tennis ball · 2.50&quot;</option>
+                <option value="baseball">Baseball · 2.75&quot;</option>
+                <option value="threeinch">3.00"</option>
+                <option value="softball">Softball · 4.00&quot;</option>
+                <option value="grapefruit">Grapefruit · 4.50&quot;</option>
+                <option value="dvd">DVD · 5.00&quot;</option>
+              </select>
+            </label>
+            <label class="field"><span>Additional wind threat</span><select id="warnTorWind"><option value="none" selected>None</option><option value="60">60 mph</option><option value="70">70 mph</option><option value="80">80 mph</option><option value="90">90 mph</option><option value="100">100 mph</option></select></label>
+            <label class="field"><span>Tornado damage threat</span><select id="warnTorDamageThreat"><option value="base" selected>Base</option><option value="considerable">Considerable</option></select></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorLandspout"> <span>Landspout tornado wording</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorEmergency"> <span>Tornado Emergency headline</span></label>
+            <label class="field" id="warnTorEmergencyLocField" hidden>
+              <span>Emergency location(s)</span>
+              <input type="text" id="warnTorEmergencyLoc" placeholder="e.g. downtown Nashville">
+            </label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorListCities" checked> <span>List of cities impacted</span></label>
+            <h3 class="warn-subhead">CTAs · TOR</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaMobile" checked> <span>Default mobile/rural shelter CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaUrban"> <span>Default urban/vehicle CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaMotorists"> <span>Motorists / overpass CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaRainWrapped"> <span>Rain-wrapped tornado CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaNight"> <span>Nighttime tornado CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaLarge"> <span>Large / extremely dangerous tornado CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaSquall"> <span>Squall line / cluster CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaWater"> <span>Water / boaters CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaTorrentialRain"> <span>Torrential rainfall CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaWindHailIndicated"> <span>Wind-driven hail · indicated CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaWindHailObserved"> <span>Wind-driven hail · observed CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaLE"> <span>Report to LE / ZASNetwork</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaReplacesSvr"> <span>Replaces SVR for same area</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnTorCtaEmergency"> <span>Tornado Emergency CTA</span></label>
+          </div>
+
+          <!-- ── FFW options (from NWS FFW.vm) ── -->
+          <div class="warn-section warn-product-opts" id="warnOptsFfw" data-product="FFW" data-warn-step="threats" hidden>
+            <h3>Source · FFW</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwTrackMotion"> <span>Track moving rainfall</span></label>
+            <label class="field">
+              <span>Source</span>
+              <select id="warnFfwSource">
+                <option value="doppler">Doppler radar indicated</option>
+                <option value="dopplerGauge">Doppler radar + automated rain gauges</option>
+                <option value="trainedSpotters">Trained weather spotters reported</option>
+                <option value="public">The public reported</option>
+                <option value="lawEnforcement">Local law enforcement reported</option>
+                <option value="emergencyManagement">Emergency management reported</option>
+                <option value="satellite">Satellite estimates</option>
+                <option value="satelliteGauge">Satellite estimates + rain gauges</option>
+                <option value="onlyGauge">Gauge reports</option>
+              </select>
+            </label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwThunder" checked> <span>Thunderstorms producing heavy rain</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwPlainRain"> <span>Heavy rain (no thunder wording)</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwFlash"> <span>Flash flooding already occurring</span></label>
+            <label class="field">
+              <span>Rain already fallen</span>
+              <select id="warnFfwRainAmount">
+                <option value="none" selected>None / not specified</option>
+                <option value="rain1">Up to 1 inch</option>
+                <option value="rain2">Up to 2 inches</option>
+                <option value="rain3">Up to 3 inches</option>
+                <option value="rainEdit">Custom amount…</option>
+              </select>
+            </label>
+            <label class="field" id="warnFfwRainEditField" hidden>
+              <span>Custom rainfall text</span>
+              <input type="text" id="warnFfwRainEdit" placeholder="e.g. 2 to 3">
+            </label>
+            <h3 class="warn-subhead">Hazards · FFW</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwSnowMelt"> <span>Rain and snowmelt (HYC RS)</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwBurnScar"> <span>Burn scar / debris flow</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwMudSlide"> <span>Mud slides near steep terrain</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwEmergency"> <span>Flash Flood Emergency headline</span></label>
+            <label class="field" id="warnFfwEmergencyLocField" hidden>
+              <span>Emergency location(s)</span>
+              <input type="text" id="warnFfwEmergencyLoc" placeholder="e.g. downtown areas of Murfreesboro">
+            </label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwAddRain"> <span>Additional rainfall amounts possible</span></label>
+            <label class="field" id="warnFfwAddRainField" hidden>
+              <span>Additional amount</span>
+              <input type="text" id="warnFfwAddRainText" placeholder="e.g. 1 to 2 inches">
+            </label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwListCities" checked> <span>List locations that will experience flooding</span></label>
+            <h3 class="warn-subhead">CTAs · FFW</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaTadd" checked> <span>Turn around, don't drown</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaActQuickly" checked> <span>Move to higher ground / act quickly</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaMeans" checked> <span>What a Flash Flood Warning means</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaChild"> <span>Child safety near drains/creeks</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaNight"> <span>Nighttime flooding caution</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaUrban"> <span>Urban flooding / underpasses</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaRural"> <span>Rural / country roads flooding</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaStayAway"> <span>Stay away or be swept away</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaLowSpots"> <span>Low water crossings / hilly terrain</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaArroyos"> <span>Arroyos / distant rainfall</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaBurn"> <span>Recently burned areas</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaCamper"> <span>Campers / hikers near streams</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaReport"> <span>Report flooding to LE</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFfwCtaEmergency"> <span>Flash Flood Emergency CTA</span></label>
+          </div>
+
+          <!-- Areal Flood Warning options (FA.W / FLW) -->
+          <div class="warn-section warn-product-opts" id="warnOptsAfw" data-product="FAW" data-warn-step="threats" hidden>
+            <h3>Flood type &amp; cause · Areal Flood Warning</h3>
+            <div class="field-grid">
+              <label class="field"><span>Warning type</span><select id="warnAfwType"><option value="general">Flood Warning</option><option value="smallstreams">Small Streams</option><option value="urbansmallstreams">Urban Areas and Small Streams</option></select></label>
+              <label class="field"><span>Flood cause (HYC)</span><select id="warnAfwCause"><option value="ER">Excessive rainfall (ER)</option><option value="SM">Snowmelt (SM)</option><option value="RS">Rain and snowmelt (RS)</option><option value="IJ">Ice jam (IJ)</option><option value="IC">Ice jam and rain (IC)</option><option value="DM">Levee failure (DM)</option><option value="DR">Dam floodgate release (DR)</option><option value="GO">Glacier-dammed lake outburst (GO)</option><option value="MC">Multiple causes (MC)</option><option value="UU">Unknown (UU)</option></select></label>
+            </div>
+            <label class="field"><span>Source</span><select id="warnAfwSource"><option value="doppler">Doppler radar</option><option value="dopplerGauge">Doppler radar + automated gauges</option><option value="trainedSpotters">Trained weather spotters</option><option value="lawEnforcement">Local law enforcement</option><option value="emergencyManagement">Emergency management</option><option value="public">The public</option><option value="satellite">Satellite estimates</option><option value="satelliteGauge">Satellite estimates + rain gauges</option><option value="onlyGauge">Reporting gauges</option><option value="genericFlood">Custom flood basis</option></select></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwThunder" checked> <span>Thunderstorms producing heavy rain</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwOccurring"> <span>Flooding already occurring</span></label>
+            <label class="field"><span>Reported/basis location</span><input id="warnAfwLocation" type="text" placeholder="e.g. western Burleigh County"></label>
+            <label class="field"><span>Rain already fallen</span><select id="warnAfwRainAmount"><option value="none">None / not specified</option><option value="rain1">Up to 1 inch</option><option value="rain2">Up to 2 inches</option><option value="rain3">Up to 3 inches</option><option value="rainEdit">Custom amount…</option></select></label>
+            <label class="field" id="warnAfwRainEditField" hidden><span>Custom rainfall amount</span><input id="warnAfwRainEdit" type="text" placeholder="e.g. 2 to 4"></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwAddRain"> <span>Additional rainfall possible</span></label>
+            <label class="field" id="warnAfwAddRainField" hidden><span>Additional rainfall amount</span><input id="warnAfwAddRainText" type="text" placeholder="e.g. 1 to 2 inches"></label>
+            <label class="field"><span>Drainages (optional)</span><input id="warnAfwDrainages" type="text" placeholder="e.g. Apple Creek and Hay Creek"></label>
+            <label class="field"><span>Specific stream detail (optional)</span><textarea id="warnAfwSpecificStream" rows="2" placeholder="Flood waters are moving down..."></textarea></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwListCities" checked> <span>List locations that will experience flooding</span></label>
+            <h3 class="warn-subhead">CTAs · Areal Flood Warning</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaTadd" checked> <span>Turn around, don't drown</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaActQuickly"> <span>Move to higher ground / act quickly</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaMeans" checked> <span>What a Flood Warning means</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaChild"> <span>Child safety near drains/creeks</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaNight"> <span>Nighttime flooding caution</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaUrban"> <span>Urban flooding / underpasses</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaRural"> <span>Rural / country roads flooding</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaStayAway"> <span>Stay away from banks and culverts</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaLowSpots"> <span>Low-water crossings / hilly terrain</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaArroyos"> <span>Arroyos / distant rainfall</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaBurn"> <span>Recently burned areas</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaCamper"> <span>Campers / hikers near streams</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnAfwCtaReport"> <span>Report flooding to law enforcement</span></label>
+          </div>
+
+          <div class="warn-section warn-product-opts" id="warnOptsFay" data-product="FAY" data-warn-step="threats" hidden>
+            <h3>Flood Advisory</h3>
+            <div class="field-grid">
+              <label class="field"><span>Advisory type</span><select id="warnFayType"><option value="general">Flood Advisory</option><option value="smallstreams">Small Stream</option><option value="urbansmallstreams">Urban and Small Stream</option><option value="arroyo">Arroyo and Small Stream</option><option value="hydrologic">Hydrologic Advisory</option></select></label>
+              <label class="field"><span>Cause (HYC)</span><select id="warnFayCause"><option value="ER">Excessive rainfall</option><option value="SM">Snowmelt</option><option value="RS">Rain and snowmelt</option><option value="IJ">Ice jam</option><option value="IC">Ice jam and rain</option><option value="DR">Dam floodgate release</option><option value="GO">Glacier lake outburst</option><option value="OT">Groundwater flooding</option></select></label>
+            </div>
+            <label class="field"><span>Source</span><select id="warnFaySource"><option value="doppler">Doppler radar</option><option value="dopplerGauge">Radar + automated gauges</option><option value="trainedSpotters">Trained spotters</option><option value="lawEnforcement">Law enforcement</option><option value="emergencyManagement">Emergency management</option><option value="public">The public</option><option value="satellite">Satellite estimates</option><option value="onlyGauge">Gauge reports</option></select></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayThunder" checked> <span>Thunderstorms producing heavy rain</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayOccurring"> <span>Minor flooding already occurring</span></label>
+            <label class="field"><span>Basis location</span><input id="warnFayLocation" type="text" placeholder="e.g. central Burleigh County"></label>
+            <label class="field"><span>Rain already fallen</span><select id="warnFayRain"><option value="none">Not specified</option><option value="rain1">Up to 1 inch</option><option value="rain2">Up to 2 inches</option><option value="rain3">Up to 3 inches</option><option value="rainEdit">Custom amount</option></select></label>
+            <label class="field" id="warnFayRainEditField" hidden><span>Custom rainfall amount</span><input id="warnFayRainEdit" type="text" placeholder="e.g. 1 to 2"></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayAddRain"> <span>Additional rainfall expected</span></label>
+            <label class="field" id="warnFayAddRainField" hidden><span>Additional amount</span><input id="warnFayAddRainText" type="text" placeholder="e.g. 1 inch"></label>
+            <label class="field"><span>Streams and drainages</span><textarea id="warnFayDrainages" rows="2" placeholder="e.g. Alkali Creek, Granite Creek, and Sweetwater River"></textarea></label>
+            <label class="field"><span>Additional hydrologic details</span><textarea id="warnFayDetails" rows="2" placeholder="e.g. rainfall rates, ongoing flooding, or site-specific details"></textarea></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayListCities" checked> <span>List impacted locations</span></label>
+            <h3 class="warn-subhead">CTAs · Flood Advisory</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnFayCtaTadd" checked> <span>Turn around, don't drown</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayCtaMeans" checked> <span>What a Flood Advisory means</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayCtaNight"> <span>Nighttime caution</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayCtaUrban"> <span>Urban/poor drainage impacts</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayCtaRural"> <span>Rural flooding impacts</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFayCtaReport"> <span>Report flooding</span></label>
+          </div>
+
+          <div class="warn-section warn-product-opts" id="warnOptsFrw" data-product="FRW" data-warn-step="threats" hidden>
+            <h3>Fire Warning</h3>
+            <label class="field"><span>Requesting agency</span><input id="warnFrwAgency" type="text" placeholder="e.g. Burleigh County Emergency Management"></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFrwAuthenticated"> <span>Alerting authority authenticated using established procedures</span></label>
+            <label class="field"><span>Authority-requested broadcast instruction</span><select id="warnFrwBroadcast"><option value="eas">BULLETIN - EAS ACTIVATION REQUESTED</option><option value="immediate">BULLETIN - IMMEDIATE BROADCAST REQUESTED</option><option value="urgent">URGENT - IMMEDIATE BROADCAST REQUESTED</option></select></label>
+            <label class="field"><span>Scenario</span><select id="warnFrwScenario"><option value="actual">Fire located; areas threatened</option><option value="racing">Fire racing toward locations</option><option value="generic">Custom fire details</option></select></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFrwEmergency"> <span>Fire Emergency headline</span></label>
+            <label class="field"><span>Fire details/location</span><textarea id="warnFrwDetails" rows="3" placeholder="Describe the fire location and behavior"></textarea></label>
+            <label class="field"><span>Areas threatened</span><input id="warnFrwLocations" type="text" placeholder="e.g. Lincoln and southeast Bismarck"></label>
+            <label class="field"><span>Expected arrival time</span><input id="warnFrwArrival" type="text" placeholder="e.g. 6:30 PM CDT"></label>
+            <label class="field"><span>Additional information / contact</span><input id="warnFrwContact" type="text" placeholder="Agency phone, website, or information source"></label>
+            <h3 class="warn-subhead">CTAs · Fire Warning</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnFrwCtaStayIndoors"> <span>Stay indoors / shut ventilation</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFrwCtaInstructions" checked> <span>Follow law-enforcement instructions</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnFrwCtaEvacuations" checked> <span>Heed evacuation orders</span></label>
+          </div>
+
+          <div class="warn-section warn-product-opts" id="warnOptsSqw" data-product="SQW" data-warn-step="threats" hidden>
+            <h3>Snow Squall Warning · SQ.W</h3>
+            <label class="field"><span>Source</span><select id="warnSqwSource"><option value="radar">Radar indicated</option><option value="observed">Observed / confirmed</option></select></label>
+            <label class="field"><span>Travel impact</span><select id="warnSqwImpact"><option value="general">General</option><option value="significant">Significant · WEA eligible</option></select></label>
+            <label class="field"><span>Lowest visibility</span><input id="warnSqwVisibility" type="text" value="one quarter mile or less"></label>
+            <label class="field"><span>Wind gusts</span><input id="warnSqwWind" type="text" placeholder="e.g. 35 mph"></label>
+            <label class="field"><span>Road temperature / flash-freeze basis</span><input id="warnSqwRoad" type="text" placeholder="e.g. sub-freezing road temperatures"></label>
+            <label class="field"><span>Credible report / warning basis</span><textarea id="warnSqwBasis" rows="2" placeholder="Radar indicated an intense snow squall; include DOT, webcam, spotter, or road report when available"></textarea></label>
+            <label class="field"><span>Major highway mile markers</span><input id="warnSqwHighways" type="text" placeholder="Up to five references, e.g. Interstate 80 between mile markers 120 and 145"></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSqwFlashFreeze"> <span>Include flash-freeze hazard</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSqwListLocations" checked> <span>List impacted locations / pathcast</span></label>
+            <p class="hint">Valid time must be 30–60 minutes. SIGNIFICANT is reserved for a substantial threat to safe travel and enables WEA.</p>
+          </div>
+
+          <div class="warn-section warn-product-opts" id="warnOptsDsw" data-product="DSW" data-warn-step="threats" hidden>
+            <h3 id="warnDswTitle">Dust Storm Warning · DS.W</h3>
+            <label class="field"><span>Source</span><select id="warnDswSource"><option value="meteorologist">ZASNet meteorologist detected</option><option value="satellite">Satellite imagery</option><option value="radar">Doppler radar</option><option value="spotter">Trained spotters</option><option value="law">Law enforcement</option><option value="emergency">Emergency management</option><option value="dot">Department of Transportation</option><option value="public">Public</option></select></label>
+            <label class="field"><span>Visibility</span><input id="warnDswVisibility" type="text" value="one quarter mile or less"></label>
+            <label class="field"><span>Wind</span><input id="warnDswWind" type="text" value="25 mph or greater"></label>
+            <label class="field"><span>Warning basis / dust location</span><textarea id="warnDswBasis" rows="2" placeholder="e.g. satellite imagery indicated a wall of dust 8 miles west of Riverton"></textarea></label>
+            <label class="field"><span>Highway or corridor details</span><input id="warnDswHighways" type="text" placeholder="e.g. Interstate 25 between exits 10 and 35"></label>
+            <label class="toggle-row"><input type="checkbox" id="warnDswListLocations" checked> <span>List impacted locations / pathcast</span></label>
+            <p class="hint">Polygon product valid for 20 minutes to 2 hours. Dust Advisory uses visibility of one mile or less but greater than one quarter mile.</p>
+          </div>
+
+          <!-- ── SPS options (from NWS SPS.vm) ── -->
+          <div class="warn-section warn-product-opts" id="warnOptsSps" data-product="SPS" data-warn-step="threats" hidden>
+            <h3>Event type · SPS</h3>
+            <label class="field">
+              <span>Hazard family</span>
+              <select id="warnSpsPrecipMode">
+                <option value="rain" selected>Rain / thunderstorms</option>
+                <option value="snow">Snow / snow squall</option>
+                <option value="wintry">Wintry precip (FZRA / FZDZ / sleet / mix / black ice)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Event</span>
+              <select id="warnSpsEventKind">
+                <option value="thunderstorm" selected>Strong thunderstorm (cell or line)</option>
+                <option value="noThunder">Showers (no thunder)</option>
+                <option value="areaOfThunderstorms">Area / cluster of strong thunderstorms</option>
+                <option value="snowSquall">Snow squall</option>
+                <option value="snowSquallDangerous">Dangerous snow squall</option>
+                <option value="snowSquallSevere">Severe snow squall</option>
+                <option value="snowArea">Area of heavy snow</option>
+                <option value="freezingRain">Freezing rain</option>
+                <option value="freezingDrizzle">Freezing drizzle</option>
+                <option value="sleet">Sleet</option>
+                <option value="wintryMix">Wintry mix</option>
+                <option value="flashFreeze">Flash freeze / black ice (cold front)</option>
+              </select>
+            </label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsBlank"> <span>Blank statement (edit your own headline)</span></label>
+            <label class="field" id="warnSpsBlankField" hidden>
+              <span>Custom headline</span>
+              <input type="text" id="warnSpsBlankHeadline" placeholder="e.g. STRONG WINDS EXPECTED THIS AFTERNOON">
+            </label>
+            <h3 class="warn-subhead">Threats · SPS</h3>
+            <div class="field-grid"><label class="field"><span>Information source</span><select id="warnSpsSource"><option value="radar">Radar indicated</option><option value="spotters">Trained weather spotters</option><option value="law">Law enforcement</option><option value="emergency">Emergency management</option><option value="media">Broadcast media</option><option value="public">Public</option></select></label><label class="field"><span>Landspout / inland waterspout</span><select id="warnSpsSpout"><option value="none">None</option><option value="landspoutPossible">Landspout possible</option><option value="landspoutObserved">Landspout observed</option><option value="waterspoutPossible">Inland waterspout possible</option><option value="waterspoutObserved">Inland waterspout observed</option></select></label></div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Wind</span>
+                <select id="warnSpsWind">
+                  <option value="none" selected>None</option>
+                  <option value="wind30">Winds in excess of 30 mph</option>
+                  <option value="wind40">Winds in excess of 40 mph</option>
+                  <option value="wind50">Wind gusts up to 50 mph</option>
+                  <option value="wind55">Wind gusts of 50 to 55 mph</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Hail (rain events)</span>
+                <select id="warnSpsHail">
+                  <option value="none" selected>None</option>
+                  <option value="pea">Pea · 0.25&quot;</option>
+                  <option value="half">Half inch · 0.50&quot;</option>
+                  <option value="penny">Penny · 0.75&quot;</option>
+                  <option value="nickel">Nickel · 0.88&quot;</option>
+                </select>
+              </label>
+            </div>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsListCities" checked> <span>List of cities impacted</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsSpecialEvent"> <span>Special venue / event in path</span></label>
+            <label class="field" id="warnSpsSpecialEventField" hidden>
+              <span>Event / venue name</span>
+              <input type="text" id="warnSpsSpecialEventText" placeholder="e.g. Nissan Stadium">
+            </label>
+            <h3 class="warn-subhead">CTAs · SPS (rain / general)</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaGeneric" checked> <span>Generic shelter CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaRain"> <span>Torrential rainfall / flooded roadways</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaLightning"> <span>Frequent lightning CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaIntensify"> <span>Storm may intensify / monitor media</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaLE"> <span>Report to LE / ZASNetwork</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaBoaters"> <span>Boaters / lake CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaCamper"> <span>Campground shelter CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaFunnel"> <span>Cold air funnel CTA</span></label>
+            <h3 class="warn-subhead">CTAs · SPS (winter / snow)</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaQuarter"> <span>Visibility under 1/4 mile (snow)</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaZero"> <span>Visibility near zero (snow)</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaSquall"> <span>Snow squall travel caution</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaFzdz"> <span>Freezing rain/drizzle ice on roads</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaFlashFreeze"> <span>Flash freeze / black ice CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaIcy"> <span>Icy roads (melt/refreeze)</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaChanging"> <span>Changing winter conditions CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaAdvisory"> <span>Advisory may become necessary</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSpsCtaAdvisoryInEffect"> <span>Winter Weather Advisory in effect</span></label>
+          </div>
+
+          <!-- ── SMW options (from NWS SMW.vm / MA.W) ── -->
+          <div class="warn-section warn-product-opts" id="warnOptsSmw" data-product="SMW" data-warn-step="threats" hidden>
+            <h3 id="warnSmwProductTitle">Special Marine Warning · MA.W</h3>
+            <label class="field">
+              <span>Geometry mode</span>
+              <select id="warnSmwGeometryMode">
+                <option value="polygon" selected>Storm-based polygon (intersect marine zones)</option>
+                <option value="zone">Marine zone selection (whole zones)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Event type</span>
+              <select id="warnSmwEventType">
+                <option value="thunderstorm" selected>Thunderstorm</option>
+                <option value="shower">Shower</option>
+                <option value="cloud">Cloud</option>
+                <option value="front">Front</option>
+                <option value="fog">Dense fog</option>
+                <option value="debris">Marine debris / hazardous material</option>
+                <option value="ice">Sea or lake ice change</option>
+                <option value="freezingSpray">Freezing spray</option>
+                <option value="volcano">Volcano</option>
+              </select>
+            </label>
+            <div id="warnMwsFields" hidden>
+              <label class="field"><span>MWS headline</span><input id="warnMwsHeadline" placeholder="e.g. AREAS OF DENSE FOG THROUGH FRIDAY MORNING"></label>
+              <label class="field"><span>Visibility / marine condition</span><input id="warnMwsVisibility" placeholder="e.g. one nautical mile or less"></label>
+              <label class="field"><span>Event details and mariner impacts</span><textarea id="warnMwsDetails" rows="4" placeholder="Describe timing, observed or expected conditions, source, and operational impacts."></textarea></label>
+            </div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Wind threat</span>
+                <select id="warnSmwWind">
+                  <option value="none">None</option>
+                  <option value="kt30">Winds to around 30 knots</option>
+                  <option value="kt34" selected>34 knots or greater</option>
+                  <option value="kt40">Winds to 40 knots</option>
+                  <option value="kt40plus">Winds to nearly 50 knots</option>
+                  <option value="kt50">Dangerous winds &gt; 50 knots</option>
+                  <option value="kt65">Capsizing winds &gt; 65 knots</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Hail threat</span>
+                <select id="warnSmwHail">
+                  <option value="none" selected>None</option>
+                  <option value="small">Small hail</option>
+                  <option value="large">Large hail</option>
+                  <option value="destructive">Large destructive hail</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Waterspout</span>
+              <select id="warnSmwSpout">
+                <option value="none" selected>None</option>
+                <option value="possible">Possible / radar indicated</option>
+                <option value="sighted">Sighted / confirmed</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Basis / source</span>
+              <select id="warnSmwBasis">
+                <option value="doppler" selected>Doppler radar</option>
+                <option value="satellite">Satellite imagery</option>
+                <option value="marineSpotter">Marine weather spotters</option>
+                <option value="mariner">Mariner report</option>
+                <option value="ship">Ship report</option>
+                <option value="buoy">Buoy report</option>
+                <option value="coastGuard">Coast Guard</option>
+                <option value="pilot">Pilot report</option>
+                <option value="public">Public report</option>
+                <option value="lawEnforcement">Law enforcement</option>
+                <option value="emergencyManagement">Emergency management</option>
+              </select>
+            </label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwAshfall"> <span>Ashfall warning path (volcanic)</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwDebrisFlow"> <span>Debris flow / lahar threat</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwListLocations" checked> <span>List marine areas impacted</span></label>
+            <h3 class="warn-subhead">CTAs · Marine</h3>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwCtaHarbor" checked> <span>Seek safe harbor</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwCtaBoaters" checked> <span>Boaters return to shore</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwCtaIndoors" checked> <span>Move indoors near water</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwCtaLightning"> <span>Lightning CTA</span></label>
+            <label class="toggle-row"><input type="checkbox" id="warnSmwCtaDelay"> <span>Delay boating departure</span></label>
+          </div>
+
+          <div class="warn-section warn-ugc-section" data-warn-step="areas">
+            <h3>UGC basis</h3>
+            <div class="warn-radio-row">
+              <label><input type="radio" name="warnUgcBasis" value="county" checked> Counties</label>
+              <label><input type="radio" name="warnUgcBasis" value="zone"> Zones</label>
+            </div>
+            <div class="warn-areas" id="warnAreas">
+              <p class="warn-areas-empty">Draw a polygon to resolve counties, zones, and cities.</p>
+            </div>
+          </div>
+
+          <div class="warn-issue-bar" data-warn-step="issue">
+            <div class="button-grid warn-actions">
+              <button type="button" class="warning-button" id="warnGenerateButton">Generate text</button>
+              <button type="button" id="warnCopyButton">Copy</button>
+              <button type="button" id="warnClearAllButton">Clear draft</button>
+            </div>
+            <div class="button-grid warn-lifecycle">
+              <button type="button" class="warning-button warn-issue" id="warnIssueButton">Issue NEW</button>
+              <button type="button" id="warnUpdateButton" disabled>Update CON</button>
+              <button type="button" class="warn-cancel-btn" id="warnCancelButton" disabled>Cancel CAN</button>
+            </div>
+          </div>
+
+          <label class="field warn-text-section" data-warn-step="text issue">
+            <span>Product text · ZASNetwork Weather Service</span>
+            <textarea id="warnProductText" class="warn-text" rows="14" spellcheck="false" placeholder="Draft product text appears here…"></textarea>
+          </label>
+          <p class="hint warn-workflow-note" data-warn-step="text issue">Practice desk only — not for official dissemination. Issue pins the warning on the map; Update / Cancel work on the loaded active product. Motion: pt1 on an earlier radar frame, pt2 on a later frame.</p>
+        </section>
+
+        <section class="panel tool-panel" id="gfePanel" data-panel-title="GFE Hazards">
+          <div class="panel-header">
+            <h2>GFE Hazards</h2>
+            <span class="warn-badge">Zone mode</span>
+          </div>
+          <p class="hint">Select complete NWS zones in the active CWA. GFE hazards do not use freehand polygons.</p>
+
+          <div class="warn-section warn-active-section">
+            <h3>Active GFE events</h3>
+            <div class="warn-active-list" id="gfeActiveList"><p class="warn-areas-empty">No active GFE events.</p></div>
+            <div class="button-grid warn-tools">
+              <button type="button" id="gfeNewEventButton">New event</button>
+              <button type="button" id="gfeLoadEventButton" disabled>Load selected</button>
+            </div>
+          </div>
+
+          <div class="warn-section">
+            <h3>Hazard</h3>
+            <label class="field">
+              <span>Product</span>
+              <select id="gfeHazardSelect">
+                <optgroup label="Winter">
+                  <option value="WS.W">Winter Storm Warning</option>
+                  <option value="WW.Y">Winter Weather Advisory</option>
+                  <option value="BZ.W">Blizzard Warning</option>
+                  <option value="IS.W">Ice Storm Warning</option>
+                  <option value="LE.W">Lake Effect Snow Warning</option>
+                  <option value="WS.A">Winter Storm Watch</option>
+                </optgroup>
+                <optgroup label="Wind, heat, and visibility">
+                  <option value="HW.W">High Wind Warning</option>
+                  <option value="WI.Y">Wind Advisory</option>
+                  <option value="HW.A">High Wind Watch</option>
+                  <option value="XH.W">Extreme Heat Warning</option>
+                  <option value="XH.A">Extreme Heat Watch</option>
+                  <option value="HT.Y">Heat Advisory</option>
+                  <option value="EC.W">Extreme Cold Warning</option>
+                  <option value="EC.A">Extreme Cold Watch</option>
+                  <option value="CW.Y">Cold Weather Advisory</option>
+                  <option value="FG.Y">Dense Fog Advisory</option>
+                  <option value="SM.Y">Dense Smoke Advisory</option>
+                  <option value="AS.Y">Air Stagnation Advisory</option>
+                  <option value="FZ.W">Freeze Warning</option>
+                  <option value="FZ.A">Freeze Watch</option>
+                  <option value="FR.Y">Frost Advisory</option>
+                </optgroup>
+                <optgroup label="Coastal and lakeshore">
+                  <option value="CF.W">Coastal Flood Warning</option><option value="CF.Y">Coastal Flood Advisory</option><option value="CF.A">Coastal Flood Watch</option>
+                  <option value="LS.W">Lakeshore Flood Warning</option><option value="LS.Y">Lakeshore Flood Advisory</option><option value="LS.A">Lakeshore Flood Watch</option>
+                  <option value="SU.W">High Surf Warning</option><option value="SU.Y">High Surf Advisory</option><option value="RP.S">Rip Current Statement</option><option value="BH.S">Beach Hazards Statement</option><option value="CF.S">Coastal Hazard Statement</option><option value="LS.S">Lakeshore Hazard Statement</option>
+                </optgroup>
+                <optgroup label="Hydrology">
+                  <option value="FA.A">Flood Watch</option>
+                </optgroup>
+                <optgroup label="Fire weather">
+                  <option value="FW.W" data-zone-type="fire">Red Flag Warning</option>
+                  <option value="FW.A" data-zone-type="fire">Fire Weather Watch</option>
+                </optgroup>
+              </select>
+            </label>
+            <div class="field-grid">
+              <label class="field"><span>Zone layer</span><input id="gfeZoneTypeDisplay" value="Public Forecast Zones" readonly></label>
+              <label class="field"><span>VTEC action</span><select id="gfeActionSelect">
+                <option value="NEW">NEW · Issue</option>
+                <option value="CON">CON · Continue</option>
+                <option value="EXT">EXT · Extend</option>
+                <option value="EXA">EXA · Extend area</option>
+                <option value="EXB">EXB · Extend time and area</option>
+                <option value="CAN">CAN · Cancel</option>
+                <option value="EXP">EXP · Expire</option>
+              </select></label>
+            </div>
+          </div>
+
+          <div class="warn-section">
+            <h3>Selected zones</h3>
+            <div class="button-grid warn-tools">
+              <button type="button" id="gfeSelectAllButton">Select all CWA</button>
+              <button type="button" id="gfeClearZonesButton">Clear</button>
+            </div>
+            <p class="hint" id="gfeZoneHint">Click outlined public zones on the map to select or remove them.</p>
+            <div class="warn-active-list gfe-selected-zone-list" id="gfeSelectedZoneList">
+              <p class="warn-areas-empty">No zones selected.</p>
+            </div>
+          </div>
+
+          <div class="warn-section">
+            <h3>Product details</h3>
+            <div id="gfeHazardFields"></div>
+            <div class="field-grid">
+              <label class="field"><span>Begins</span><input type="datetime-local" id="gfeStartTime"></label>
+              <label class="field"><span>Ends</span><input type="datetime-local" id="gfeEndTime"></label>
+            </div>
+            <label class="field"><span>Impacts</span><textarea id="gfeImpactsInput" rows="3"></textarea></label>
+            <label class="field"><span>Additional details</span><textarea id="gfeDetailsInput" rows="2" placeholder="Optional"></textarea></label>
+            <button type="button" id="gfeContinueButton" disabled>Generate product</button>
+          </div>
+
+          <div class="warn-section">
+            <h3>Product text</h3>
+            <textarea id="gfeProductText" rows="18" readonly placeholder="Select one or more zones, complete the hazard details, then generate the product."></textarea>
+            <div class="button-grid warn-tools">
+              <button type="button" id="gfeCopyButton" disabled>Copy text</button>
+              <button type="button" id="gfeIssueButton" disabled>Issue product</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel tool-panel spc-panel" id="spcPanel" data-panel-title="SPC Watches">
+          <header class="spc-panel-header">
+            <div class="spc-panel-title-row">
+              <h2>SPC watch desk</h2>
+              <span class="warn-badge" id="spcStatusBadge">Draft</span>
+            </div>
+            <p class="spc-panel-meta">National CONUS desk · IEM mosaic · multi-state watches</p>
+          </header>
+
+          <section class="spc-section spc-display-section" aria-label="SPC map display">
+            <div class="spc-section-heading">
+              <span>Map</span>
+              <div>
+                <h3>Display</h3>
+                <small>Outlooks &amp; issued watches — saved to your server prefs</small>
+              </div>
+            </div>
+            <label class="width-label spc-opacity-row">
+              <span>Outlook opacity <strong id="spcOutlookOpacityValue">28%</strong></span>
+              <input type="range" id="spcOutlookOpacity" min="10" max="80" step="5" value="28">
+            </label>
+            <label class="width-label spc-opacity-row">
+              <span>Issued watch opacity <strong id="spcWatchOpacityValue">35%</strong></span>
+              <input type="range" id="spcWatchOpacity" min="5" max="80" step="5" value="35">
+            </label>
+            <label class="toggle-row" title="IEM national NEXRAD mosaic under the watch box">
+              <input type="checkbox" id="spcDeskRadarToggle" checked>
+              <span>National radar (IEM mosaic)</span>
+            </label>
+            <div class="spc-outlook-grid" id="spcOutlookToggles">
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day1-cat"><span>Day 1 categorical</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day1-torn"><span>Day 1 tornado</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day1-wind"><span>Day 1 wind</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day1-hail"><span>Day 1 hail</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day2-cat"><span>Day 2 categorical</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day2-torn"><span>Day 2 tornado</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day3-cat"><span>Day 3 categorical</span></label>
+              <label class="toggle-row"><input type="checkbox" data-spc-desk-outlook="day3-prob"><span>Day 3 probabilistic</span></label>
+              <label class="toggle-row"><input type="checkbox" id="spcDeskFireOutlook"><span>Fire weather outlook</span></label>
+              <label class="toggle-row"><input type="checkbox" id="spcDeskDiscussions"><span>SPC mesoscale discussions</span></label>
+            </div>
+            <label class="field" id="spcDeskFireDayField" hidden>
+              <span>Fire outlook day</span>
+              <select id="spcDeskFireDay">
+                <option value="1">Day 1</option>
+                <option value="2">Day 2</option>
+                <option value="3">Day 3</option>
+                <option value="4">Day 4</option>
+                <option value="5">Day 5</option>
+                <option value="6">Day 6</option>
+                <option value="7">Day 7</option>
+                <option value="8">Day 8</option>
+              </select>
+            </label>
+          </section>
+
+          <section class="spc-section">
+            <div class="spc-section-heading">
+              <span>1</span>
+              <div><h3>Active watches</h3><small>Issued products on the map</small></div>
+            </div>
+            <div class="warn-active-list" id="spcActiveList">
+              <p class="warn-areas-empty">No active watches. Issue a draft to pin it here.</p>
+            </div>
+            <div class="button-grid warn-tools">
+              <button type="button" id="spcNewDraftButton">New draft</button>
+              <button type="button" id="spcLoadActiveButton" disabled>Load selected</button>
+            </div>
+          </section>
+
+          <section class="spc-section">
+            <div class="spc-section-heading">
+              <span>2</span>
+              <div><h3>Watch setup</h3><small>Product, number, duration</small></div>
+            </div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Product</span>
+                <select id="spcProductSelect">
+                  <option value="TOA">TOA · Tornado Watch</option>
+                  <option value="SVA">SVA · Severe Thunderstorm Watch</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Watch # (auto)</span>
+                <input type="text" id="spcWatchNumberDisplay" readonly placeholder="Assigned on Issue NEW" value="" title="Watch number is sequential and assigned automatically when you Issue.">
+              </label>
+              <label class="field">
+                <span>VTEC action</span>
+                <select id="spcActionSelect">
+                  <option value="NEW">NEW · Issue</option>
+                  <option value="CON">CON · Continue / Update</option>
+                  <option value="CAN">CAN · Cancel</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Valid (hours)</span>
+                <input type="number" id="spcDurationHours" min="1" max="18" step="1" value="6">
+              </label>
+            </div>
+          </section>
+
+          <section class="spc-section">
+            <div class="spc-section-heading">
+              <span>3</span>
+              <div><h3>Place watch box</h3><small>Interior moves · corners resize · numbers for rotation &amp; slant</small></div>
+            </div>
+            <label class="field">
+              <span>Initial orientation</span>
+              <select id="spcOrientationSelect">
+                <option value="north-south">North–south</option>
+                <option value="east-west">East–west</option>
+              </select>
+            </label>
+            <div class="field-grid spc-box-metrics" id="spcBoxMetrics" hidden>
+              <label class="field">
+                <span>Rotation (°)</span>
+                <input type="number" id="spcBoxBearing" min="0" max="359" step="1" value="0" title="Long-axis bearing, 0 = north">
+              </label>
+              <label class="field">
+                <span>Slant (mi)</span>
+                <input type="number" id="spcBoxSlant" min="-400" max="400" step="5" value="45" title="Parallelogram shear along the long axis (miles)">
+              </label>
+            </div>
+            <div class="button-grid warn-tools spc-draw-tools">
+              <button type="button" id="spcDrawButton" class="warning-button">Place box</button>
+              <button type="button" id="spcUndoButton">Undo</button>
+              <button type="button" id="spcFinishButton">Finish freehand</button>
+              <button type="button" id="spcClearPolyButton">Clear poly</button>
+              <button type="button" id="spcResolveCountiesButton" class="warning-button" disabled title="Intersect the box with county boundaries and highlight them on the map">Resolve counties</button>
+              <button type="button" id="spcTrimOverlapsButton" disabled title="Drop counties already covered by another active watch">Trim overlaps</button>
+              <button type="button" id="spcCountyRemovalButton" disabled>Edit counties</button>
+            </div>
+            <p class="hint">Place box → adjust → <strong>Resolve counties</strong>. <strong>Trim overlaps</strong> removes counties already in another active watch. After resolve, click counties to add/remove. Drag center/corners to move/resize — then Resolve again.</p>
+          </section>
+
+          <section class="spc-section" id="spcWfoSection">
+            <div class="spc-section-heading">
+              <span>4</span>
+              <div>
+                <h3>WFO coordination</h3>
+                <small>Bulk include/exclude by CWA · local WFOs can respond · SPC has final say</small>
+              </div>
+            </div>
+            <p class="hint" id="spcWfoHint">Place a box to list WFOs whose counties intersect the watch. Uncheck a WFO to drop all of its counties at once.</p>
+            <div class="spc-wfo-list" id="spcWfoList" role="group" aria-label="WFOs in watch box">
+              <p class="warn-areas-empty">No WFOs yet — place a watch box first.</p>
+            </div>
+            <div class="button-grid warn-tools spc-wfo-tools">
+              <button type="button" id="spcNotifyWfosButton" disabled title="Push this draft to local WFOs so they can respond yes/no">Notify WFOs</button>
+              <button type="button" id="spcApplyWfoResponsesButton" disabled title="Apply WFO yes/no requests to the checklist (you can still override)">Apply WFO replies</button>
+            </div>
+            <p class="hint spc-wfo-authority">SPC desk checkboxes are final. WFO replies are advisory until you accept or override them.</p>
+          </section>
+
+          <section class="spc-section">
+            <div class="spc-section-heading">
+              <span>5</span>
+              <div><h3>Threats &amp; text</h3><small>Hail, wind, PDS, portions</small></div>
+            </div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Max hail</span>
+                <select id="spcHailSelect">
+                  <option value="none">None specified</option>
+                  <option value="1.00" selected>1.00"</option>
+                  <option value="1.50">1.50"</option>
+                  <option value="2.00">2.00"</option>
+                  <option value="2.50">2.50"</option>
+                  <option value="3.00">3.00"</option>
+                  <option value="3.50">3.50"</option>
+                  <option value="4.00">4.00"+</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Max wind</span>
+                <select id="spcWindSelect">
+                  <option value="none">None specified</option>
+                  <option value="60">60 mph</option>
+                  <option value="70" selected>70 mph</option>
+                  <option value="80">80 mph</option>
+                  <option value="90">90 mph</option>
+                </select>
+              </label>
+            </div>
+            <label class="toggle-row">
+              <input type="checkbox" id="spcTornadoes" checked>
+              <span>Tornadoes possible (on for TOA)</span>
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" id="spcPds">
+              <span>Particularly dangerous situation (PDS)</span>
+            </label>
+            <label class="field">
+              <span>Replaces WW # (optional)</span>
+              <input type="text" id="spcReplacing" placeholder="e.g. 310" value="">
+            </label>
+            <label class="field">
+              <span>Portions of (one region per line)</span>
+              <textarea id="spcPortions" rows="3" placeholder="Northern and Central Arkansas"></textarea>
+            </label>
+            <label class="field">
+              <span>SUMMARY (optional)</span>
+              <textarea id="spcDiscussion" rows="3" placeholder="Storms expected to intensify this afternoon…"></textarea>
+            </label>
+            <label class="field">
+              <span>Axis / line (optional)</span>
+              <textarea id="spcAxisOverride" rows="2" placeholder="Leave blank for auto axis near cities"></textarea>
+            </label>
+            <label class="field">
+              <span>Forecaster</span>
+              <input type="text" id="spcForecaster" placeholder="initials or name" value="">
+            </label>
+          </section>
+
+          <section class="spc-section">
+            <div class="spc-section-heading">
+              <span>6</span>
+              <div><h3>Areas in watch</h3><small>Resolved from the box · filtered by WFO include</small></div>
+            </div>
+            <div class="warn-areas" id="spcAreas">
+              <p class="warn-areas-empty">Place a box to resolve states and counties.</p>
+            </div>
+          </section>
+
+          <div class="spc-actions">
+            <button type="button" class="warning-button" id="spcGenerateButton">Generate text</button>
+            <button type="button" id="spcCopyButton">Copy</button>
+            <button type="button" id="spcClearAllButton">Clear draft</button>
+            <button type="button" class="warning-button warn-issue" id="spcIssueButton">Issue NEW</button>
+            <button type="button" id="spcUpdateButton" disabled>Update CON</button>
+            <button type="button" class="warn-cancel-btn" id="spcCancelButton" disabled>Cancel CAN</button>
+          </div>
+
+          <label class="field spc-product-text-field">
+            <span>Product text · ZASNetwork SPC</span>
+            <textarea id="spcProductText" class="warn-text" rows="12" spellcheck="false" placeholder="Watch product text appears here…"></textarea>
+          </label>
+        </section>
+
+        <section class="panel tool-panel nhc-panel" id="nhcPanel" data-panel-title="NHC Tropical Forecast">
+          <header class="nhc-panel-header">
+            <div class="nhc-panel-title-row">
+              <h2>NHC track editor</h2>
+              <span class="warn-badge" id="nhcStatusBadge">New</span>
+            </div>
+            <p class="nhc-status-meta" id="nhcSaveState">Add OBS + one forecast hour, then generate.</p>
+          </header>
+
+          <section class="nhc-section nhc-storm-section" aria-labelledby="nhcIdentityHeading">
+            <div class="nhc-section-heading">
+              <span>1</span>
+              <div>
+                <h3 id="nhcIdentityHeading">Storm identity</h3>
+                <small>Name, advisory, type, and initialization (Zulu)</small>
+              </div>
+            </div>
+            <div class="field-grid nhc-identity-grid">
+              <label class="field"><span>Storm name</span><input id="nhcStormName" maxlength="30" placeholder="e.g. ALPHA" autocomplete="off"></label>
+              <label class="field"><span>Advisory #</span><input id="nhcAdvisoryNumber" type="number" min="1" value="1"></label>
+              <label class="field"><span>Storm type</span>
+                <select id="nhcStormType">
+                  <option value="Tropical Depression">Tropical Depression</option>
+                  <option value="Tropical Storm" selected>Tropical Storm</option>
+                  <option value="Hurricane">Hurricane</option>
+                  <option value="Major Hurricane">Major Hurricane</option>
+                  <option value="Post-Tropical Cyclone">Post-Tropical Cyclone</option>
+                </select>
+              </label>
+              <label class="field"><span>Initial time (Z)</span><input id="nhcInitialTime" type="datetime-local"></label>
+            </div>
+          </section>
+
+          <section class="nhc-section nhc-track-section" aria-labelledby="nhcTrackHeading">
+            <div class="nhc-section-heading">
+              <span>2</span>
+              <div>
+                <h3 id="nhcTrackHeading">Forecast positions</h3>
+                <small>Lat / lon / max wind (kt). West longitudes are negative.</small>
+              </div>
+              <div class="nhc-track-stats" id="nhcTrackStats">0 positions</div>
+            </div>
+            <div class="nhc-intensity-legend" aria-hidden="true">
+              <span><i style="background:#38bdf8"></i>TD</span>
+              <span><i style="background:#22d3ee"></i>TS</span>
+              <span><i style="background:#facc15"></i>C1</span>
+              <span><i style="background:#fb923c"></i>C2</span>
+              <span><i style="background:#ef4444"></i>C3</span>
+              <span><i style="background:#e879f9"></i>C4</span>
+              <span><i style="background:#a855f7"></i>C5</span>
+            </div>
+            <div class="nhc-forecast-table" id="nhcForecastTable"></div>
+            <p class="hint nhc-coordinate-hint">Leave lat and lon blank to skip a hour. OBS is required. Cone builds after Generate (or auto after 2+ points).</p>
+          </section>
+
+          <section class="nhc-section nhc-display-section" aria-labelledby="nhcDisplayHeading">
+            <div class="nhc-section-heading">
+              <span>3</span>
+              <div>
+                <h3 id="nhcDisplayHeading">Cone &amp; labels</h3>
+                <small>Basin radii table and map labels</small>
+              </div>
+            </div>
+            <div class="field-grid nhc-display-grid">
+              <label class="field"><span>Forecast basin</span>
+                <select id="nhcBasin">
+                  <option value="atlantic">Atlantic / E. Pacific</option>
+                  <option value="centralPacific">Central Pacific</option>
+                </select>
+              </label>
+              <label class="toggle-row nhc-label-toggle">
+                <input type="checkbox" id="nhcShowLabels" checked>
+                <span>Show hour / wind labels on map</span>
+              </label>
+            </div>
+            <p class="hint">Official NHC products and model spaghetti live under <strong>Layers → NHC</strong> — this panel only authors the ZWS track/cone.</p>
+          </section>
+
+          <div class="nhc-actions">
+            <button type="button" id="nhcGenerateButton" class="warning-button">Generate cone</button>
+            <button type="button" id="nhcSaveButton">Save</button>
+            <button type="button" id="nhcClearButton" class="nhc-clear-button">Clear</button>
+          </div>
+
+          <section class="nhc-section nhc-saved-section" aria-labelledby="nhcSavedHeading">
+            <div class="nhc-section-heading">
+              <span>4</span>
+              <div>
+                <h3 id="nhcSavedHeading">Shared tropical desk</h3>
+                <small>Visible to every signed-in ops user</small>
+              </div>
+            </div>
+            <div class="nhc-saved-list" id="nhcSavedList"><p class="hint">No shared forecasts yet. Generate a cone, then Save.</p></div>
+          </section>
+        </section>
+
+        <section class="panel tool-panel" id="dataPanel" data-panel-title="Data & Server">
+          <div class="panel-header panel-header-inline">
+            <button type="button" class="compact-button" id="dataHealthRefresh">Refresh</button>
+          </div>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Server</h3></header>
+            <div class="ops-section-body">
+              <div class="health-summary" id="serverHealthSummary"><p class="hint">Loading server health…</p></div>
+            </div>
+          </section>
+          <section class="ops-section">
+            <header class="ops-section-head"><h3>Data feeds</h3></header>
+            <div class="ops-section-body">
+              <div class="feed-health-list" id="feedHealthList"><p class="hint">Loading feed status…</p></div>
+            </div>
+          </section>
+          <section class="ops-section health-section notification-section">
+            <header class="ops-section-head">
+              <h3>Notifications</h3>
+              <button type="button" class="compact-button" id="notificationClearButton">Clear</button>
+            </header>
+            <div class="ops-section-body">
+              <div class="notification-list" id="notificationList"><p class="hint">No notifications yet.</p></div>
+            </div>
+          </section>
+          <section class="ops-section change-log-section">
+            <header class="ops-section-head"><h3>Change log</h3><span class="ops-section-meta">Expand a version</span></header>
+            <div class="ops-section-body">
+            <details class="change-log-entry">
+              <summary><strong>Version 15</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Mattermost now ignores historical warning inventory and only sends lifecycle events created or updated within the last five minutes.</li><li>Mattermost warning links now open a public plain-text bulletin without requiring a ZWS login.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 14</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Added server-side Mattermost incoming-webhook notifications with issuing-WFO attribution and WFO-local issue/expiration times.</li><li>Added a post-issue distribution receipt confirming Mattermost, warning server, placefile, and public-site delivery.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 13</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Radar scans, loops, cached files, product switches, and national radar changes now preserve the current map center and zoom.</li><li>Map repositioning remains available through explicit navigation controls such as Home.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 12</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Separated Hazard Services frame-linked cell markers from legacy WarnGen green/red motion points.</li><li>Untouched seeded markers no longer count as observations or collapse a warning corridor into a stationary square.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 11</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Restricted warning updates and cancellations to the issuing WFO unless Mutual Aid is explicitly enabled.</li><li>Added server-backed, operator-owned edit locks with automatic renewal and stale-lock expiry to prevent simultaneous warning edits.</li><li>All ZWS warnings remain viewable even when their edit and cancel actions are locked.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 10</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Added a persistent Active Warnings filter for switching between all ZWS warnings and the currently selected WFO.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 9</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Fixed newly discovered WPC MPDs being rejected when WPC returned title-only pages for cache-busted individual product URLs.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 8</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Added polygon-derived sub-county wording such as “Northeastern York County” and “Central Maury County” to warning and statement text.</li><li>Broad county coverage continues to use the full county name, and official UGC county codes remain unchanged.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 7</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Prevented newly issued WPC precipitation discussions from being missed when WPC's active-product index is stale.</li><li>Added cache-busting and near-future MPD sequence discovery for faster map updates.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 6</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Corrected WPC Mesoscale Precipitation Discussion longitude decoding so polygons plot over their actual areas.</li><li>Added a visible warning when an enabled discussion feed returns no active products.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 5</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Changed MRMS product selectors to consistent layer checkboxes.</li><li>MRMS can now be turned off by unchecking the active product; selecting another product replaces the current MRMS raster.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 4</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Overhauled docked menus with more compact typography, controls, spacing, and padding while retaining larger mobile touch targets.</li><li>Added Collapse All to Layers.</li><li>Made Hazard Services the primary authoring entry and removed legacy WarnGen/GFE buttons from the tool rail without removing their product engines.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 3</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Added a unified HAZ workflow bar, draft-state indicator, sticky actions, inline validation, and pre-issue checklist.</li><li>Strengthened template validation while preserving WarnGen and GFE as the authoritative product engines.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 2</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body"><ul><li>Added searchable layer controls with keyboard focus using the slash key.</li><li>Added per-user favorite layer sections for faster access.</li><li>Added persistent notification history so feed and workflow messages are not lost.</li><li>Added clearer active-state badges to layer section headings.</li></ul></div>
+            </details>
+            <details class="change-log-entry">
+              <summary><strong>Version 1</strong><time datetime="2026-07-17">July 17, 2026</time></summary>
+              <div class="change-log-body">
+                <h4>Interface</h4>
+                <ul><li>Refined app-wide contrast, spacing, panel hierarchy, focus states, scrollbars, and disabled controls.</li><li>Added sticky panel headers, larger control hit areas, mobile safe-area handling, and reduced-motion support.</li><li>Added draggable Active Layers with visibility and opacity controls for operational datasets.</li></ul>
+                <h4>Radar and map</h4>
+                <ul><li>Improved radar background loading, timeline updates, independent panels, radar-site selection, and saved-state restoration.</li><li>Added zoom-dependent city density and size controls, surface observations, storm reports, river gauges, and additional MRMS products.</li><li>Added SPC, WPC, fire-weather, lightning, outlook legends, opacity controls, and hashed significant-risk areas.</li></ul>
+                <h4>Satellite and lightning</h4>
+                <ul><li>Added native GOES sectors, ABI bands, GeoColor, GLM flashes, and FED-style density.</li><li>Upgraded native rendering to 4096 pixels with aligned bands, bilinear reprojection, and sharpening.</li><li>Added flicker-free GeoColor animation crossfades and cached GLM fallback during NOAA feed interruptions.</li></ul>
+                <h4>Warnings and hazards</h4>
+                <ul><li>Expanded WarnGen templates and workflows for severe, tornado, flash flood, areal flood, flood advisory, fire warning, and SPS products.</li><li>Added warning text/history popups, edit/cancel lifecycle actions, active-warning map controls, motion tracking, polygon editing, and watch county removal.</li><li>Added GFE zone workflows and Hazard Services Beta with convective, winter, fire-weather, flood, and other hazard categories.</li></ul>
+                <h4>NHC</h4>
+                <ul><li>Added server-backed ZWS forecast saving, automatic cone restoration, editable tracks, intensity dots, local/Zulu labels, and an optional coordinate grid.</li><li>Added official NHC cone, forecast track, wind radii, watches/warnings, observed track, and tropical-storm-wind arrival layers.</li><li>Added ATCF spaghetti guidance, storm names, manual IDs, five-minute updates, and filtering of invalid track jumps.</li><li>Separated ZWS-authored forecasts, official NHC products, and model guidance in Layers.</li></ul>
+              </div>
+            </details>
+            </div>
+          </section>
+          <p class="save-state" id="dataHealthUpdated"></p>
+        </section>
+
+        <section class="panel tool-panel guidance-panel" id="guidancePanel" data-panel-title="Ops Guidance" hidden aria-hidden="true">
+          <div class="guidance-intro">
+            <p class="eyebrow">ZASNet Weather Service</p>
+            <h2>Operations instruction manual</h2>
+            <p>Task-based guidance for workstations, situational awareness, Hazard Services, product follow-ups, hydro operations, and administration.</p>
+            <a class="button guidance-popout" href="https://zasnetwx.com/operations-guide" target="_blank" rel="noopener">Open standalone guide in a new tab ↗</a>
+            <label class="guidance-search"><span class="sr-only">Search the operations guide</span><input type="search" id="guidanceSearch" placeholder="Search procedures, products, or tools…" autocomplete="off"><kbd>/</kbd></label>
+            <p class="guidance-notice"><strong>Operational note:</strong> Confirm current data, timestamps, geometry, wording, and distribution before issuance. This guide describes ZASNet workflows; governing directives and local policy remain authoritative.</p>
+          </div>
+          <nav class="guidance-toc" aria-label="Guidance contents">
+            <a href="#guide-start">Start of shift</a><a href="#guide-workspaces">Workspaces</a><a href="#guide-map">Map &amp; radar</a><a href="#guide-haz">Hazard Services</a><a href="#guide-hydro">Hydro</a><a href="#guide-followups">Follow-ups</a><a href="#guide-distribution">Distribution</a><a href="#guide-admin">Administration</a><a href="#guide-trouble">Troubleshooting</a>
+          </nav>
+          <div class="guidance-results" id="guidanceResults" aria-live="polite"></div>
+          <div class="guidance-content" id="guidanceContent">
+            <article id="guide-start" data-guide-keywords="login shift startup status data health practice mode office wfo">
+              <h3>Start-of-shift checklist</h3>
+              <ol><li>Confirm the active WFO and whether the workstation is in operational or Practice Mode.</li><li>Open Data &amp; Server and review server/feed health, especially radar and warning distribution.</li><li>Center the map on the CWA and load the map setup appropriate for the expected hazards.</li><li>Check the latest radar timestamp. A red frame or stale-data notice requires verification before warning decisions.</li><li>Review active ZASNet products, NWS alerts, and any existing edit locks before starting new work.</li></ol>
+            </article>
+            <article id="guide-workspaces" data-guide-keywords="workspace tabs offices mutual aid riw bis cys independent panels sidebar">
+              <h3>Workspaces and mutual aid</h3>
+              <p>Each workspace tab is a separate operational environment with its own WFO, map view, radar, panels, and draft state. Issued alerts remain shared.</p>
+              <ol><li>Select <strong>+</strong> above the map and enter the three-letter WFO ID.</li><li>Use that office’s tab when creating or editing its products.</li><li>Enable Mutual Aid only when authorized. Products remain attributable to the issuing/operated office.</li><li>Closing or switching tabs does not cancel issued products, but save unfinished drafts first.</li></ol>
+            </article>
+            <article id="guide-map" data-guide-keywords="map radar panels layers zones polygons opacity solid fill timeline red stale frame">
+              <h3>Map, radar, and layers</h3>
+              <ul><li>Map panels are independent unless <strong>Link panel navigation</strong> is enabled.</li><li>Use Layers to control visibility, opacity, ordering, and favorites. Saved setups retain panel, radar, and layer choices.</li><li>Zone-based alerts display as solid fills without outlines. Polygon products use their actual warning geometry.</li><li>Public and Ops maps may use different controls, but the underlying active product inventory is shared.</li><li>A red radar timeline frame indicates an unavailable or failed frame. Select another frame and verify the scan time/feed health.</li></ul>
+            </article>
+            <article id="guide-haz" data-guide-keywords="haz hazard services warning advisory watch validity geometry details locations review issue polygon zone select all">
+              <h3>Hazard Services workflow</h3>
+              <ol><li><strong>Validity:</strong> choose the product, action, start, and expiration.</li><li><strong>Geometry:</strong> place/track the storm, draw a polygon, or enable zone selection. Use Select All Zones only when the whole CWA truly applies.</li><li><strong>Details:</strong> enter only fields belonging to that hazard. Product templates determine where each value appears.</li><li><strong>Locations:</strong> review automatically selected counties, zones, communities, and pathcast output.</li><li><strong>Review:</strong> read the entire product. Resolve every placeholder and checklist failure before issuing.</li></ol>
+              <p>The review editor allows narrative refinement. Protected headers, VTEC, geometry, and coded tags must not be changed manually.</p>
+            </article>
+            <article id="guide-hydro" data-guide-keywords="hydro river gauge gage nwps flood warning advisory flash flood crest stage flow nwlsi nwlsi">
+              <h3>Hydro and river gauges</h3>
+              <h4>Areal and flash-flood products</h4>
+              <ul><li>Flash Flood Warnings use warning area, Until, basis, HAZARD, SOURCE, IMPACT, LAT…LON, and applicable coded tags.</li><li>CONSIDERABLE and CATASTROPHIC are exceptional damage-threat levels. CATASTROPHIC requires Flash Flood Emergency wording and strong supporting evidence.</li><li>Areal Flood Warnings and Flood Advisories use WHAT, WHERE, WHEN, IMPACTS, and ADDITIONAL DETAILS.</li></ul>
+              <h4>Automatic gauge import</h4>
+              <ol><li>Enable <strong>River gauges</strong> in Layers.</li><li>Click a gauge marker and choose <strong>Use in Hazard Services</strong>.</li><li>The system opens an Areal Flood Warning by default, or fills the current Flood Advisory.</li><li>Review the NWSLI, observation time/value, forecast crest/time, trend, flood category, thresholds, and available impacts.</li><li>Select the confirmation checkbox. Use <strong>Refresh gauge</strong> immediately before review if time has elapsed.</li></ol>
+              <p>Gauge values come from NOAA/NWPS. Missing forecast values are shown as unavailable and must not be invented. Forecast-point FLW/FLS products require gauge-specific review even when values are imported automatically.</p>
+            </article>
+            <article id="guide-followups" data-guide-keywords="continue con extend ext cancel can expire exp update statement correction">
+              <h3>Updates and follow-ups</h3>
+              <dl><dt>CON — Continue</dt><dd>Conditions and expiration remain in effect; update the current basis and impacts.</dd><dt>EXT — Extend</dt><dd>Extend valid time when the hazard will persist. Verify the new end time and wording.</dd><dt>CAN — Cancel</dt><dd>Use when the threat has ended before expiration. State why when appropriate.</dd><dt>EXP — Expire</dt><dd>Use at the scheduled end when the threat no longer warrants continuation.</dd></dl>
+              <p>Do not use a correction to change warned area, event time, or other VTEC-linked information. Use the appropriate lifecycle action or replacement product.</p>
+            </article>
+            <article id="guide-distribution" data-guide-keywords="issue review receipt public map gr level mattermost warnings server distribution practice">
+              <h3>Issuance and distribution</h3>
+              <ol><li>Complete the pre-issue checklist and read the reviewed text from top to bottom.</li><li>Verify office, product/action, ETN, expiration, counties/zones, geometry, tags, and CTAs.</li><li>Issue once. Wait for the distribution receipt instead of repeatedly pressing Issue.</li><li>Confirm required destinations such as the Ops inventory, public map, Mattermost, placefile, and GR warning server when applicable.</li></ol>
+              <p>Practice Mode products remain Ops-only and are not sent to public or external distribution destinations.</p>
+            </article>
+            <article id="guide-admin" data-guide-keywords="admin warning editor templates fields sections what where when impacts priority layers audit tracking active users">
+              <h3>Administration</h3>
+              <ul><li>The warning editor controls configurable section wording, optional sections, custom fields, placement tokens, and product defaults.</li><li>Load an existing template before editing so configured field blocks appear in WHAT/WHERE/WHEN and related sections.</li><li>Alert display priority controls which overlapping product appears above another on public maps.</li><li>Access Audit requires the audit permission. It records public-page activity separately from operational product issuance.</li><li>Test template changes in Hazard Services before relying on them operationally.</li></ul>
+            </article>
+            <article id="guide-trouble" data-guide-keywords="troubleshooting error forbidden radar red missing text warning gauge unavailable overlap cache refresh">
+              <h3>Troubleshooting</h3>
+              <dl><dt>Gauge unavailable</dt><dd>Retry Refresh Gauge, verify NWPS feed health, and use the NOAA hydrograph link. Do not issue stale values without confirmation.</dd><dt>Red radar frame</dt><dd>The frame failed or is unavailable. Select a valid frame and check Data &amp; Server.</dd><dt>New field is absent from text</dt><dd>Confirm its placement token exists in the applicable section template, then regenerate Review.</dd><dt>Public alert is missing</dt><dd>Confirm the product was not issued in Practice Mode and inspect the distribution receipt.</dd><dt>Forbidden / permission required</dt><dd>Confirm the signed-in account’s required group or permission; logging in alone does not grant administrative capabilities.</dd></dl>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="map-stage" aria-label="Interactive weather map">
+        <nav class="workspace-tabs" id="workspaceTabs" aria-label="Operational workspaces">
+          <div class="workspace-tab-list" id="workspaceTabList" role="tablist"></div>
+          <button type="button" class="workspace-tab-add" id="workspaceTabAdd" aria-label="Add operational workspace" title="Add workspace">+</button>
+        </nav>
+        <button type="button" class="focus-mode-exit" id="focusModeExit" hidden>Exit focus mode</button>
+        <div class="map-panels" id="mapPanels">
+          <div class="map-pane" data-pane="1">
+            <div id="map" class="map-canvas"></div>
+            <div class="map-pane-overlay">
+              <div class="map-pane-chip" id="pane1Label">BR</div>
+              <div class="map-data-age" id="pane1DataAge" hidden></div>
+              <section class="radar-legend radar-legend-pane" id="radarLegend" aria-label="Panel 1 color legend"></section>
+            </div>
+          </div>
+          <div class="map-pane map-pane-secondary is-hidden" data-pane="2" id="mapPane2">
+            <div id="map2" class="map-canvas"></div>
+            <div class="map-pane-overlay">
+              <div class="map-pane-chip" id="pane2Label">VEL</div>
+              <div class="map-data-age" id="pane2DataAge" hidden></div>
+              <section class="radar-legend radar-legend-pane" id="radarLegend2" aria-label="Panel 2 color legend"></section>
+            </div>
+          </div>
+          <div class="map-pane map-pane-secondary is-hidden" data-pane="3" id="mapPane3">
+            <div id="map3" class="map-canvas"></div>
+            <div class="map-pane-overlay">
+              <div class="map-pane-chip" id="pane3Label">VIL</div>
+              <div class="map-data-age" id="pane3DataAge" hidden></div>
+              <section class="radar-legend radar-legend-pane" id="radarLegend3" aria-label="Panel 3 color legend"></section>
+            </div>
+          </div>
+          <div class="map-pane map-pane-secondary is-hidden" data-pane="4" id="mapPane4">
+            <div id="map4" class="map-canvas"></div>
+            <div class="map-pane-overlay">
+              <div class="map-pane-chip" id="pane4Label">MESH</div>
+              <div class="map-data-age" id="pane4DataAge" hidden></div>
+              <section class="radar-legend radar-legend-pane" id="radarLegend4" aria-label="Panel 4 color legend"></section>
+            </div>
+          </div>
+        </div>
+        <aside class="map-active-warnings" id="mapActiveWarnings" aria-label="Active warnings">
+          <div class="map-active-warnings-header"><button type="button" class="map-active-warnings-toggle" id="mapActiveWarningsToggle" aria-expanded="true"><span>Active warnings</span><b id="mapActiveWarningsCount">0</b><i aria-hidden="true">−</i></button><button type="button" class="map-active-warnings-filter" id="mapActiveWarningsFilter" aria-label="Filter active warnings">All ZWS</button></div>
+          <div class="map-active-warnings-list" id="mapActiveWarningsList"><p>No active warnings.</p></div>
+        </aside>
+        <section class="radar-chrome" id="radarChrome">
+          <section class="radar-timeline model-map-timeline" id="modelMapTimeline" aria-label="Model forecast timeline" hidden>
+            <button type="button" class="timeline-play" id="modelMapPlay" title="Play or pause model forecast"><span id="modelMapPlayIcon" aria-hidden="true">▶</span></button>
+            <div class="timeline-main">
+              <div class="timeline-meta">
+                <strong id="modelMapFrameLabel">Model overlay</strong>
+                <div class="timeline-actions">
+                  <button type="button" id="modelMapPrevious" aria-label="Previous model frame">‹</button>
+                  <select id="modelMapHour" aria-label="Model forecast hour"></select>
+                  <button type="button" id="modelMapNext" aria-label="Next model frame">›</button>
+                  <span id="modelMapFrameCount">0 / 0</span>
+                </div>
+              </div>
+              <div class="timeline-frames" id="modelMapTimelineFrames" aria-label="Model frame preload status"></div>
+              <input id="modelMapRange" class="model-map-range" type="range" min="0" max="0" value="0" aria-label="Model forecast timeline" hidden>
+            </div>
+          </section>
+          <section class="radar-timeline sat-timeline" id="satTimeline" aria-label="Satellite timeline" hidden>
+            <button type="button" class="timeline-play" id="satPlayButton" title="Play or pause satellite loop">
+              <span id="satPlayIcon" aria-hidden="true">▶</span>
+            </button>
+            <div class="timeline-main">
+              <div class="timeline-meta">
+                <strong id="satFrameLabel">Satellite off</strong>
+                <div class="timeline-actions">
+                  <label class="timeline-product" title="Loop duration">
+                    <span class="sr-only">Loop duration</span>
+                    <select id="satTimelineDurationSelect" title="Satellite loop duration">
+                      <option value="15" selected>15m</option>
+                      <option value="30">30m</option>
+                      <option value="60">1h</option>
+                      <option value="120">2h</option>
+                      <option value="240">4h</option>
+                      <option value="360">6h</option>
+                    </select>
+                  </label>
+                  <label class="timeline-product" title="Animation speed">
+                    <span class="sr-only">Animation speed</span>
+                    <select id="satTimelineSpeedSelect" title="Satellite animation speed">
+                      <option value="1400">Slow</option>
+                      <option value="850" selected>Norm</option>
+                      <option value="500">Fast</option>
+                      <option value="320">Max</option>
+                    </select>
+                  </label>
+                  <span id="satFrameCount">0 frames</span>
+                </div>
+              </div>
+              <div class="timeline-frames" id="satTimelineFrames" aria-label="Satellite frame preload status"></div>
+            </div>
+          </section>
+          <section class="radar-timeline" id="radarTimeline" aria-label="Radar timeline">
+            <button type="button" class="timeline-play" id="radarPlayButton" title="Play or pause radar loop">
+              <span id="radarPlayIcon" aria-hidden="true">▶</span>
+            </button>
+            <div class="timeline-main">
+              <div class="timeline-meta">
+                <strong id="radarFrameLabel">No radar loop</strong>
+                <div class="timeline-actions">
+                  <label class="timeline-product" title="Site radar timeline window">
+                    <span class="sr-only">Timeline window</span>
+                    <select id="radarLoopWindowSelect" title="Site radar timeline window">
+                      <option value="30">30 min</option>
+                      <option value="45" selected>45 min</option>
+                      <option value="60">60 min</option>
+                      <option value="90">90 min</option>
+                    </select>
+                  </label>
+                  <label class="timeline-product" title="Radar product">
+                    <span class="sr-only">Radar product</span>
+                    <select id="timelineRadarProductSelect" title="Radar product">
+                      <option value="reflectivitylevel3">BR-L3</option>
+                      <option value="velocitylevel3">VEL-L3</option>
+                      <option value="compositereflectivity">CR</option>
+                      <option value="vil">VIL</option>
+                      <option value="precip1h">1h</option>
+                      <option value="precip3h">3h</option>
+                      <option value="stormtotal">STP</option>
+                      <option value="echotops">ET</option>
+                      <option value="stormvelocity">SRV</option>
+                      <option value="correlation">CC</option>
+                      <option value="differentialreflectivity">ZDR</option>
+                      <option value="specificdifferentialphase">KDP</option>
+                      <option value="hydrometeor">HHC</option>
+                      <option value="mesh60">M60</option>
+                      <option value="mesh">MESH</option>
+                    </select>
+                  </label>
+                  <span id="radarFrameCount">0 frames</span>
+                </div>
+              </div>
+              <div class="timeline-frames" id="radarTimelineFrames"></div>
+            </div>
+          </section>
+          <section class="radar-timeline ndfd-timeline" id="ndfdTimeline" aria-label="NDFD forecast timeline">
+            <button type="button" class="timeline-play" id="ndfdPlayButton" title="Play or pause the forecast timeline">
+              <span id="ndfdPlayIcon" aria-hidden="true">▶</span>
+            </button>
+            <div class="timeline-main">
+              <div class="timeline-meta">
+                <strong id="ndfdFrameLabel">NDFD temperature</strong>
+                <div class="timeline-actions">
+                  <div class="ndfd-legend" id="ndfdLegend" aria-label="NDFD forecast legend">
+                    <div class="ndfd-legend-scale">
+                      <i id="ndfdLegendRamp"></i>
+                      <div class="ndfd-legend-ticks" id="ndfdLegendTicks" aria-hidden="true">
+                        <span>-20</span><span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100+</span>
+                      </div>
+                    </div>
+                    <b id="ndfdLegendUnit">°F</b>
+                  </div>
+                  <span id="ndfdFrameCount">1 / 6</span>
+                </div>
+              </div>
+              <div class="timeline-frames" id="ndfdTimelineFrames"></div>
+            </div>
+          </section>
+          <section class="radar-timeline smoke-timeline" id="smokeTimeline" aria-label="Smoke forecast timeline">
+            <button type="button" class="timeline-play" id="smokePlayButton" title="Play or pause smoke forecast"><span id="smokePlayIcon" aria-hidden="true">▶</span></button>
+            <div class="timeline-main">
+              <div class="timeline-meta"><strong id="smokeFrameLabel">Surface smoke · current</strong><div class="timeline-actions"><span id="smokeFrameCount">1 / 49</span></div></div>
+              <div class="timeline-frames" id="smokeTimelineFrames"></div>
+            </div>
+          </section>
+          <section class="radar-timeline qpf-timeline" id="qpfTimeline" aria-label="WPC QPF accumulation timeline">
+            <button type="button" class="timeline-play" id="qpfPlayButton" title="Cycle QPF accumulation periods"><span id="qpfPlayIcon" aria-hidden="true">▶</span></button>
+            <div class="timeline-main"><div class="timeline-meta"><strong id="qpfFrameLabel">WPC 72-hour QPF</strong><div class="timeline-actions"><span id="qpfFrameCount">3 / 5</span></div></div><div class="timeline-frames" id="qpfTimelineFrames"></div></div>
+          </section>
+        </section>
+        <div class="map-banner" id="mapBanner">Drag, scroll, or pinch to navigate the map.</div>
+      </section>
+      <footer class="ops-status-strip" id="opsStatusStrip" aria-label="Current operational status">
+        <span class="ops-status-brand">OPS</span>
+        <span class="ops-status-item" id="opsModeStatus" role="button" tabindex="0" data-footer-panel="operationsPanel" title="Open Operations settings"><i></i><b>Live</b></span>
+        <span class="ops-status-item" role="button" tabindex="0" data-footer-panel="operationsPanel" title="Change the active WFO/CWA"><small>CWA</small><b id="opsCwaStatus">—</b></span>
+        <span class="ops-status-item" role="button" tabindex="0" data-footer-panel="radarPanel" title="Open Radar controls and freshness details"><small>Radar</small><b id="opsRadarStatus">No loop</b></span>
+        <span class="ops-status-item" role="button" tabindex="0" data-footer-panel="satellitePanel" title="Open Satellite controls"><small>Sat</small><b id="opsSatStatus">Off</b></span>
+        <span class="ops-status-item" role="button" tabindex="0" data-footer-panel="hazardsPanel" title="Open Hazard Services"><small>Warnings</small><b id="opsWarningStatus">0 active</b></span>
+        <span class="ops-status-item" id="opsSystemStatus" role="button" tabindex="0" data-footer-panel="dataPanel" title="Open Data and Server health"><small>System</small><b>Online</b></span>
+        <time id="opsZuluStatus">--:--:--Z</time>
+      </footer>
+    </main>
+
+    <dialog class="warning-eval-dialog haz-review-dialog" id="hazReviewDialog">
+      <form method="dialog" class="warning-eval-inner" id="hazReviewForm">
+        <header><div><p class="eyebrow">Final review</p><h3 id="hazReviewTitle">Review hazard text</h3></div><button type="submit" class="dialog-close" value="cancel" aria-label="Close">×</button></header>
+        <p class="hint">Narrative wording is editable. For TOR/SVR products, the generated header and the LAT…LON, TIME…MOT…LOC, IBW-tag, and terminator block are protected for warning-server compatibility.</p>
+        <section class="haz-issue-summary" id="hazIssueSummary" aria-label="Issuance summary"></section>
+        <div class="haz-review-checklist" id="hazReviewChecklist" aria-label="Pre-issue checklist"></div>
+        <p class="haz-issue-feedback" id="hazIssueFeedback" role="status" aria-live="assertive" hidden></p>
+        <textarea id="hazReviewText" rows="24" spellcheck="true"></textarea>
+        <div class="warning-details-actions"><button type="submit" value="cancel">Cancel</button><button type="submit" value="issue" class="warning-button" id="hazIssueButton">Issue</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="warning-eval-dialog" id="warningEvalDialog">
+      <form method="dialog" class="warning-eval-inner">
+        <header>
+          <div>
+            <p class="eyebrow">Evaluation due</p>
+            <h3 id="warningEvalTitle">Warning update reminder</h3>
+          </div>
+          <button type="submit" class="dialog-close" value="dismiss" aria-label="Close">×</button>
+        </header>
+        <p id="warningEvalBody">This warning is due for evaluation.</p>
+        <div class="warning-eval-actions">
+          <button type="button" class="warning-button" id="warningEvalLoadButton">Load warning</button>
+          <button type="button" id="warningEvalSnoozeButton">Snooze 5 min</button>
+          <button type="submit" id="warningEvalDismissButton" value="dismiss">Dismiss</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="warning-eval-dialog" id="svrCancelReasonDialog">
+      <form method="dialog" class="warning-eval-inner">
+        <header>
+          <div><p class="eyebrow">Cancellation reason</p><h3>Cancel Severe Thunderstorm Warning</h3></div>
+          <button type="submit" class="dialog-close" value="cancel" aria-label="Close">×</button>
+        </header>
+        <p>Select the reason that will appear in the cancellation statement.</p>
+        <label class="svr-cancel-choice"><input type="radio" name="svrCancelReason" value="weakened" checked><span><strong>Storm weakened</strong><small>Weakened below severe limits.</small></span></label>
+        <label class="svr-cancel-choice"><input type="radio" name="svrCancelReason" value="movedOut"><span><strong>Storm moved out of warned area</strong><small>Threat has left the polygon / warned counties.</small></span></label>
+        <label class="svr-cancel-choice"><input type="radio" name="svrCancelReason" value="replacedByTornado"><span><strong>Replaced by Tornado Warning</strong><small>A Tornado Warning was issued for the same area.</small></span></label>
+        <div class="warning-eval-actions">
+          <button type="submit" value="cancel">Back</button>
+          <button type="submit" class="warning-button" value="continue">Continue cancellation</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="warning-distribution-dialog" id="warningDistributionDialog">
+      <form method="dialog" class="warning-distribution-inner">
+        <header><div><p class="eyebrow">Distribution receipt</p><h3 id="warningDistributionTitle">Warning distributed</h3></div><button type="submit" class="dialog-close" aria-label="Close">×</button></header>
+        <p class="hint">ZWS received the following delivery confirmations. Failed legs can be retried without re-issuing.</p>
+        <ul class="warning-distribution-list" id="warningDistributionList"></ul>
+        <div class="warning-distribution-actions">
+          <button type="button" class="warning-button" id="warningDistributionRetry" hidden>Retry failed</button>
+          <button type="submit" class="primary-button">Done</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="warning-eval-dialog warning-details-dialog" id="warningDetailsDialog">
+      <form method="dialog" class="warning-eval-inner">
+        <header>
+          <div><p class="eyebrow">Issued warning</p><h3 id="warningDetailsTitle">Warning details</h3></div>
+          <button type="submit" class="dialog-close" value="close" aria-label="Close">×</button>
+        </header>
+        <div class="warning-details-meta" id="warningDetailsMeta"></div>
+        <section class="warning-details-section">
+          <h4>Current warning text</h4>
+          <pre id="warningDetailsText"></pre>
+        </section>
+        <details class="warning-details-section warning-details-history-group" id="warningDetailsHistoryGroup">
+          <summary>Bulletin history</summary>
+          <div class="warning-details-history" id="warningDetailsHistory"></div>
+        </details>
+        <div class="warning-details-actions">
+          <button type="button" class="warning-button" id="warningDetailsEditButton">Edit</button>
+          <button type="button" class="warn-cancel-btn" id="warningDetailsCancelButton">Cancel CAN</button>
+          <button type="submit" value="close">Close</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="warning-eval-dialog warn-help-dialog" id="warnHelpDialog">
+      <form method="dialog" class="warning-eval-inner">
+        <header><div><p class="eyebrow">Hazard Services guide</p><h3>Storm placement, polygons, and hotkeys</h3></div><button type="submit" class="dialog-close" aria-label="Close">×</button></header>
+        <div class="warn-help-content">
+          <h4>Hotkeys</h4>
+          <ul><li><kbd>H</kbd> Open Hazard Services.</li><li><kbd>I</kbd> Toggle radar inspect/query (hover values on precip/velocity).</li><li><kbd>1</kbd> Place or reposition the storm marker; for static hazards, start or reopen area drawing.</li><li><kbd>2</kbd> Edit the current polygon using its yellow vertex handles.</li><li><kbd>3</kbd> Open Review and Issue—or Review Update for a loaded warning.</li><li><kbd>4</kbd> Redraw the polygon using the current frame-linked storm motion.</li><li><kbd>5</kbd> Trim the polygon to the selected CWA.</li><li><kbd>Enter</kbd> or double-click finishes the initial polygon and leaves its handles editable.</li><li><kbd>Delete</kbd> removes the selected or most recent point; right-click a handle to remove it.</li><li><kbd>Escape</kbd> cancels the current map tool.</li></ul>
+          <h4>Single cell</h4>
+          <ol><li>Place the storm marker on the current cell. A compact editable footprint appears.</li><li>Move to an earlier radar frame and drag that frame’s linked dot onto the cell.</li><li>Move to a later frame and drag its linked dot onto the same cell.</li><li>The fitted track updates the polygon through its expiration, including the centerline and time bars.</li></ol>
+          <h4>Line of storms</h4>
+          <ol><li>Select <strong>Line</strong> as the storm shape.</li><li>Drag the two endpoint dots to the top and bottom of the current storm line.</li><li>Use the frame-linked center dots on at least two radar frames to establish motion.</li><li>The line and its endpoints are projected through expiration to form the warning polygon.</li></ol>
+          <p>After automatic placement, drag the yellow handles to refine the polygon. Changing duration, direction, or speed recalculates its forecast length while retaining manually selected cell widths.</p>
+        </div>
+      </form>
+    </dialog>
+
+    <aside class="radar-outage-banner" id="radarOutageBanner" role="alert" aria-live="assertive" hidden>
+      <strong>RADAR DATA DELAYED</strong>
+      <span id="radarOutageBannerText">Level III radar data is not current.</span>
+      <b>DO NOT USE AS CURRENT</b>
+    </aside>
+
+    <dialog class="warning-eval-dialog" id="radarStaleDialog" aria-labelledby="radarStaleTitle" aria-describedby="radarStaleText">
+      <form method="dialog" class="warning-eval-inner">
+        <header>
+          <div><p class="eyebrow">Level III radar outage</p><h3 id="radarStaleTitle">Radar data is not current</h3></div>
+        </header>
+        <div class="warning-eval-body">
+          <p id="radarStaleText">The latest received radar image is more than 15 minutes old.</p>
+          <p><strong>Do not use this imagery as current.</strong> Confirm the radar timestamp and use another observational source before making operational decisions.</p>
+        </div>
+        <div class="warning-eval-actions">
+          <button type="submit" value="acknowledged" id="radarStaleAcknowledge">Acknowledge</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="system-warning-dialog" id="systemWarningDialog" aria-labelledby="systemWarningTitle" aria-describedby="systemWarningText">
+      <div class="system-warning-inner">
+        <header>
+          <div class="system-warning-brand">
+            <img class="system-warning-logo" src="ZNWS.png" alt="ZASNet Weather Service logo">
+            <div class="system-warning-titles">
+              <p class="system-warning-org">ZASNet Weather Service · Operations</p>
+              <p class="system-warning-kicker">Official notice · Authorized personnel only</p>
+              <h2 id="systemWarningTitle">System Use Warning</h2>
+            </div>
+          </div>
+        </header>
+        <div class="system-warning-body" id="systemWarningText">
+          <p class="system-warning-lead">You are accessing a restricted operational weather system operated for authorized ZASNetwork personnel and partners.</p>
+          <p>This system is intended solely for authorized use. All activity may be monitored, recorded, and audited for operational security, accountability, and system integrity.</p>
+          <p>Unauthorized access, misuse, or disclosure of information obtained through this system is prohibited and may result in administrative, civil, or criminal action as permitted by applicable policy and law.</p>
+          <p class="system-warning-consent">By selecting <strong>I Acknowledge and Continue</strong>, you confirm that you are authorized to use this system and consent to monitoring while you remain logged in.</p>
+        </div>
+        <footer>
+          <button type="button" id="systemWarningContinue">I Acknowledge and Continue</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <dialog class="warning-eval-dialog spc-wfo-coord-dialog" id="spcWfoCoordDialog" aria-labelledby="spcWfoCoordTitle">
+      <form method="dialog" class="warning-eval-inner">
+        <header>
+          <div>
+            <p class="eyebrow">SPC watch coordination</p>
+            <h3 id="spcWfoCoordTitle">SPC is drafting a watch for your WFO</h3>
+          </div>
+          <button type="submit" class="dialog-close" value="dismiss" aria-label="Close">×</button>
+        </header>
+        <div class="spc-wfo-coord-body">
+          <p id="spcWfoCoordLead">The Storm Prediction Center desk is drafting a watch that includes counties in your County Warning Area.</p>
+          <p id="spcWfoCoordDetail" class="hint"></p>
+          <p class="hint">Your answer is advisory. The SPC desk has the final yes/no on which counties stay in the watch.</p>
+        </div>
+        <div class="warning-eval-actions spc-wfo-coord-actions">
+          <button type="button" class="warning-button" id="spcWfoCoordYes" value="yes">Yes — include our counties</button>
+          <button type="button" id="spcWfoCoordNo" value="no">No — keep us out</button>
+          <button type="submit" value="later" id="spcWfoCoordLater">Decide later</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="workspace-dialog" id="workspaceDialog" aria-labelledby="workspaceDialogTitle">
+      <form method="dialog" class="workspace-dialog-inner" id="workspaceDialogForm">
+        <header><div><p class="eyebrow">Operational workspace</p><h3 id="workspaceDialogTitle">Open another office</h3></div><button type="submit" class="dialog-close" value="cancel" aria-label="Close">×</button></header>
+        <label class="field"><span>WFO ID</span><input id="workspaceWfoInput" maxlength="3" autocomplete="off" spellcheck="false" placeholder="CYS" required></label>
+        <p class="hint">The new tab gets its own map, radar, sidebar, and draft state. Issued alerts remain shared.</p>
+        <footer><button type="submit" value="cancel">Cancel</button><button type="submit" class="warning-button" value="create" id="workspaceCreateButton">Open workspace</button></footer>
+      </form>
+    </dialog>
+
+    <script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+    <script src="prefs-utils.js?v=20260718j"></script>
+    <script src="distribution-receipt.js?v=20260812-background-snapshot-retry"></script>
+    <script src="warngen.js?v=20260810-psr-wfo"></script>
+    <script src="warngen-templates.js?v=20260807-multipurpose-517"></script>
+    <script src="spc.js?v=20260718usland"></script>
+    <script src="spc-templates.js?v=20260714a"></script>
+    <script src="sat-loop-catalog.js?v=20260805-sat-smooth-v45"></script>
+  <script src="app.js?v=20260814-warning-can-race-fix"></script>
+  </body>
+</html>

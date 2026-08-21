@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Explore the United States NEXRAD weather radar network on an interactive map.">
+  <meta property="og:title" content="ZASNet · NEXRAD Network">
+  <meta property="og:image" content="/ZNWS.png">
+  <title>ZASNet · NEXRAD Network</title>
+  <link rel="icon" href="/ZNWS.png">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="/public-brand.css">
+  <link rel="stylesheet" href="/public-v2.css">
+  <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+  <link rel="stylesheet" href="/nexrad.css?v=20260722-ui-refine">
+</head>
+<body class="nexrad-page">
+  <header class="site-header">
+    <a class="brand" href="/"><img src="/ZNWS.png" alt=""><span>ZASNet<small>Weather Service</small></span></a>
+    <nav aria-label="Primary navigation"><a href="/">Live weather</a><a href="/severe-weather">Severe outlooks</a><a href="/weather-maps">Weather maps</a><a class="active" href="/nexrad">NEXRAD</a><a href="/tropics">Tropics</a></nav>
+  </header>
+  <main>
+    <section class="nexrad-shell">
+      <aside class="nexrad-controls">
+        <div class="control-block primary-control"><span>Display</span><div class="choices" id="dataChoices"><button type="button" class="is-active" aria-pressed="true" data-field="locations">Locations</button><button type="button" aria-pressed="false" data-field="shelter">Shelter temperature</button><button type="button" aria-pressed="false" data-field="leavingair">Transmitter leaving air</button><button type="button" aria-pressed="false" data-field="power">Transmitter power</button><button type="button" aria-pressed="false" data-field="status">Data status</button></div></div>
+        <div class="control-block"><span>Region</span><div class="choices region-choices" id="regionChoices"><button type="button" class="is-active" aria-pressed="true" data-region="conus">Contiguous U.S.</button><button type="button" aria-pressed="false" data-region="alaska">Alaska</button><button type="button" aria-pressed="false" data-region="hawaii">Hawaii</button><button type="button" aria-pressed="false" data-region="caribbean">Caribbean</button></div></div>
+        <div class="network-summary"><span>Network status</span><strong id="stationCount">Loading stations…</strong><p id="updatedAt">Source: NOAA / National Weather Service</p></div>
+      </aside>
+      <section class="map-panel">
+        <header><div><p class="eyebrow">Interactive map</p><h2 id="viewTitle">NEXRAD network · Contiguous U.S.</h2></div><span id="mapStatus">Loading</span></header>
+        <div id="nexradMap" role="application" aria-label="Interactive map of NEXRAD radar stations"></div>
+        <div class="data-key" id="dataKey"></div>
+      </section>
+    </section>
+    <footer class="public-footer"><span>ZASNet Weather Service</span><p>Station locations: NOAA National Weather Service.</p><a href="https://www.roc.noaa.gov/wsr88d/" target="_blank" rel="noopener">About NEXRAD</a></footer>
+  </main>
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+  <script src="/public-menu.js?v=20260815-black-theme-8"></script>
+  <script src="/nexrad.js?v=20260722-ui-refine"></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Operations Administration · ZASNet Weather Service</title>
+    <link rel="stylesheet" href="/ops-admin.css?v=20260811-hive-native-050">
+    <link rel="stylesheet" href="/ops-admin-blue.css?v=20260805-create-cancel">
+  </head>
+  <body data-admin-view="meso">
+    <header>
+      <div>
+        <p><span class="status-dot" aria-hidden="true"></span>Restricted administration</p>
+        <h1>Operations Administration</h1>
+        <span class="header-subtitle">Configure public maps, model runs, and warning language</span>
+      </div>
+      <nav><a href="/">Return to Weather Ops</a><button type="button" id="saveTemplates">Save changes</button></nav>
+    </header>
+    <main>
+      <div class="page-intro">
+        <div><p class="eyebrow">Admin workspace</p><h2>What do you need to manage?</h2></div>
+        <p>Choose a workspace below. Changes are only made public when you use a publish or save action.</p>
+      </div>
+      <div class="admin-tabs" role="tablist" aria-label="Administration sections">
+        <button type="button" role="tab" id="mesoAdminTab" data-admin-tab="meso" aria-controls="mesoRegionsPanel" aria-selected="true"><span>Mesoscale &amp; Models</span><small>Zones, WRF requests, and public updates</small></button>
+        <button type="button" role="tab" id="warningsAdminTab" data-admin-tab="warnings" aria-controls="warningDataPanel" aria-selected="false"><span>Warning Data</span><small>Hazard templates and default wording</small></button>
+        <button type="button" role="tab" id="nativeAdminTab" data-admin-tab="native" aria-controls="nativeWorkstationsPanel" aria-selected="false"><span>Native Workstations</span><small>Downloads, enrollment, and device access</small></button>
+      </div>
+      <aside class="workflow-guide" data-admin-section="meso" aria-label="Mesoscale workflow">
+        <strong>Recommended workflow</strong>
+        <ol><li><span>1</span>Draw and publish a zone</li><li><span>2</span>Configure the forecast request</li><li><span>3</span>Publish the operations update</li></ol>
+      </aside>
+      <aside class="workflow-guide" data-admin-section="warnings" aria-label="Warning template workflow">
+        <strong>Template workflow</strong>
+        <ol><li><span>1</span>Open a hazard</li><li><span>2</span>Review or edit its wording</li><li><span>3</span>Save all changes</li></ol>
+      </aside>
+      <section class="admin-panel desktop-download-admin" data-admin-section="native">
+        <div class="desktop-download-copy">
+          <p class="eyebrow">Operator application</p>
+          <h2>Hive Beta Desktop</h2>
+          <p><strong>100% same UI as web Hive Beta</strong> — this AppImage loads the live <code>/hive-beta</code> app (same HTML/CSS/JS). Experimental MapLibre native builds are separate and do not match the web UI.</p>
+        </div>
+        <div class="desktop-download-actions">
+          <a class="desktop-download-button is-maplibre" href="/downloads/hive-beta/linux" download>
+            <span>Hive Beta Desktop</span>
+            <small>AppImage · same UI as web · Linux</small>
+          </a>
+          <a class="desktop-download-button is-native" href="/downloads/hive-native/linux" download>
+            <span>MapLibre Native (experimental)</span>
+            <small>0.8.0 · AWIPS panes + Hazard Services draft/zone workflow</small>
+          </a>
+        </div>
+      </section>
+      <section class="admin-panel native-workstations-admin" id="nativeWorkstationsPanel" role="tabpanel" aria-labelledby="nativeAdminTab" data-admin-section="native">
+        <div class="section-heading">
+          <div><p class="eyebrow">Device access</p><h2>Native workstation enrollment</h2></div>
+          <span class="integration-state" id="nativeWorkstationState">Loading…</span>
+        </div>
+        <p class="intro">Create a single-use code on an authorized workstation, then enter it once in Hive Native. Codes expire after 15 minutes. Enrolled devices reconnect automatically until revoked here.</p>
+        <form class="native-enrollment-form" id="nativeEnrollmentForm">
+          <label>Workstation name<input id="nativeWorkstationName" maxlength="80" placeholder="CLE Operations Desk 1" required></label>
+          <button type="submit">Create enrollment code</button>
+        </form>
+        <div class="native-enrollment-code" id="nativeEnrollmentCode" hidden>
+          <span>Single-use enrollment code</span>
+          <strong id="nativeEnrollmentCodeValue"></strong>
+          <small id="nativeEnrollmentCodeExpiry"></small>
+          <button type="button" id="copyNativeEnrollmentCode">Copy code</button>
+        </div>
+        <div class="native-device-list" id="nativeDeviceList"><p>Loading enrolled workstations…</p></div>
+      </section>
+      <section class="admin-panel region-admin" id="mesoRegionsPanel" role="tabpanel" aria-labelledby="mesoAdminTab" data-admin-section="meso">
+        <div class="section-heading"><div><p class="eyebrow">Public map controls</p><h2>Temporary mesoscale regions</h2></div><button type="button" id="addRegion">Add zone</button></div>
+        <p class="intro">Start here. Draw the area where active weather needs extra attention. City and county labels are added automatically.</p>
+        <p id="regionStatus" role="status">Loading mesoscale zones…</p>
+        <div class="region-workspace"><div id="regions"></div><div id="regionEditor"></div></div>
+        <div class="panel-actions"><span>Zones update on public map menus within one minute.</span><button type="button" id="saveRegions">Publish mesoscale zones</button></div>
+      </section>
+      <section class="admin-panel ncep-admin" data-admin-section="meso">
+        <div class="section-heading"><div><p class="eyebrow">Forecast orchestration</p><h2>ZNWS-WRF requests</h2></div><span class="integration-state" id="ncepIntegrationState">Checking readiness…</span></div>
+        <p class="intro">Use a published zone to request an on-demand or recurring forecast. Requests go to the operator approval queue before model output is published.</p>
+        <div class="integration-checks" id="ncepIntegrationChecks"><span>Client prepared</span><span>API key pending</span><span>Submissions locked</span></div>
+        <div class="forecast-request-preview" aria-disabled="true">
+          <div class="request-section-label"><span>01</span><strong>Run configuration</strong></div>
+          <label>Domain<select id="ncepDomain" disabled><option value="MESO1">MESO1</option><option value="MESO2">MESO2</option><option value="MESO3">MESO3</option></select></label>
+          <label>Frequency<select id="ncepFrequency" disabled><option value="once">One-time forecast</option><option value="hourly">Recurring schedule</option></select></label>
+          <label>Initialization<select id="ncepInitialization" disabled></select></label>
+          <label>Physics preset<select id="ncepPhysicsPreset" required disabled><option value="OPERATIONAL">Operational Thompson</option></select></label>
+          <label>Grid resolution<select id="ncepSpacing" disabled><option value="1">1 km — highest resolution, slowest</option><option value="3" selected>3 km — recommended</option><option value="9">9 km — fastest, lowest resolution</option></select></label>
+          <label>Output interval<select id="ncepInterval" disabled><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">60 minutes</option></select></label>
+          <label id="ncepCycleModeField">Initialization cycle<select id="ncepCycleMode" disabled><option value="latest">Latest available cycle</option><option value="specific">Choose an available HRRR run</option></select></label>
+          <label id="ncepCycleTimeField" hidden>Available HRRR run<select id="ncepCycleTime" disabled></select></label>
+          <label><span id="ncepStartLabel">Coverage begins</span><input type="datetime-local" id="ncepCoverageStart" disabled></label>
+          <label><span id="ncepEndLabel">Coverage ends</span><input type="datetime-local" id="ncepCoverageEnd" disabled></label>
+          <label id="ncepForecastHoursField" hidden>Forecast length<select id="ncepForecastHours" disabled><option value="1">1 hour</option><option value="3" selected>3 hours</option><option value="6">6 hours</option><option value="9">9 hours</option><option value="12">12 hours</option><option value="18">18 hours</option><option value="24">24 hours</option><option value="36">36 hours</option><option value="48">48 hours</option></select></label>
+          <label id="ncepCadenceField" hidden>Run cadence<select id="ncepCadence" disabled></select></label>
+          <div class="request-section-label"><span>02</span><strong>Output products</strong></div>
+          <fieldset class="field-wide ncep-products"><legend>Products</legend><div id="ncepProductChoices">Loading capabilities…</div></fieldset>
+          <div class="request-section-label"><span>03</span><strong>Name and domain confirmation</strong></div>
+          <label class="field-wide"><span id="ncepNameLabel">Forecast name</span><input id="ncepForecastName" placeholder="Southwest Kansas Forecast" disabled></label>
+          <div class="field-wide forecast-bounds-confirmation">
+            <strong>Drawn domain · WGS84 / EPSG:4326</strong>
+            <div id="ncepBoundsValues">Select a published MESO1 rectangle.</div>
+            <label><input type="checkbox" id="ncepBoundsConfirmed" disabled> I confirm these coordinates for the WRF domain.</label>
+          </div>
+        </div>
+        <div class="schedule-picker">
+          <label>Manage approved recurring schedule<select id="ncepScheduleSelect"><option value="">Loading active schedules…</option></select></label>
+          <button type="button" id="loadNcepSchedule">Load schedule</button>
+        </div>
+        <div class="schedule-amendment" id="ncepScheduleAmendment" hidden>
+          <div><strong>Edit future scheduled bounds</strong><span id="ncepAmendmentRequest">Approved recurring request</span></div>
+          <p>The running forecast will not change. This applies the currently selected and drawn mesoscale zone to future occurrences of the same schedule.</p>
+          <dl id="ncepAmendmentSchedule"></dl>
+          <small class="amendment-label">New bounds from selected zone</small>
+          <div id="ncepAmendmentBounds">Select a mesoscale zone.</div>
+          <label><input type="checkbox" id="ncepAmendmentConfirmed"> I confirm these bounds for future scheduled runs.</label>
+          <button type="button" id="amendNcepBounds">Apply to future runs</button>
+        </div>
+        <div class="panel-actions"><span id="ncepIntegrationNote">No forecast requests can be sent from Ops yet.</span><button type="button" id="submitNcepForecast" disabled>Awaiting approval API and key</button></div>
+      </section>
+      <section class="admin-panel wrf-update-admin" data-admin-section="meso">
+        <div class="section-heading"><div><p class="eyebrow">Public communication</p><h2>WRF Operations Update</h2></div><span class="integration-state" id="wrfUpdateState">Loading…</span></div>
+        <p class="intro">Finish here. Write the short public notice shown with active experimental MESO sectors. Technical details are filled from the current WRF inventory.</p>
+        <div class="wrf-update-grid">
+          <label>Public title<input id="wrfUpdateTitle" maxlength="100" value="ZNWS-WRF Operations Update"></label>
+          <label>Expires at<input id="wrfUpdateExpires" type="datetime-local"></label>
+          <label class="field-wide">Operator summary<textarea id="wrfUpdateSummary" rows="4" maxlength="1200" placeholder="Example: Experimental mesoscale guidance is focused on the central High Plains through this evening."></textarea></label>
+          <div class="field-wide wrf-sector-preview"><strong>Automatically detected sectors</strong><div id="wrfUpdateSectors">Checking current WRF inventories…</div></div>
+          <label class="field-wide publish-check"><input id="wrfUpdatePublished" type="checkbox"> Publish this update on the public site</label>
+        </div>
+        <div class="panel-actions"><span id="wrfUpdateNote">Loading operations update…</span><div><a href="https://zasnetwx.com/model-operations" target="_blank" rel="noopener">Open public page</a><button type="button" id="saveWrfUpdate">Save operations update</button></div></div>
+      </section>
+      <section class="admin-panel template-admin" id="warningDataPanel" role="tabpanel" aria-labelledby="warningsAdminTab" data-admin-section="warnings">
+        <div class="section-heading">
+          <div><p class="eyebrow">Hazard Services</p><h2>Operational templates</h2></div>
+          <div class="section-heading-actions">
+            <button type="button" id="createHazardButton" class="primary-inline">Create new hazard</button>
+            <p id="status" class="template-status" role="status">Loading templates…</p>
+          </div>
+        </div>
+        <p class="intro">Customize default WHAT and IMPACTS wording, CTAs, body narratives, and full bulletin shells for every zone product — or create a new custom zone hazard for Hazard Services. Live previews update as you edit. Leave a field empty to keep the built-in generator.</p>
+
+        <div class="template-toolbar">
+          <label class="template-search">
+            <span>Search</span>
+            <input id="templateFilter" type="search" placeholder="Name, code, or group…" autocomplete="off">
+          </label>
+          <div class="template-toolbar-toggles" role="group" aria-label="List filters">
+            <label class="chip-toggle"><input type="checkbox" id="templateCustomOnly"> <span>Custom only</span></label>
+            <label class="chip-toggle"><input type="checkbox" id="templateOpenOne" checked> <span>One card open</span></label>
+          </div>
+          <div class="template-group-chips" id="templateGroupChips" aria-label="Hazard groups"></div>
+        </div>
+
+        <details class="token-guide">
+          <summary>Template tokens reference</summary>
+          <div class="token-guide-body">
+            <div>
+              <strong>Full bulletin</strong>
+              <p>Shell around the product. Prefer <code>{{ACTION_NARRATIVE}}</code> for the hazard body.</p>
+              <div class="token-row"><code>{{WMO_HEADER}}</code><code>{{ISSUE_DDHHMM}}</code><code>{{PIL}}</code><code>{{PRODUCT_BANNER}}</code><code>{{OFFICE}}</code><code>{{ISSUE_TIME}}</code><code>{{UGC}}</code><code>{{VTEC}}</code><code>{{HYDRO_VTEC}}</code><code>{{ZONE_NAMES}}</code><code>{{CITY_BLOCK}}</code><code>{{HEADLINE}}</code><code>{{ACTION_NARRATIVE}}</code><code>{{IMPACTS}}</code><code>{{CTA}}</code><code>{{HAZARD_NAME}}</code><code>{{WFO}}</code><code>{{ACTION}}</code><code>{{ETN}}</code><code>{{TERMINATOR}}</code></div>
+            </div>
+            <div>
+              <strong>Standard body</strong>
+              <p>Winter, wind, heat, flood, coastal, and most other zone products. Configured fields also expose <code>{{FIELD_KEY}}</code> and <code>{{FIELD_KEY_BLOCK}}</code>.</p>
+              <div class="token-row"><code>{{WHAT_BLOCK}}</code><code>{{WHERE_BLOCK}}</code><code>{{WHEN_BLOCK}}</code><code>{{IMPACTS_BLOCK}}</code><code>{{ADDITIONAL_DETAILS_BLOCK}}</code><code>{{WHAT}}</code><code>{{WHERE}}</code><code>{{WHEN}}</code><code>{{IMPACTS}}</code><code>{{CTA}}</code></div>
+            </div>
+            <div>
+              <strong>Fire weather body</strong>
+              <p>Red Flag Warning and Fire Weather Watch. Configured fields also expose <code>{{FIELD_KEY}}</code> and <code>{{FIELD_KEY_BLOCK}}</code>.</p>
+              <div class="token-row"><code>{{AFFECTED_AREA_BLOCK}}</code><code>{{COUNTIES_BLOCK}}</code><code>{{IMPACTS_BLOCK}}</code><code>{{WIND_BLOCK}}</code><code>{{HUMIDITY_BLOCK}}</code><code>{{TEMPERATURES_BLOCK}}</code><code>{{FUELS_BLOCK}}</code><code>{{ADDITIONAL_DETAILS_BLOCK}}</code><code>{{CTA}}</code></div>
+            </div>
+          </div>
+        </details>
+
+        <div id="templates" class="template-list"></div>
+        <div class="panel-actions template-save-bar">
+          <span>Empty fields use built-in wording. Save applies to new Hazard Services drafts.</span>
+          <button type="button" id="saveTemplatesFooter">Save template changes</button>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="template-confirm-dialog" id="templateConfirmDialog" aria-labelledby="templateConfirmTitle">
+      <form method="dialog" class="template-confirm-inner">
+        <header>
+          <div>
+            <p class="eyebrow">Confirm save</p>
+            <h3 id="templateConfirmTitle">Save template changes?</h3>
+          </div>
+          <button type="submit" value="cancel" class="dialog-close" aria-label="Close">×</button>
+        </header>
+        <p class="template-confirm-lead" id="templateConfirmLead">Review which hazards will change before publishing.</p>
+        <ul class="template-confirm-list" id="templateConfirmList"></ul>
+        <p class="template-confirm-note">These defaults apply to <strong>new</strong> Hazard Services drafts. Already-issued products are not rewritten.</p>
+        <div class="template-confirm-actions">
+          <button type="submit" value="cancel" class="ghost-button">Cancel</button>
+          <button type="submit" value="confirm" class="primary-button" id="templateConfirmSave">Save changes</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="template-confirm-dialog create-hazard-dialog" id="createHazardDialog" aria-labelledby="createHazardTitle">
+      <form method="dialog" class="template-confirm-inner" id="createHazardForm" novalidate>
+        <header>
+          <div>
+            <p class="eyebrow">New zone hazard</p>
+            <h3 id="createHazardTitle">Create hazard product</h3>
+          </div>
+          <button type="button" class="dialog-close" data-create-dismiss aria-label="Close">×</button>
+        </header>
+        <div class="create-hazard-fields">
+          <label>VTEC phen.sig <input id="createHazardCode" name="code" maxlength="4" placeholder="e.g. EW.Y" autocomplete="off"></label>
+          <label>Product name <input id="createHazardName" name="name" maxlength="80" placeholder="e.g. Excessive Wind Advisory"></label>
+          <label>AWIPS product (PIL)
+            <select id="createHazardProduct" name="product">
+              <option value="NPW">NPW · Non-precipitation</option>
+              <option value="WSW">WSW · Winter</option>
+              <option value="RFW">RFW · Fire weather</option>
+              <option value="FFA">FFA · Flood watch</option>
+              <option value="CFW">CFW · Coastal / lakeshore</option>
+            </select>
+          </label>
+          <label>Catalog group
+            <select id="createHazardGroup" name="group">
+              <option value="Custom">Custom</option>
+              <option value="Winter">Winter</option>
+              <option value="Wind">Wind</option>
+              <option value="Heat / cold">Heat / cold</option>
+              <option value="Visibility">Visibility</option>
+              <option value="Freeze / frost">Freeze / frost</option>
+              <option value="Flood">Flood</option>
+              <option value="Coastal / lakeshore">Coastal / lakeshore</option>
+              <option value="Fire weather">Fire weather</option>
+            </select>
+          </label>
+          <label>Body style
+            <select id="createHazardStyle" name="style">
+              <option value="standard">Standard WHAT / WHERE / WHEN</option>
+              <option value="rfw">Fire weather (AFFECTED AREA / WIND)</option>
+            </select>
+          </label>
+          <label>Zone layer
+            <select id="createHazardZoneType" name="zoneType">
+              <option value="public">Public zones</option>
+              <option value="fire">Fire weather zones</option>
+            </select>
+          </label>
+          <label>Map color <input id="createHazardColor" name="color" type="color" value="#FFA500"></label>
+          <label>Default IMPACTS <textarea id="createHazardImpacts" name="impacts" rows="3" maxlength="4000" placeholder="Optional — operators can edit per product"></textarea></label>
+        </div>
+        <p class="template-confirm-note" id="createHazardError" hidden></p>
+        <p class="template-confirm-note">Creates and immediately publishes a zone-based Hazard Services product for operators.</p>
+        <div class="template-confirm-actions">
+          <button type="button" class="ghost-button" data-create-dismiss>Cancel</button>
+          <button type="submit" value="create" class="primary-button">Create hazard</button>
+        </div>
+      </form>
+    </dialog>
+
+<script src="/ops-admin.js?v=20260807-nwem-518"></script>
+
+  </body>
+</html>

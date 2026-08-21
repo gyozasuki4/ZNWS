@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Access Audit · ZASNet Weather Service</title>
+    <link rel="stylesheet" href="audit.css?v=20260718a">
+  </head>
+  <body>
+    <header class="audit-header">
+      <div class="audit-brand">
+        <img src="ZNWS.png" alt="ZASNet Weather Service logo">
+        <div>
+          <p>Restricted administration</p>
+          <h1>Access Audit Log</h1>
+        </div>
+      </div>
+      <nav>
+        <a href="/">Return to Weather Ops</a>
+        <button type="button" id="exportCsv">Export CSV</button>
+        <button type="button" id="refreshAudit">Refresh</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="audit-summary" aria-live="polite">
+        <div><span>Shown / loaded</span><strong id="entryCount">—</strong></div>
+        <div><span>Warnings</span><strong id="statWarnings">—</strong></div>
+        <div><span>Failed logins</span><strong id="statFailedLogins">—</strong></div>
+        <div><span>Denied access</span><strong id="statDenied">—</strong></div>
+        <div><span>Unique users</span><strong id="statUsers">—</strong></div>
+        <div><span>Active sessions</span><strong id="statSessions">—</strong></div>
+        <div><span>Last refreshed</span><strong id="refreshedAt">—</strong></div>
+        <label>Rows
+          <select id="auditLimit">
+            <option>100</option>
+            <option selected>250</option>
+            <option>500</option>
+            <option>1000</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="audit-filters" aria-label="Audit filters">
+        <label class="filter-search">Search
+          <input id="auditSearch" type="search" placeholder="user, IP, warning ID, tool, page…">
+        </label>
+        <label>User
+          <select id="auditUser"><option value="">All users</option></select>
+        </label>
+        <label>Event
+          <select id="auditEvent"><option value="">All events</option></select>
+        </label>
+        <label>Page
+          <select id="auditPage"><option value="">All pages</option></select>
+        </label>
+        <label>Time range
+          <select id="auditRange">
+            <option value="">All loaded</option>
+            <option value="1h">Last 1 hour</option>
+            <option value="24h" selected>Last 24 hours</option>
+            <option value="7d">Last 7 days</option>
+          </select>
+        </label>
+        <label class="filter-check">
+          <input id="hideHeartbeats" type="checkbox" checked>
+          Hide heartbeats
+        </label>
+        <label class="filter-check">
+          <input id="practiceOnly" type="checkbox">
+          Practice only
+        </label>
+      </section>
+
+      <p class="audit-status" id="auditStatus">Loading access records…</p>
+
+      <div class="audit-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time (UTC)</th>
+              <th>Event</th>
+              <th>User</th>
+              <th>Warning</th>
+              <th>Client IP</th>
+              <th>Location</th>
+              <th>Activity</th>
+              <th>Duration</th>
+              <th>Device</th>
+              <th>Page</th>
+            </tr>
+          </thead>
+          <tbody id="auditRows"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <div class="audit-drawer-backdrop" id="drawerBackdrop" hidden></div>
+    <aside class="audit-drawer" id="auditDrawer" aria-hidden="true" aria-label="Audit entry detail">
+      <header class="drawer-header">
+        <div>
+          <p class="drawer-kicker">Entry detail</p>
+          <h2 id="drawerTitle">—</h2>
+        </div>
+        <button type="button" id="drawerClose" aria-label="Close detail">Close</button>
+      </header>
+      <div class="drawer-body" id="drawerBody"></div>
+    </aside>
+
+    <script src="audit.js?v=20260806-live-refresh"></script>
+  </body>
+</html>

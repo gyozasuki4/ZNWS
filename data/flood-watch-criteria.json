@@ -1,0 +1,82 @@
+{
+  "hazard": "Flood Watch",
+  "vtec": "FA.A",
+  "status": "research-only",
+  "updated": "2026-08-12",
+  "nationalBaseline": {
+    "probabilityPercent": 50,
+    "typicalLeadHours": [6, 48],
+    "fixedRainfallThresholdInches": null,
+    "qualifyingPathways": [
+      "Meteorological, soil, and/or hydrologic conditions may lead to flooding",
+      "Meteorological, soil, hydrologic, and/or burn-area conditions may lead to debris flows",
+      "A dam or levee may fail and threaten life or property, but failure is not imminent"
+    ],
+    "source": "https://www.weather.gov/box/product_descriptions",
+    "confidence": "official-explicit"
+  },
+  "operationalSignalsToTest": {
+    "wpcEroMinimum": "Marginal",
+    "wpcEroQualifyingCategories": ["Marginal", "Slight", "Moderate", "High"],
+    "ndfdQpf": "Every grid cell intersecting each forecast-zone polygon",
+    "flashFloodGuidance": "Local RFC 1-, 3-, and 6-hour guidance where available",
+    "riverForecasts": "Forecast flood-stage exceedance for river-driven watches",
+    "antecedentConditions": ["recent rainfall", "soil saturation", "snowmelt", "burn scars"],
+    "damLevee": "Requires authoritative incident information; cannot be inferred from QPF"
+  },
+  "automationScope": {
+    "includedCause": "rainfall-driven",
+    "requiredInputs": [
+      "Exact active NWS Flood Watch for the forecast zone and valid period",
+      "Fresh zone-wide NDFD QPF during that period",
+      "Overlapping WPC Excessive Rainfall Outlook Marginal Risk or higher"
+    ],
+    "excludedCauses": [
+      "dam failure",
+      "levee failure",
+      "ice jam",
+      "snowmelt-only flooding",
+      "rain-on-snow flooding without independently supported rainfall forcing",
+      "burn-scar or debris-flow-only threat",
+      "river flooding without independently supported rainfall forcing"
+    ],
+    "unknownCausePolicy": "fail-closed",
+    "nwsTextClassification": {
+      "rainfallTerms": ["heavy rain", "excessive rainfall", "excessive rain", "repeated rainfall", "rainfall", "thunderstorms", "training storms"],
+      "excludedTerms": ["dam failure", "dam may fail", "levee failure", "levee may fail", "ice jam", "snowmelt", "debris flow", "burn scar", "burn area"]
+    }
+  },
+  "officeExamples": {
+    "PQR": {
+      "note": "Portland impact guidance varies by season and duration; examples include winter 0.25 inch/hour for 3-4 hours or 0.5 inch/hour for 2 hours, with separate burn-scar debris-flow handling.",
+      "source": "https://www.weather.gov/pqr/briefing",
+      "confidence": "official-impact-guidance"
+    },
+    "MKX": {
+      "note": "Rapidly developing, life-threatening flooding possible from heavy rain or dam/levee failure; typical lead time 6-48 hours.",
+      "source": "https://www.weather.gov/media/mkx/spotters/mkxthresholds.pdf",
+      "confidence": "official-explicit"
+    },
+    "BOX": {
+      "note": "At least a 50% chance of flooding/debris-flow conditions, normally within 48 hours; longer lead is permitted when appropriate.",
+      "source": "https://www.weather.gov/box/product_descriptions",
+      "confidence": "official-explicit"
+    },
+    "HFO": {
+      "note": "Flood Watches may be issued up to 48 hours before expected flash flooding.",
+      "source": "https://www.weather.gov/hfo/prod_questions",
+      "confidence": "official-partial"
+    }
+  },
+  "researchQuestions": [
+    "How often does the WPC Marginal-or-higher gate miss rainfall-driven Flood Watches?",
+    "How much does adding RFC flash-flood guidance improve office and zone matching?",
+    "Should any-point QPF be paired with an areal or basin probability signal to avoid isolated-grid false alarms?",
+    "How should dam, levee, burn-scar, snowmelt, and ice-jam watches fail closed?"
+  ],
+  "notes": [
+    "WPC ERO is guidance, not a mandatory national prerequisite for a Flood Watch.",
+    "No single nationwide rainfall-total threshold is supported by NWS criteria.",
+    "This file is not consumed by live automation."
+  ]
+}

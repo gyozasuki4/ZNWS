@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>GOES Satellite · ZASNet Weather Service</title>
+  <meta name="description" content="Live GOES-19 infrared satellite imagery from ZASNet Weather Service.">
+  <link rel="icon" href="/ZNWS.png">
+  <link rel="stylesheet" href="/sat.css?v=20260814-6">
+</head>
+<body>
+  <main class="sat-shell">
+    <header class="sat-header">
+      <div>
+        <h1 id="productTitle">GOES-19 M2 BAND 13 IR (10.3 µm) (°C)</h1>
+        <p id="validTime">Loading the latest scan…</p>
+      </div>
+      <a href="/">ZASNETWX.COM</a>
+    </header>
+    <section class="sat-plot" aria-label="GOES infrared satellite plot">
+      <img id="satImage" alt="GOES-19 M2 Band 13 infrared satellite image">
+      <div class="sat-corner-label" id="rangeLabel">BAND 13 · CLEAN IR</div>
+      <aside class="sat-legend" aria-label="Brightness temperature scale Celsius">
+        <div class="legend-bar"></div>
+        <div class="legend-labels"><span>40</span><span>30</span><span>20</span><span>10</span><span>0</span><span>−10</span><span>−20</span><span>−30</span><span>−40</span><span>−50</span><span>−60</span><span>−70</span><span>−80</span><span>−90</span></div>
+      </aside>
+      <div class="sat-loading" id="loadingState"><b>RENDERING GOES-19</b><span>Fetching the newest NOAA scan…</span></div>
+    </section>
+    <nav class="sat-transport" aria-label="Satellite frame controls">
+      <button id="previousFrame" class="frame-arrow" aria-label="Previous satellite frame">‹</button>
+      <div class="frame-track-wrap">
+        <input id="frameTrack" type="range" min="0" max="0" value="0" aria-label="Satellite frame time">
+        <div><span id="windowStart">30 MIN AGO</span><strong id="framePosition">LATEST</strong><span>NOW</span></div>
+      </div>
+      <button id="nextFrame" class="frame-arrow" aria-label="Next satellite frame">›</button>
+    </nav>
+    <footer class="sat-toolbar">
+      <p id="sourceLine">Source: NOAA/NESDIS GOES-R · Latest 30 minutes · Use ← and → to step through frames</p>
+      <button id="refreshButton">Latest</button>
+    </footer>
+  </main>
+  <script src="/sat.js?v=20260814-6"></script>
+</body>
+</html>

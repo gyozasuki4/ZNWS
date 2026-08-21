@@ -1,0 +1,30 @@
+[Unit]
+Description=ZNCave Weather Operations (Zive / Authentik OIDC)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Adjust if your app lives elsewhere
+WorkingDirectory=/home/cave/Cave
+# Loads AUTHENTIK_* and secrets from this file (must be readable by User= below)
+EnvironmentFile=-/home/cave/Cave/.env
+# Safe defaults if missing from .env
+Environment=HOST=0.0.0.0
+Environment=PORT=8080
+# Use the node binary on the server (find with: command -v node)
+ExecStart=/usr/bin/node /home/cave/Cave/server.js
+Restart=always
+RestartSec=3
+# Match the user that owns ~/Cave and .env (chmod 600 .env)
+User=cave
+Group=cave
+# Give Node a clean PATH if node is under nvm — prefer a real binary path in ExecStart
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+# Hardening (optional)
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

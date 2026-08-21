@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="dark light">
+    <meta name="robots" content="index,follow"><meta name="description" content="Current SPC severe weather outlooks by day, hazard, and region.">
+    <meta property="og:title" content="ZASNet · Severe Weather Outlooks"><meta property="og:image" content="/ZNWS.png">
+    <title>ZASNet · Severe Weather Outlooks</title><link rel="icon" href="/ZNWS.png">
+    <link rel="stylesheet" href="/severe-weather.css"><link rel="stylesheet" href="/severe-enhancements.css"><link rel="stylesheet" href="/public-brand.css"><link rel="stylesheet" href="/public-v2.css"><link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored"><link rel="stylesheet" href="/severe-site.css?v=20260803-blue-workstation"><link rel="stylesheet" href="/map-workstation.css?v=20260724-model-match"><link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+  </head>
+  <body class="public-severe new-severe-site severe-outlooks-page map-workstation-page">
+    <header class="site-header"><a class="brand" href="/"><img src="/ZNWS.png" alt=""><span>ZASNet<small>Weather Service</small></span></a><nav aria-label="Primary navigation"><a href="/">Live weather</a><a class="active" href="/severe-weather">Severe outlooks</a><a href="/weather-maps">Weather maps</a><a href="/models">Models</a><a href="/tropics">Tropics</a></nav></header>
+    <main>
+      <h1 class="visually-hidden">Severe weather outlooks</h1>
+      <section class="outlook-studio">
+        <div class="outlook-viewer">
+          <header><div class="viewer-controls">
+            <div class="control-group"><span>Forecast day</span><div class="choices" id="dayChoices"><button class="is-active" data-day="1">Day 1</button><button data-day="2">Day 2</button><button data-day="3">Day 3</button></div></div>
+            <div class="control-group hazard-control"><span>Hazard</span><div class="choices" id="typeChoices"><button class="is-active" data-type="cat">Categorical</button><button data-type="torn">Tornado</button><button data-type="wind">Wind</button><button data-type="hail">Hail</button><button data-type="all">Combined</button></div></div>
+            <div class="control-group"><span>Region</span><div class="region-select"><select id="regionSelect" aria-label="Outlook region"><option value="">Full United States</option><optgroup label="State views"><option value="arizona">Arizona</option><option value="maine">Maine</option><option value="north-dakota">North Dakota</option><option value="oregon">Oregon</option><option value="tennessee">Tennessee</option><option value="wisconsin">Wisconsin</option><option value="wyoming">Wyoming</option></optgroup><optgroup label="Regional views"><option value="central-us">Central US</option><option value="northeast">Northeast</option><option value="northern-plains">Northern Plains</option><option value="ohio-valley">Ohio Valley</option><option value="southeast">Southeast</option><option value="southern-plains">Southern Plains</option><option value="west">West</option></optgroup></select></div></div>
+            <div class="visually-hidden"><h2 id="outlookState">Day 1 categorical outlook</h2><p id="outlookMeaning">Categorical outlooks summarize the overall severe-thunderstorm risk.</p></div>
+          </div></header>
+          <div class="image-frame"><div class="image-status" id="imageStatus">Loading outlook image…</div><img id="outlookImage" alt="SPC categorical severe weather outlook for Day 1" referrerpolicy="no-referrer"></div>
+          <footer class="outlook-footer"><div class="outlook-footer-meta"><span class="viewer-status" id="viewerStatus">Official SPC</span><p id="imageCaption">SPC Day 1 categorical outlook · Full United States</p></div><div class="outlook-footer-actions"><button id="exportOutlook" type="button">Export PNG</button><a id="openImage" target="_blank" rel="noopener">Open image</a><a id="sourceLink" href="https://www.spc.noaa.gov/products/outlook/" target="_blank" rel="noopener">Official SPC</a></div></footer>
+        </div>
+      </section>
+      <section class="risk-editorial" id="spcGuide"><div><p class="eyebrow">How to read it</p><h2>Outlooks show potential.<br>Warnings demand action.</h2></div><div class="risk-scale"><span><i></i><b>Marginal</b><small>Isolated severe storms</small></span><span><i></i><b>Slight</b><small>Scattered severe storms</small></span><span><i></i><b>Enhanced+</b><small>More numerous or significant storms</small></span></div></section>
+      <aside class="public-note"><strong>Safety decisions</strong><span>These graphics are not warnings. Follow official National Weather Service watches, warnings, and local emergency instructions.</span></aside>
+      <footer class="public-footer"><span>ZASNet Weather Service</span><p>Official outlook source: NOAA Storm Prediction Center.</p><a href="/">Live weather</a></footer>
+    </main>
+    <script src="/public-menu.js?v=20260815-black-theme-8"></script><script src="/temporary-regions.js?v=20260724-safe-expiration"></script><script src="/severe-weather.js?v=20260803-spc-only"></script>
+  </body>
+</html>

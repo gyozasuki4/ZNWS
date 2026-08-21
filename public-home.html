@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ZASNet Weather Service</title>
+    <meta name="description" content="Live weather alerts and severe weather outlooks from ZASNet Weather Service.">
+    <link rel="stylesheet" href="/public-home.css"><link rel="stylesheet" href="/public-home-ops.css?v=20260724-wrf-operations"><link rel="stylesheet" href="/public-mobile.css"><link rel="stylesheet" href="/public-brand.css?v=20260805-square-ops-final"><link rel="stylesheet" href="/public-v2.css"><link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored"><link rel="stylesheet" href="/weather-icons.css?v=20260805-home-layout">
+  </head>
+  <body class="public-home">
+    <header class="topbar">
+      <a class="brand" href="/"><img src="/ZNWS.png" alt="ZASNet Weather Service"><span hidden>ZASNet<small>Weather Service</small></span></a>
+      <nav aria-label="Public weather navigation"><a href="/public.html">Alerts</a><a href="/severe-weather">Severe outlooks</a><a href="/tropics">Tropics</a></nav>
+    </header>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">ZASNet Weather Service</p>
+        <h1>Know what’s happening.<br><em>Know what’s next.</em></h1>
+        <p class="intro">Live alerts and severe-weather outlooks built for clear, fast situational awareness.</p>
+        <div class="hero-actions"><a class="button primary" href="/public.html">Open live alerts <span>→</span></a><a class="button" href="/severe-weather">View severe outlooks</a><a class="button model-sector-button" id="activeModelSectors" href="/model-operations" hidden>Active model sectors <span>View</span></a></div>
+      </section>
+      <section class="local-weather" id="localWeather" aria-labelledby="localWeatherTitle">
+        <header><div><p class="eyebrow">Weather where you are</p><h2 id="localWeatherTitle">Your local weather</h2><p>Choose a city or ZIP code, or use your device location.</p></div><button type="button" id="useMyLocation"><span aria-hidden="true">◎</span> Use my location</button></header>
+        <form id="homeLocationForm" role="search"><label for="homeLocationSearch">City or ZIP code</label><div><input id="homeLocationSearch" type="search" autocomplete="postal-code" placeholder="Search city, state, or ZIP"><button type="submit">Search</button></div><div id="homeLocationResults" class="local-search-results" hidden></div></form>
+        <div class="local-weather-status" id="localWeatherStatus">Select a location to see current conditions, alerts, forecast, and local weather links.</div>
+        <div class="local-weather-content" id="localWeatherContent" hidden></div>
+      </section>
+      <section class="destinations" aria-label="Weather tools">
+        <a class="feature-card alerts" href="/public.html"><div class="card-top"><span class="icon">◉</span><span>Live</span></div><h2>Alerts map</h2><p>See active weather alerts, issued products, and radar in one place.</p><strong>Open map <span>→</span></strong></a>
+        <a class="feature-card outlooks" href="/severe-weather"><div class="card-top"><span class="icon">⌁</span><span>Planning</span></div><h2>Severe outlooks</h2><p>Explore SPC categorical, tornado, wind, and hail outlooks by region.</p><strong>Open outlooks <span>→</span></strong></a>
+      </section>
+      <section class="service-note"><span>For public awareness</span><p>Always follow official National Weather Service watches, warnings, and local instructions during dangerous weather.</p></section>
+    </main>
+    <script src="/public-menu.js?v=20260815-black-theme-9"></script><script src="/weather-icons.js?v=20260805-night-all"></script><script src="/public-home.js?v=20260805-home-icon-layout"></script>
+  </body>
+</html>

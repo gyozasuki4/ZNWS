@@ -1,0 +1,49 @@
+{
+  "hazards": ["Winter Weather Advisory", "Winter Storm Watch", "Winter Storm Warning"],
+  "vtec": ["WW.Y", "WS.A", "WS.W"],
+  "status": "research-only",
+  "updated": "2026-08-12",
+  "nationalPrinciples": {
+    "watchConfidencePercent": 50,
+    "advisoryWarningConfidencePercent": 80,
+    "watchLeadHours": [24, 72],
+    "warningLeadHours": [0, 36],
+    "advisoryLeadHours": [0, 36],
+    "coverage": "Usually a zone average or at least 50 percent/most of the population; lake-effect and local impact exceptions exist.",
+    "source": "https://www.weather.gov/box/criteria"
+  },
+  "proposedProfiles": [
+    {"id":"deep-south","states":["MS","AL","GA","LA","SC","NC"],"advisorySnow24":1,"warningSnow12":2,"warningSnow24":3,"warningIce":0.25,"note":"Low climatological tolerance; local mountain zones may be higher."},
+    {"id":"mid-south","states":["AR","TN","KY","MO"],"advisorySnow24":2,"warningSnow12":3,"warningSnow24":4,"warningIce":0.25,"note":"Local northern portions commonly use 4/6-inch warning tiers."},
+    {"id":"central-midwest","states":["IL","IN","OH","IA","KS","NE"],"advisorySnow24":3,"warningSnow12":5,"warningSnow24":6,"warningIce":0.25},
+    {"id":"upper-midwest","states":["MN","WI","MI","ND","SD"],"advisorySnow24":4,"warningSnow12":6,"warningSnow24":8,"warningIce":0.25},
+    {"id":"mid-atlantic","states":["VA","WV","MD","DE","NJ","PA"],"advisorySnow24":2,"warningSnow12":5,"warningSnow24":6,"warningIce":0.25,"note":"CTP varies advisory 2-3 and warning 5-6 inches by zone."},
+    {"id":"southern-new-england","states":["CT","RI","MA","NY"],"advisorySnow24":3,"warningSnow12":6,"warningSnow24":7,"warningIce":0.5,"note":"Berkshires and lake-effect zones may use higher thresholds."},
+    {"id":"northern-new-england","states":["VT","NH","ME"],"advisorySnow24":4,"warningSnow12":7,"warningSnow24":9,"warningIce":0.5},
+    {"id":"west-lowlands","states":["WA","OR","CA","NV","ID","MT","WY","UT","CO","AZ","NM"],"advisorySnow24":2,"warningSnow12":4,"warningSnow24":6,"warningIce":0.25,"note":"Placeholder only; operational thresholds must use elevation/terrain zone profiles."},
+    {"id":"west-mountains","selection":"Western zones whose terrain/elevation classification is mountain or high terrain","advisorySnow24":4,"warningSnow12":8,"warningSnow24":12,"warningIce":0.25},
+    {"id":"hawaii-summits","states":["HI"],"selection":"Summit zones only","advisorySnow24":1,"warningSnow12":6,"warningSnow24":6,"warningIce":0.25}
+  ],
+  "officialExamples": {
+    "MEG":{"warningSnow12":"2-4 inches by county","warningSnow24":"3-6 inches by county","warningIce":0.25,"warningSleet":0.5,"combination":"2 inches snow plus any sleet or ice","source":"https://www.weather.gov/media/meg/WinterStormCriteriaMEG.pdf"},
+    "FFC":{"warningSnow12":"2 inches; 3 inches north Georgia mountains","warningSnow24":4,"warningIce":0.25,"warningSleet":0.5,"source":"https://www.weather.gov/media/ffc/snow_measurement_guidelines.pdf"},
+    "CTP":{"advisorySnow":"2-3 inches by zone","warningSnow":"5-6 inches by zone","warningIce":"0.25-0.50 inch by zone","source":"https://www.weather.gov/ctp/wwaCriteria"},
+    "BOX":{"advisorySnow12":3,"warningSnow":6,"berkshiresWarningSnow":7,"warningIce":0.5,"source":"https://www.weather.gov/box/criteria"},
+    "BGM":{"warningSnow":"6 inches PA / 7 inches NY per event","lakeEffectSnow12":7,"lakeEffectSnow24":9,"coveragePercent":50,"source":"https://www.weather.gov/bgm/winterterms"},
+    "PSR":{"advisoryBelow5000":"2-3 inches or any desert-floor accumulation","advisoryAbove5000":"3-7 inches","warningBelow5000":4,"warningAbove5000":8,"source":"https://www.weather.gov/media/psr/PSR_WWA_Product_Criteria.pdf"},
+    "HFO":{"selection":"Summit zones only","advisorySnow":"1-6 inches","warningSnow":6,"warningIce":0.25,"source":"https://www.weather.gov/hfo/prod_questions"}
+  },
+  "automationRequirements": {
+    "sampling":"Evaluate all NDFD grid cells intersecting the zone, but use the product-specific areal/zone rule rather than automatically promoting one isolated maximum.",
+    "snowWindowsHours":[12,24],
+    "ice":"Use accumulated freezing-rain ice during the exact product period.",
+    "sleet":"Not independently available from the present bulk fields; mixed-product cases must fail closed unless product text and another supported accumulation meet criteria.",
+    "exactNwsVerification":true,
+    "unknownMixedHazardPolicy":"fail-closed"
+  },
+  "notes":[
+    "These profiles are proposed research values and are not consumed by live automation.",
+    "Winter remains disabled.",
+    "Impact-based forecaster discretion cannot be reproduced from accumulation grids alone."
+  ]
+}

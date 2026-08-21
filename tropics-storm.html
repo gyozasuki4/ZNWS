@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>ZASNet · Tropical Cyclone</title>
+    <link rel="icon" href="/ZNWS.png">
+    <link rel="stylesheet" href="/tropics.css">
+    <link rel="stylesheet" href="/public-brand.css">
+    <link rel="stylesheet" href="/public-v2.css">
+    <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+    <link rel="stylesheet" href="/severe-weather.css">
+    <link rel="stylesheet" href="/severe-site.css?v=20260803-blue-workstation">
+    <link rel="stylesheet" href="/map-workstation.css?v=20260724-model-match">
+    <link rel="stylesheet" href="/weather-maps.css?v=20260723-derived-severe">
+    <link rel="stylesheet" href="/models.css?v=20260808-gif-footer-fix-v3">
+    <link rel="stylesheet" href="/public-v3.css?v=20260810-light-restored">
+    <link rel="stylesheet" href="/tropics-site.css?v=20260815-storm-products-7">
+  </head>
+  <body class="public-severe new-severe-site public-tropics public-storm map-workstation-page">
+    <header class="site-header"><a class="brand" href="/"><img src="/ZNWS.png" alt=""><span>ZASNet<small>Weather Service</small></span></a><nav aria-label="Primary navigation"><a href="/">Live weather</a><a href="/severe-weather">Severe outlooks</a><a href="/weather-maps">Weather maps</a><a href="/models">Models</a><a class="active" href="/tropics">Tropics</a></nav></header>
+    <main>
+      <section class="storm-hero"><div><p class="eyebrow">Official tropical cyclone forecast</p><h1 id="title">Loading storm…</h1></div><p id="details">Retrieving the latest advisory and forecast track.</p></section>
+      <div class="tc-products-grid">
+      <section class="outlook-studio tc-product-studio" aria-labelledby="forecastViewerTitle"><div class="outlook-viewer"><header><div class="viewer-controls"><div class="viewer-heading"><p class="eyebrow">Official storm products</p><h2 id="forecastViewerTitle">Forecast cone and track</h2></div><div class="tc-product-buttons" role="group" aria-label="Storm graphic"><button type="button" data-product="forecast_cone" class="active">Forecast cone</button><button type="button" data-product="track_guidance">Track guidance</button><button type="button" data-product="intensity">Intensity</button><button type="button" data-product="storm_history">History</button></div></div></header><div class="image-frame tc-forecast-frame"><div class="image-status" id="coneStatus">Loading official graphic…</div><img id="tcForecastImage" class="tc-official-graphic" alt="Official tropical cyclone forecast graphic" hidden></div><footer class="outlook-footer"><div class="outlook-footer-meta"><span class="viewer-status" id="coneViewerStatus">NHC GIS / ATCF</span><p id="coneCaption">Latest official forecast graphic</p></div><div class="outlook-footer-actions"><a id="openCone" target="_blank" rel="noopener">Open graphic</a></div></footer></div></section>
+      <section class="storm-section tc-satellite-section" aria-labelledby="stormSatelliteTitle">
+        <p class="eyebrow">Storm-relative satellite</p>
+        <h2 id="stormSatelliteTitle">Latest clean infrared</h2>
+        <div class="outlook-studio tc-product-studio"><div class="outlook-viewer tc-sat-card"><header><div class="viewer-controls"><div class="control-group"><span>Product</span><select id="tcSatProduct" aria-label="Satellite product"><option value="infrared" selected>Enhanced IR</option><option value="clean_ir">Clean IR</option><option value="shortwave_ir">Shortwave IR</option><option value="water_vapor">Water vapor</option><option value="upper_water_vapor">Upper-level water vapor</option><option value="visible">Visible</option><option value="geocolor">GeoColor</option></select></div><div class="control-group"><span>Loop length</span><select id="tcSatDuration" aria-label="Satellite loop duration"><option value="30" selected>30 min</option><option value="60">1 hour</option><option value="90">90 min</option><option value="180">3 hours</option></select></div><div class="source-stamp viewer-source"><span>Source</span><strong>GOES · Best available</strong></div></div></header><div class="image-frame tc-sat-frame" id="tcSatViewport"><div class="image-status tc-sat-loading" id="tcSatLoading">Loading satellite graphic…</div><img id="tcSatImage" alt="Complete storm-centered satellite graphic"></div><nav class="tc-sat-transport" aria-label="Storm satellite frames"><button id="tcSatPrevious" aria-label="Previous satellite frame">‹</button><input id="tcSatTrack" type="range" min="0" max="0" value="0" aria-label="Satellite frame time"><button id="tcSatNext" aria-label="Next satellite frame">›</button></nav><footer class="outlook-footer"><div class="outlook-footer-meta"><span class="viewer-status" id="tcSatCount">Latest 30 minutes</span><p id="tcSatPosition">Centered on latest advisory</p></div><div class="outlook-footer-actions"><label class="gif-speed"><span>GIF speed</span><select id="tcSatGifDelay" aria-label="Exported satellite GIF speed"><option value="100">Very fast</option><option value="150" selected>Fast</option><option value="250">Normal</option><option value="400">Relaxed</option><option value="650">Slow</option></select></label><button id="tcSatExportGif" type="button">Export GIF</button><a id="tcSatOpenImage" target="_blank" rel="noopener">Open image</a><a href="https://www.star.nesdis.noaa.gov/GOES/" target="_blank" rel="noopener">Official NOAA</a></div></footer></div></div>
+      </section>
+      </div>
+      <div id="forecast" hidden></div>
+      <section class="storm-section tc-latest-section"><p class="eyebrow">Current advisory</p><h2>Latest information</h2><div id="latest" class="storms"></div></section>
+      <aside class="public-note"><strong>Safety note</strong><span>Forecast tracks and cones change. Follow official watches, warnings, and local emergency instructions.</span></aside>
+      <footer class="public-footer"><span>ZASNet Weather Service</span><p>Official forecast source: NOAA National Hurricane Center.</p><a href="/tropics">Back to tropics</a></footer>
+    </main>
+    <script src="/tropics-storm.js?v=20260815-storm-products-11"></script><script src="/public-gif.js?v=1.0.2"></script><script src="/storm-satellite.js?v=20260815-api-products-1"></script><script src="/public-menu.js?v=20260815-black-theme-8"></script>
+  </body>
+</html>

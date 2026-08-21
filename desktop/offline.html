@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+  <title>Hive Beta — Connection Lost</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #08111c; color: #e7f0f8; }
+    main { width: min(460px, calc(100vw - 48px)); padding: 36px; border: 1px solid #263a4d; border-radius: 14px; background: #101d2a; text-align: center; box-shadow: 0 18px 60px #0008; }
+    img { width: 88px; height: 88px; }
+    h1 { margin: 18px 0 8px; font-size: 24px; }
+    p { color: #a9bac9; line-height: 1.5; }
+    button { margin-top: 12px; padding: 11px 24px; border: 0; border-radius: 8px; background: #2786d8; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="../znws-map-mark.png" alt="ZASNet">
+    <h1>Hive Beta is offline</h1>
+    <p id="status">The operational server could not be reached. Hive will retry automatically.</p>
+    <button type="button" id="retry">Retry now</button>
+    <button type="button" id="sso" hidden>Use Authentik SSO</button>
+  </main>
+  <script>
+    (() => {
+      const status = document.querySelector("#status");
+      const retry = document.querySelector("#retry");
+      const sso = document.querySelector("#sso");
+      const reason = new URLSearchParams(location.search).get("reason");
+      if (reason === "revoked" || reason === "auth-failed") {
+        status.textContent = reason === "revoked" ? "This workstation credential is revoked or disabled." : "Workstation authentication failed.";
+        sso.hidden = false;
+      }
+      let timer;
+      const reconnect = () => {
+        retry.disabled = true;
+        status.textContent = "Reconnecting to the operational server…";
+        window.hiveDesktop.reconnect();
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => { retry.disabled = false; status.textContent = "Still unavailable. Retrying automatically…"; }, 4000);
+      };
+      retry.addEventListener("click", reconnect);
+      sso.addEventListener("click", () => window.hiveDesktop.useSso());
+      timer = window.setTimeout(reconnect, 5000);
+      window.hiveDesktop.onConnectivityChange((state) => {
+        if (state?.reachable) reconnect();
+      });
+    })();
+  </script>
+</body>
+</html>

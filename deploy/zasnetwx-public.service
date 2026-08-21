@@ -1,0 +1,25 @@
+[Unit]
+Description=ZASNet Weather Public Website
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=zasnetwx
+Group=zasnetwx
+WorkingDirectory=/srv/zasnetwx-public/current
+Environment=NODE_ENV=production
+Environment=AWIPS_PUBLISH_ENABLED=true
+Environment=SERVICE_ROLE=public
+Environment=HOST=127.0.0.1
+Environment=PORT=8080
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/srv/zasnetwx-public/current/data
+
+[Install]
+WantedBy=multi-user.target

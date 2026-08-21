@@ -1,0 +1,177 @@
+.models-page #modelTimeControl{display:grid;gap:5px}.models-page .model-time-label{display:flex;align-items:center;justify-content:space-between;gap:8px}.models-page .model-time-label>span:first-child{color:var(--nv-muted);font-size:.58rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.models-page .model-time-label .preload-status{margin:0;padding:3px 6px;font-size:.5rem;line-height:1}.models-page .viewer-controls .control-group select:disabled{opacity:1;color:#eef2ea;cursor:default}.models-page .viewer-status{border-color:rgba(143,172,114,.45);color:#c7d9b5;background:#1c2718}.models-page .viewer-status.is-error{border-color:rgba(223,75,75,.65);color:#ffc0b8;background:#351b18}
+.models-page .product-select-row{display:flex;align-items:stretch;gap:6px}.models-page .product-select-row select{min-width:0;flex:1}.models-page #experimentalInfoButton{padding:0 12px;border:1px solid #a8ba96;border-radius:4px;color:#e9f0e3;background:#2b3828;font-size:.72rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}.models-page #experimentalInfoButton:hover{background:#3a4a36}.models-page #experimentalInfoDialog{width:min(620px,calc(100% - 28px));padding:0;border:1px solid #607257;border-radius:10px;color:#edf1e8;background:#111812;box-shadow:0 24px 80px #000c}.models-page #experimentalInfoDialog::backdrop{background:#050906c9;backdrop-filter:blur(3px)}.experimental-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 22px 16px;border-bottom:1px solid #344331}.experimental-dialog-head span{color:#9caf88;font-size:.68rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.experimental-dialog-head h2{margin:4px 0 0;font-size:1.35rem}.experimental-dialog-head button{width:34px;height:34px;padding:0;border:1px solid #52624f;border-radius:50%;color:#edf1e8;background:#273326;font-size:1.4rem;cursor:pointer}#experimentalInfoBody{padding:18px 22px 8px;color:#c8d1c3;line-height:1.55}#experimentalInfoBody p{margin:0 0 16px}#experimentalInfoBody h3{margin:0 0 7px;color:#edf1e8;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase}#experimentalInfoBody ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 22px;margin:0;padding-left:18px}.experimental-scale{display:grid;grid-template-columns:repeat(5,1fr);margin:14px 22px 16px;border:1px solid #495945;border-radius:6px;overflow:hidden}.experimental-scale span{padding:9px 4px;color:#fff;text-align:center;font-size:.8rem;font-weight:900}.experimental-scale span:nth-child(1){background:#476957}.experimental-scale span:nth-child(2){background:#658348}.experimental-scale span:nth-child(3){background:#9a8538}.experimental-scale span:nth-child(4){background:#a85536}.experimental-scale span:nth-child(5){background:#74304e}.experimental-scale small{font-size:.58rem;font-weight:700;opacity:.9}.experimental-caveat{margin:0;padding:15px 22px 20px;border-top:1px solid #344331;color:#b7c1b2;background:#0d140f;font-size:.78rem;line-height:1.5}.experimental-caveat strong{color:#f1d36d}
+@media(max-width:520px){.models-page #modelTimeControl{grid-column:1/-1}}
+@media(max-width:520px){#experimentalInfoBody ul{grid-template-columns:1fr}.experimental-scale{grid-template-columns:1fr}.experimental-scale span{display:flex;justify-content:space-between;padding:7px 12px}}
+.models-page .compare-control{display:none!important}
+.models-page .compare-control{display:grid;gap:4px;color:var(--nv-muted);font-size:.62rem;font-weight:800;text-transform:uppercase}.models-page .compare-control label{display:flex;align-items:center;gap:5px}.models-page .compare-control select{max-width:150px}.models-page #compareImage{border-left:2px solid #d8e4d0}.models-page .image-frame.compare-active{display:grid;grid-template-columns:1fr 1fr}.models-page .image-frame.compare-active #imageStatus{grid-column:1/-1}
+[hidden] { display: none !important; }
+
+/* Keep the complete model workstation usable in shorter/narrower desktop windows. */
+.models-page .viewer-controls{display:grid;grid-template-columns:minmax(210px,1.15fr) minmax(250px,1.4fr) minmax(170px,.85fr) minmax(280px,1.35fr);align-items:end;gap:12px;width:100%}
+.models-page .viewer-controls>.control-group,.models-page .viewer-region-control,.models-page #modelTimeControl{min-width:0;height:100%;align-content:end}
+.models-page .viewer-controls .control-group select,.models-page .viewer-region-control select{width:100%;max-width:none;min-height:36px}
+.models-page .viewer-controls .product-control,.models-page .viewer-region-control{padding-right:0;border-right:0}
+.models-page .viewer-controls .product-select-row{min-width:0}
+.models-page .viewer-controls .product-select-row select{width:100%;min-height:36px}
+.models-page .forecast-time-stepper{grid-template-columns:36px minmax(0,1fr) 36px}
+.models-page .forecast-time-stepper select,.models-page .forecast-time-stepper button{min-height:36px}
+.models-page .forecast-timeline{width:100%;height:18px;margin:5px 0 0;accent-color:#9caf88;cursor:pointer}
+.models-page .forecast-timeline:disabled{opacity:.35;cursor:not-allowed}
+.models-page .viewer-controls>.forecast-timeline{grid-column:1/-1;margin:0}
+.models-page .mobile-timeline-host{display:none}
+.models-page .viewer-source{display:none}
+.models-page .outlook-viewer .image-frame{min-height:clamp(300px,calc(100vh - 255px),650px)}
+.models-page .outlook-viewer .image-frame img{max-height:calc(100vh - 255px);object-fit:contain}
+@media(max-width:1250px){
+  .models-page main{width:calc(100% - 24px)}
+  .models-page .outlook-viewer>header{padding:11px 13px}
+  .models-page .viewer-controls{grid-template-columns:minmax(190px,1.1fr) minmax(220px,1.3fr) minmax(155px,.8fr) minmax(240px,1.2fr);gap:9px}
+  .models-page .viewer-controls .control-group,.models-page .viewer-region-control,.models-page #modelTimeControl{min-width:0}
+  .models-page .viewer-controls .control-group select,.models-page .viewer-controls .product-picker select,.models-page .viewer-region-control select{width:100%;max-width:none}
+  .models-page .viewer-controls .product-picker,.models-page .viewer-region-control{padding-right:0;border-right:0}
+}
+@media(max-width:900px) and (min-width:521px){
+  .models-page .viewer-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .models-page .outlook-viewer .image-frame{min-height:clamp(280px,calc(100vh - 330px),500px)}
+  .models-page .outlook-viewer .image-frame img{max-height:calc(100vh - 330px)}
+}
+
+/* 2026 model workstation refinement */
+.models-page main{width:min(1560px,calc(100% - 32px));margin-inline:auto}
+.models-page .outlook-studio{margin-top:18px}
+.models-page .outlook-viewer{overflow:hidden;border:1px solid #3d4d39;border-radius:14px;background:#0d130e;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.models-page .outlook-viewer>header{padding:0;background:linear-gradient(180deg,#182118 0%,#111811 100%)}
+.models-page .model-workstation-head{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:17px 20px 15px;border-bottom:1px solid rgba(156,175,139,.2)}
+.models-page .model-workstation-head h2{margin:2px 0 0;color:#f1f5ed;font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.15}
+.models-page .model-workstation-head p{margin:5px 0 0;color:#98a493;font-size:.74rem}
+.models-page .model-eyebrow{color:#a8c18e;font-size:.6rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+.models-page .model-keyboard-help{display:flex;align-items:center;gap:8px;color:#9ca897;font-size:.62rem;font-weight:800;text-transform:uppercase}
+.models-page .model-keyboard-help span{display:flex;align-items:center;gap:4px;padding:6px 8px;border:1px solid #384633;border-radius:7px;background:#10170f}
+.models-page .model-keyboard-help kbd{display:inline-grid;min-width:20px;height:20px;place-items:center;border:1px solid #5b6b53;border-bottom-width:2px;border-radius:4px;color:#e6ede0;background:#273124;font:800 .67rem/1 Arial,sans-serif}
+.models-page .viewer-controls{padding:14px 16px 16px;gap:10px}
+.models-page .viewer-controls>.control-group,.models-page .viewer-region-control,.models-page #modelTimeControl{padding:10px;border:1px solid #33402f;border-radius:9px;background:rgba(8,13,8,.56);transition:border-color .16s ease,background .16s ease}
+.models-page .viewer-controls>.control-group:focus-within,.models-page .viewer-region-control:focus-within,.models-page #modelTimeControl:focus-within{border-color:#8da879;background:#111a10}
+.models-page .viewer-controls .control-group>span,.models-page .viewer-region-control>span:first-child,.models-page .model-time-label>span:first-child{display:flex;align-items:center;gap:6px;margin-bottom:7px;color:#aab6a4;font-size:.59rem;font-weight:900;letter-spacing:.11em;text-transform:uppercase}
+.models-page .viewer-controls .control-group>span b,.models-page .viewer-region-control>span:first-child b{display:inline-grid;width:18px;height:18px;place-items:center;border-radius:50%;color:#dce8d3;background:#35452f;font-size:.55rem}
+.models-page .model-time-label{min-height:18px;margin-bottom:7px}
+.models-page .model-time-label>span:first-child{margin:0}
+.models-page .viewer-controls select{overflow:hidden;border-color:#52604d!important;border-radius:6px!important;color:#eff4eb!important;background-color:#202a1e!important;font-weight:750;text-overflow:ellipsis}
+.models-page .viewer-controls select:hover{border-color:#7e9272!important}
+.models-page .viewer-controls select:focus{outline:2px solid rgba(156,175,139,.32);outline-offset:1px}
+.models-page .forecast-time-stepper{gap:5px}
+.models-page .forecast-time-stepper button{border:1px solid #607157;border-radius:6px;color:#eef5e9;background:#34412f;font-size:1rem;font-weight:900;cursor:pointer}
+.models-page .forecast-time-stepper button:hover:not(:disabled){border-color:#9eb58b;background:#46563f}
+.models-page .forecast-time-stepper button:disabled{opacity:.35;cursor:not-allowed}
+.models-page .model-time-label .preload-status{max-width:110px;overflow:hidden;border:0;border-radius:10px;color:#abc199;background:#283523;white-space:nowrap;text-overflow:ellipsis}
+.models-page .image-frame{position:relative;border-top:1px solid #263023;border-bottom:1px solid #263023;background:radial-gradient(circle at 50% 35%,#263323 0,#121a12 55%,#090d09 100%)}
+.models-page .image-frame::before{position:absolute;z-index:0;inset:14px;border:1px solid rgba(184,201,168,.12);border-radius:8px;content:"";pointer-events:none}
+.models-page .image-frame img{position:relative;z-index:1;width:100%;filter:drop-shadow(0 10px 20px rgba(0,0,0,.22))}
+.models-page .image-status{z-index:2;border:1px solid #44543e;border-radius:8px;background:rgba(12,18,11,.92);box-shadow:0 10px 30px #0006}
+.models-page .outlook-footer{gap:18px;padding:12px 16px;background:#111811}
+.models-page .outlook-footer-meta{min-width:0}
+.models-page .outlook-footer-meta p{overflow:hidden;margin:0;color:#b8c3b3;white-space:nowrap;text-overflow:ellipsis}
+.models-page .outlook-footer-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.models-page .outlook-footer-actions button,.models-page .outlook-footer-actions a{min-height:34px;padding:8px 12px;border:1px solid #52624c;border-radius:6px;color:#e4ebdf;background:#222d20;font-size:.68rem;font-weight:850;text-decoration:none}
+.models-page .outlook-footer-actions button:hover,.models-page .outlook-footer-actions a:hover{border-color:#91a782;background:#34412f}
+
+@media(max-width:1100px){
+  .models-page .viewer-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .models-page .outlook-viewer .image-frame{min-height:clamp(280px,calc(100vh - 370px),560px)}
+  .models-page .outlook-viewer .image-frame img{max-height:calc(100vh - 370px)}
+}
+@media(max-width:700px){
+  .models-page main{width:min(100% - 18px,1560px)}
+  .models-page .outlook-studio{margin-top:9px}
+  .models-page .model-workstation-head{align-items:flex-start;padding:14px}
+  .models-page .model-workstation-head p,.models-page .model-keyboard-help{display:none}
+  .models-page .viewer-controls{grid-template-columns:1fr;padding:10px}
+  .models-page .viewer-controls>.control-group,.models-page .viewer-region-control,.models-page #modelTimeControl{padding:9px}
+  .models-page .outlook-viewer .image-frame{min-height:240px}
+  .models-page .outlook-viewer .image-frame img{max-height:none}
+  .models-page .outlook-footer{align-items:flex-start;flex-direction:column}
+  .models-page .outlook-footer-actions{width:100%}
+  .models-page .outlook-footer-actions>*{flex:1;text-align:center}
+  .models-page .mobile-timeline-host{display:block;padding:11px 14px 9px;border-top:1px solid #354131;background:#141b13}
+  .models-page .mobile-timeline-host:empty{display:none}
+  .models-page .mobile-timeline-host .forecast-timeline{display:block;margin:0}
+}
+
+/* Quieter model toolbar */
+.models-page .outlook-studio{margin-top:10px}
+.models-page .outlook-viewer{border-radius:9px}
+.models-page .outlook-viewer>header{background:#141b13}
+.models-page .viewer-controls{padding:10px 12px;gap:14px}
+.models-page .viewer-controls>.control-group,.models-page .viewer-region-control,.models-page #modelTimeControl{padding:0;border:0;border-radius:0;background:transparent}
+.models-page .viewer-controls>.control-group:focus-within,.models-page .viewer-region-control:focus-within,.models-page #modelTimeControl:focus-within{border-color:transparent;background:transparent}
+.models-page .viewer-controls .control-group>span,.models-page .viewer-region-control>span:first-child,.models-page .model-time-label>span:first-child{margin-bottom:5px;color:#899685;font-size:.55rem;letter-spacing:.13em}
+.models-page .viewer-controls select{min-height:40px!important;padding-inline:11px!important;border:1px solid #3e493a!important;border-radius:5px!important;background-color:#1b231a!important;font-size:.78rem;font-weight:700}
+.models-page .viewer-controls select:hover{border-color:#687960!important;background-color:#202a1e!important}
+.models-page .forecast-time-stepper button{min-height:40px;border-color:#465341;border-radius:5px;background:#232d21}
+.models-page .model-time-label{margin-bottom:5px}
+.models-page .model-time-label .preload-status{padding:2px 6px;background:transparent}
+.models-page .image-frame::before{display:none}
+
+@media(max-width:1100px){
+  .models-page .viewer-controls{gap:10px;padding:10px}
+}
+.models-page .experimental-scale{grid-template-columns:repeat(var(--scale-columns,5),minmax(68px,1fr));overflow-x:auto}.models-page .experimental-scale span{min-width:68px}
+.models-page .product-interpretation{margin:18px 0 0}.models-page .interpretation-table{overflow:hidden;border:1px solid #3d4b39;border-radius:6px}.models-page .interpretation-table>div{display:grid;grid-template-columns:minmax(135px,.42fr) minmax(0,1fr);border-bottom:1px solid #303c2d}.models-page .interpretation-table>div:last-child{border-bottom:0}.models-page .interpretation-table strong,.models-page .interpretation-table span{padding:8px 10px;font-size:.7rem;line-height:1.35}.models-page .interpretation-table strong{color:#e2eadc;background:#1e281c}.models-page .interpretation-table span{color:#b9c4b4;background:#131a13}@media(max-width:520px){.models-page .interpretation-table>div{grid-template-columns:1fr}.models-page .interpretation-table strong{padding-bottom:3px}.models-page .interpretation-table span{padding-top:3px}}
+.models-page .model-display{display:grid;grid-template-columns:minmax(0,1fr);min-width:0}.models-page .outlook-viewer.guide-open .model-display{grid-template-columns:minmax(0,1fr) minmax(320px,360px)}.models-page .product-guide-panel{max-height:calc(100vh - 255px);overflow:auto;border-left:1px solid #43513e;background:#111812}.models-page .product-guide-panel>header{position:sticky;z-index:2;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:16px 18px;border-bottom:1px solid #374334;background:#172017}.models-page .product-guide-panel>header span{color:#9caf88;font-size:.58rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.models-page .product-guide-panel>header h2{margin:4px 0 0;font-size:1rem}.models-page .product-guide-panel>header button{width:30px;height:30px;padding:0;border:1px solid #52624f;border-radius:50%;color:#edf1e8;background:#273326;font-size:1.15rem;cursor:pointer}.models-page #sideGuideBody{padding:16px 18px 4px;color:#c8d1c3;font-size:.78rem;line-height:1.5}.models-page #sideGuideBody h3{margin:0 0 7px;color:#edf1e8;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}.models-page #sideGuideBody p{margin:0 0 16px}.models-page .product-guide-panel .experimental-scale{margin:12px 18px 16px}.models-page .product-guide-panel .experimental-caveat{padding:14px 18px 18px;font-size:.7rem}@media(max-width:900px){.models-page #experimentalInfoButton,.models-page .product-guide-panel{display:none!important}.models-page .outlook-viewer.guide-open .model-display{grid-template-columns:1fr}}
+.models-page .outlook-viewer.guide-open .model-display{grid-template-columns:minmax(0,1fr) minmax(370px,410px)}.models-page .product-guide-panel{max-height:none;overflow:hidden}.models-page .product-guide-panel>header{position:relative;padding:11px 13px}.models-page .product-guide-panel>header h2{font-size:.9rem}.models-page #sideGuideBody{padding:10px 12px 2px;font-size:.68rem;line-height:1.35}.models-page #sideGuideBody .guide-summary{margin:0 0 9px;color:#aeb9a9}.models-page #sideGuideBody .product-interpretation{margin:9px 0 0}.models-page #sideGuideBody .product-interpretation h3{margin-bottom:4px;font-size:.58rem}.models-page #sideGuideBody .interpretation-table>div{grid-template-columns:118px minmax(0,1fr)}.models-page #sideGuideBody .interpretation-table strong,.models-page #sideGuideBody .interpretation-table span{padding:4px 6px;font-size:.59rem;line-height:1.18}.models-page .product-guide-panel .experimental-scale{grid-template-columns:repeat(var(--scale-columns,1),minmax(0,1fr));margin:8px 12px;overflow:hidden}.models-page .product-guide-panel .experimental-scale span{min-width:0;padding:5px 1px;font-size:.55rem;white-space:nowrap}.models-page .product-guide-panel .experimental-caveat{padding:8px 12px 10px;font-size:.58rem;line-height:1.3}
+
+/* Blue workstation treatment shared with Weather Maps. */
+.models-page .outlook-studio{border-color:#bfd7e7;background:#fff;box-shadow:0 14px 34px #174c7317}
+.models-page .outlook-viewer>header{border-bottom-color:#d7e6ef;background:#f5faff}
+.models-page .viewer-controls .control-group>span,.models-page .viewer-region-control>span:first-child,.models-page .model-time-label>span:first-child{color:#526d81}
+.models-page .viewer-controls select{border-color:#b9cedd!important;color:#16324a!important;background-color:#fff!important}
+.models-page .viewer-controls select:hover{border-color:#5599c9!important;background-color:#f5faff!important}
+.models-page .forecast-time-stepper button{border-color:#aac8dc;color:#103b67;background:#fff}.models-page .forecast-time-stepper button:hover:not(:disabled){border-color:#5599c9;background:#e4f2fd}
+.models-page .model-time-label .preload-status{color:#1769aa;background:#edf7fe}
+.models-page .image-frame{border-color:#d2e2ec;background:radial-gradient(circle at 50% 35%,#fff 0,#eef5fa 60%,#e2edf4 100%)}
+.models-page .image-frame img{filter:drop-shadow(0 10px 22px #174c7326)}
+.models-page .image-status{border-color:#b9cedd;color:#16324a;background:#fffffff2;box-shadow:0 10px 30px #174c7320}
+.models-page .outlook-footer{border-color:#d7e5ee;background:#f5faff}.models-page .outlook-footer-meta p{color:#63798c}
+.models-page .outlook-footer-actions button,.models-page .outlook-footer-actions a{border-color:#aac8dc;color:#103b67;background:#fff}.models-page .outlook-footer-actions button:hover,.models-page .outlook-footer-actions a:hover{border-color:#5599c9;background:#e4f2fd}
+.models-page .mobile-timeline-host{border-color:#d7e5ee!important;background:#f5faff!important}
+/* Shared animation transport treatment used by model and satellite viewers. */
+.models-page .model-animation-toolbar{display:grid;grid-template-columns:38px 88px 38px minmax(105px,1fr);gap:6px}.models-page .model-animation-toolbar button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 9px;border:1px solid #aac8dc;border-radius:8px;color:#103b67;background:#fff;font:800 .7rem system-ui;cursor:pointer}.models-page .model-animation-toolbar button:hover:not(:disabled){border-color:#187bc1;background:#edf7fe}.models-page .model-animation-toolbar button:disabled{opacity:.42;cursor:not-allowed}.models-page .model-animation-toolbar .animation-step{font-size:1.45rem;line-height:1}.models-page .model-animation-toolbar .animation-play{border-color:#176fae;color:#fff;background:linear-gradient(180deg,#218bd1,#1269a5);box-shadow:0 4px 10px #1769aa26}.models-page .model-animation-toolbar .animation-play:hover:not(:disabled),.models-page .model-animation-toolbar .animation-play[aria-pressed="true"]{border-color:#0b578e;color:#fff;background:linear-gradient(180deg,#197bbb,#0e5d93)}.models-page .animation-play>span{font-size:.62rem}.models-page .animation-speed{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px;padding-left:8px;border:1px solid #b9cedd;border-radius:8px;color:#63798c;background:#fff;font-size:.55rem;font-weight:850;letter-spacing:.06em;text-transform:uppercase}.models-page .animation-speed select{width:100%!important;min-height:36px!important;padding:0 6px!important;border:0!important;border-left:1px solid #d8e5ed!important;border-radius:0 8px 8px 0!important}.models-page .forecast-hour-select{width:100%!important;min-height:36px!important;margin-top:1px}.models-page .animation-track{display:grid;gap:0}.models-page .animation-track>div{display:flex;justify-content:space-between;color:#7890a1;font-size:.52rem;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
+@media(max-width:700px){.models-page .model-animation-toolbar{grid-template-columns:42px minmax(92px,1fr) 42px}.models-page .animation-speed{grid-column:1/-1}.models-page .model-animation-toolbar button,.models-page .animation-speed select{min-height:44px!important}.models-page .forecast-hour-select{min-height:44px!important}.models-page .mobile-timeline-host{padding:8px 12px 7px}.models-page .outlook-footer{gap:10px;padding:10px 12px}.models-page .outlook-footer-meta p{white-space:normal;line-height:1.35}}
+
+/* Definitive mobile model control sheet. Keep this last to avoid legacy cascade conflicts. */
+@media(max-width:700px){
+  .models-page .outlook-viewer>header{position:relative;padding:8px!important;background:#f5faff!important}
+  .models-page .outlook-viewer>header>.map-controls-toggle{position:sticky;z-index:4;top:0;width:100%;margin:0!important;border-color:#8eb9d4;background:#fff;box-shadow:0 4px 12px #174c7314}
+  .models-page .viewer-controls{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-areas:"run region" "product product" "time time";max-height:calc(100dvh - 185px);gap:9px!important;margin-top:8px;padding:0 1px 4px!important;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+  .models-page .viewer-controls>.control-group:first-of-type{grid-area:run}
+  .models-page .viewer-controls>.product-control{grid-area:product}
+  .models-page .viewer-controls>.viewer-region-control{grid-area:region}
+  .models-page .viewer-controls>#modelTimeControl{grid-area:time}
+  .models-page .viewer-controls>.control-group,.models-page .viewer-region-control,.models-page #modelTimeControl{min-width:0!important;padding:9px!important;border:1px solid #c8dce9!important;border-radius:9px!important;background:#fff!important}
+  .models-page .viewer-controls .control-group>span,.models-page .viewer-region-control>span:first-child,.models-page .model-time-label>span:first-child{margin-bottom:5px!important;font-size:.53rem!important;letter-spacing:.09em!important}
+  .models-page .viewer-controls select,.models-page .product-select-row select{width:100%!important;max-width:100%!important;min-height:44px!important;padding:8px 30px 8px 9px!important;font-size:16px!important;text-overflow:ellipsis}
+  .models-page .product-select-row{display:grid;grid-template-columns:minmax(0,1fr) auto;width:100%}
+  .models-page #experimentalInfoButton{min-width:48px;min-height:44px;padding:0 9px}
+  .models-page .model-time-label{min-width:0}.models-page .model-time-label .preload-status{max-width:46%;overflow:hidden;text-overflow:ellipsis}
+  .models-page .model-animation-toolbar{grid-template-columns:44px minmax(94px,1fr) 44px!important;gap:6px!important}
+  .models-page .animation-speed{grid-column:1/-1;min-height:44px}
+  .models-page .forecast-hour-select{margin-top:2px!important}
+  .models-page .animation-track{padding:3px 2px 0}
+  .models-page .outlook-viewer>header.controls-collapsed{padding:8px!important}
+}
+@media(max-width:390px){
+  .models-page .viewer-controls{grid-template-columns:1fr!important;grid-template-areas:"run" "region" "product" "time"}
+}
+
+/* Selection summary, searchable product sheet, and focused map mode. */
+.models-page .model-selection-summary{display:grid;grid-template-columns:.7fr .8fr minmax(180px,1.35fr) .9fr 1fr auto;align-items:center;gap:0;border-top:1px solid #d7e5ee;border-bottom:1px solid #c8dce8;background:#fff}.models-page .model-selection-summary>div{min-width:0;padding:9px 12px;border-right:1px solid #e0ebf2}.models-page .model-selection-summary span,.models-page .model-selection-summary>div>span{display:block;color:#7890a1;font-size:.5rem;font-weight:850;letter-spacing:.1em;text-transform:uppercase}.models-page .model-selection-summary strong{display:block;overflow:hidden;margin-top:3px;color:#143955;font-size:.69rem;text-overflow:ellipsis;white-space:nowrap}.models-page #modelFullscreenButton{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;margin:0 10px;border:1px solid #9fc4dc;border-radius:8px;padding:7px 10px;color:#1769aa;background:#edf7fe;font:800 .65rem Inter,system-ui,sans-serif;cursor:pointer}.models-page #productPickerButton{display:none}.models-page #modelProductDialog{width:min(720px,calc(100% - 24px));max-height:min(760px,calc(100dvh - 24px));padding:0;border:1px solid #a9c8da;border-radius:14px;color:#16324a;background:#f8fcff;box-shadow:0 24px 80px #102f4666}.models-page #modelProductDialog::backdrop{background:#0a22348f;backdrop-filter:blur(3px)}.models-page #modelProductDialog>header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #d5e4ed;background:#edf7fe}.models-page #modelProductDialog>header span{color:#1769aa;font-size:.58rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase}.models-page #modelProductDialog h2{margin:3px 0 0;font-size:1.15rem}.models-page #modelProductDialog>header button{width:34px;height:34px;border:1px solid #aac8dc;border-radius:50%;color:#103b67;background:#fff;font-size:1.25rem;cursor:pointer}.models-page .model-product-search{display:flex;align-items:center;gap:8px;margin:12px 14px;border:1px solid #aecada;border-radius:9px;padding:0 11px;background:#fff}.models-page .model-product-search>span{color:#1769aa;font-size:1.2rem}.models-page .model-product-search input{width:100%;min-height:44px;border:0;outline:0;color:#16324a;background:transparent;font:700 .78rem Inter,system-ui,sans-serif}.models-page .model-product-results{display:grid;gap:14px;max-height:calc(100dvh - 190px);padding:0 14px 18px;overflow:auto}.models-page .model-product-results h3{position:sticky;z-index:1;top:0;margin:0;padding:6px 2px;color:#526d81;background:#f8fcff;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase}.models-page .model-product-results section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.models-page .model-product-results section h3{grid-column:1/-1}.models-page .model-product-results button{display:flex;min-width:0;align-items:center;justify-content:space-between;gap:10px;min-height:44px;border:1px solid #c7dce8;border-radius:8px;padding:8px 10px;color:#16324a;background:#fff;text-align:left;cursor:pointer}.models-page .model-product-results button:hover{border-color:#5599c9;background:#edf7fe}.models-page .model-product-results button.is-selected{border-color:#187bc1;box-shadow:inset 3px 0 #187bc1}.models-page .model-product-results button span{overflow:hidden;font-size:.72rem;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.models-page .model-product-results button small{flex:0 0 auto;color:#7890a1;font-size:.52rem;text-transform:uppercase}.models-page .model-product-empty{padding:25px;text-align:center;color:#63798c}
+@media(max-width:760px){.models-page .model-selection-summary{grid-template-columns:repeat(2,minmax(0,1fr));padding:6px}.models-page .model-selection-summary>div{padding:7px 8px;border:0}.models-page .model-selection-summary>div:nth-child(2),.models-page .model-selection-summary>div:nth-child(5){display:none}.models-page #modelFullscreenButton{min-height:40px;margin:4px;grid-column:2}.models-page #productPickerButton{display:flex;min-width:0;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:48px;border:1px solid #9fc4dc;border-radius:8px;padding:8px 10px;color:#103b67;background:#edf7fe;text-align:left;cursor:pointer}.models-page #productPickerButton>span{overflow:hidden;margin:0!important;font-size:.72rem!important;letter-spacing:0!important;text-overflow:ellipsis;text-transform:none!important;white-space:nowrap}.models-page #productPickerButton small{flex:0 0 auto;color:#63798c;font-size:.52rem}.models-page .native-product-select{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}.models-page .model-product-results section{grid-template-columns:1fr}.models-page.model-map-fullscreen{overflow:hidden}.models-page.model-map-fullscreen .site-header,.models-page.model-map-fullscreen main>.outlook-studio~*,.models-page.model-map-fullscreen .outlook-viewer>header,.models-page.model-map-fullscreen .outlook-footer{display:none!important}.models-page.model-map-fullscreen main,.models-page.model-map-fullscreen .outlook-studio{width:100%!important;height:100%!important;margin:0!important;padding:0!important}.models-page.model-map-fullscreen .outlook-viewer{position:fixed;z-index:200;inset:0;display:grid;grid-template-rows:auto minmax(0,1fr);border:0;border-radius:0}.models-page.model-map-fullscreen .model-selection-summary{position:relative;z-index:2;grid-template-columns:minmax(0,1fr) auto}.models-page.model-map-fullscreen .model-selection-summary>div{display:none}.models-page.model-map-fullscreen .model-selection-summary>div:nth-child(3){display:block}.models-page.model-map-fullscreen #modelFullscreenButton{grid-column:2}.models-page.model-map-fullscreen .model-display,.models-page.model-map-fullscreen .image-frame{min-height:0!important;height:100%!important}.models-page.model-map-fullscreen .image-frame img{width:100%;height:100%;max-height:none!important;object-fit:contain}.models-page.model-map-fullscreen .mobile-map-toolbar{z-index:230}}
+
+.models-page .model-summary-preload{display:none}
+@media(max-width:760px){.models-page .model-selection-summary>.model-summary-preload{display:grid;grid-column:1/-1;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px;margin:2px 4px 4px;border:1px solid #c4dae8;border-radius:8px;padding:7px 9px;background:#f5faff}.models-page .model-summary-preload span{margin:0;color:#63798c}.models-page .model-summary-preload strong{margin:0;text-align:right;color:#1769aa}.models-page .model-summary-preload.is-ready{border-color:#a9d8c3;background:#f0faf5}.models-page .model-summary-preload.is-ready strong{color:#16734d}.models-page.model-map-fullscreen .model-selection-summary>.model-summary-preload{display:grid;grid-column:1/-1}.models-page.model-map-fullscreen .model-selection-summary>div:nth-child(3){grid-column:1}}
+.models-page .model-summary-preload>i{display:none}
+@media(max-width:760px){.models-page .model-summary-preload>i{display:block;grid-column:1/-1;height:5px;overflow:hidden;border-radius:999px;background:#dcebf3}.models-page .model-summary-preload>i>b{display:block;width:var(--preload-progress,0%);height:100%;border-radius:inherit;background:linear-gradient(90deg,#42a5dc,#1769aa);transition:width .2s ease}.models-page .model-summary-preload.is-ready>i>b{background:#23a36d}.models-page .image-frame{touch-action:pan-y}}
+
+.models-page .mobile-map-timeline{display:none}
+@media(max-width:760px){body.models-page:has(.mobile-map-toolbar){padding-bottom:calc(106px + env(safe-area-inset-bottom))}.models-page .mobile-map-toolbar{grid-template-rows:auto 50px}.models-page .mobile-map-timeline{display:grid;grid-column:1/-1;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2px 10px;padding:3px 8px 2px}.models-page .mobile-map-timeline>span{color:#526d81;font-size:.55rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}.models-page .mobile-map-timeline>small{overflow:hidden;color:#1769aa;font-size:.58rem;font-weight:800;text-align:right;text-overflow:ellipsis;white-space:nowrap}.models-page .mobile-map-timeline>input{grid-column:1/-1;width:100%;height:18px;margin:0;accent-color:#187bc1;cursor:pointer}.models-page .mobile-map-timeline>input:disabled{opacity:.4}.models-page.model-map-fullscreen .mobile-map-toolbar{grid-template-rows:auto 50px}}
+@media(min-width:701px){.models-page .model-animation-toolbar{grid-template-columns:34px 78px 34px minmax(82px,1fr)}}
+.models-page .gif-speed{display:flex;align-items:center;justify-content:center;gap:6px;min-width:132px;min-height:34px;color:#63798c;font-size:.56rem;font-weight:850;letter-spacing:.06em;text-transform:uppercase}.models-page .gif-speed select{width:auto;min-width:76px;min-height:34px;border:1px solid #aac8dc!important;border-radius:6px;padding:0 25px 0 8px;color:#103b67!important;background:#fff!important;font:750 .66rem Arial,sans-serif;text-transform:none}.models-page .gif-speed select:focus-visible{border-color:#5599c9!important;outline:2px solid #8cc7ec;outline-offset:1px}@media(max-width:760px){.models-page .gif-speed{width:auto;min-width:0}.models-page .gif-speed span{display:none}.models-page .gif-speed select{width:100%;min-width:0}}
