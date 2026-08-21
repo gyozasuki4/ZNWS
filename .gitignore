@@ -71,6 +71,14 @@ data/generated/
 data/migration-backups/
 data/cleanup-backups/
 data/warnings-server/
+data/*-history.json
+data/fire-zone-extrema-shadow.json
+data/wfo-automation.json
+data/wfo-ndfd-bulk.json
+data/wrf-operations-update.json
+data/ncep-model/
+data/nhc/
+data/source/
 
 # OS/editor files
 .DS_Store
