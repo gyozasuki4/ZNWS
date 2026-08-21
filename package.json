@@ -4,6 +4,10 @@
   "private": true,
   "main": "desktop/main.js",
   "description": "ZASNet Hive Beta desktop — same UI as the web Hive Beta client.",
+  "author": {
+    "name": "Zane Smith",
+    "email": "gyozasuki4@users.noreply.github.com"
+  },
   "scripts": {
     "test:flood-watch-timing": "node scripts/test-flood-watch-timing.js",
     "test:flood-watch-cause": "node scripts/test-flood-watch-cause.js",
@@ -14,9 +18,9 @@
     "start:ops": "node server.js",
     "desktop:dev": "electron desktop/main.js",
     "desktop:dev:local": "HIVE_SERVER_URL=http://127.0.0.1:8080/hive-beta electron desktop/main.js",
-    "desktop:linux": "electron-builder --linux AppImage deb",
-    "desktop:windows": "electron-builder --win nsis",
-    "desktop:mac": "electron-builder --mac dmg",
+    "desktop:linux": "electron-builder --linux AppImage deb --publish never",
+    "desktop:windows": "electron-builder --win nsis --publish never",
+    "desktop:mac": "electron-builder --mac dmg zip --publish never",
     "desktop:provision": "node scripts/provision-desktop-workstation.js",
     "desktop:revoke": "node scripts/revoke-desktop-workstation.js",
     "test:awips-gfe-publication": "node scripts/test-awips-gfe-publication.js"
