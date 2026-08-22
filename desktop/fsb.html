@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hive Beta · Full Service Backup</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #08111c; color: #e8f0f7; }
+    body { margin: 0; padding: 28px; } h1 { margin: 0 0 8px; font-size: 22px; } p { color: #9eb0bf; line-height: 1.45; }
+    label { display: block; margin: 24px 0 7px; font-size: 13px; font-weight: 700; } input { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #385064; border-radius: 7px; background: #101f2d; color: #fff; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; }
+    .actions { display: flex; justify-content: flex-end; margin-top: 24px; } button { padding: 10px 16px; border: 0; border-radius: 6px; background: #2e9cff; color: #06111d; font-weight: 700; cursor: pointer; } #status { min-height: 20px; margin-top: 14px; font-size: 13px; color: #ff9b9b; }
+  </style>
+</head>
+<body>
+  <h1>Full Service Backup</h1>
+  <p>Open an independent Hive issuance window for a forecast office. Its WFO remains isolated from your other Hive and FSB windows.</p>
+  <label for="wfo">Forecast office (WFO)</label>
+  <input id="wfo" maxlength="3" value="OHX" autocomplete="off" spellcheck="false" aria-describedby="status">
+  <div id="status" role="status"></div>
+  <div class="actions"><button id="open" type="button">Open FSB window</button></div>
+  <script>
+    const input = document.getElementById("wfo"), status = document.getElementById("status");
+    input.addEventListener("input", () => { input.value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, ""); status.textContent = ""; });
+    const open = async () => { try { await window.hiveDesktop.openFsb(input.value); } catch (error) { status.textContent = error.message || "Could not open the FSB window."; } };
+    document.getElementById("open").addEventListener("click", open); input.addEventListener("keydown", (event) => { if (event.key === "Enter") open(); }); input.focus(); input.select();
+  </script>
+</body>
+</html>

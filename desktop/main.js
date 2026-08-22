@@ -5,18 +5,24 @@
  * No warning, radar, or authentication logic is reimplemented here.
  */
 const { app, BrowserWindow, Menu, ipcMain, shell, session, safeStorage, screen } = require("electron");
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const { DesktopCacheManager } = require("./cache-manager");
 
 const DEFAULT_SERVER_URL = "https://ops.zasnetwx.com/hive-beta";
 const SESSION_PARTITION = "persist:hive-beta-desktop";
+const SERVER_SETTINGS_FILE = "server-settings.json";
+const APPROVED_OPS_HOSTS = new Set(["ops.zasnetwx.com", "10.10.3.154", "100.115.29.51", "127.0.0.1", "localhost"]);
 const APP_VERSION = app.getVersion() || "1.0.0";
 const windows = new Set();
 let enrollmentWindow = null;
 let cacheManager = null;
 let cacheCleanupTimer = null;
 let cacheWindow = null;
+let settingsWindow = null;
+let fsbSetupWindow = null;
+const fsbWindows = new Set();
 const moduleWindows = new Map();
 const MODULE_DEFINITIONS = Object.freeze({
   // SPC is a standalone operational page. Keep it explicit so a workstation
@@ -36,8 +42,15 @@ function log(message, details) {
   console.log(line.trim());
 }
 
+function serverSettingsPath() { return path.join(app.getPath("userData"), SERVER_SETTINGS_FILE); }
+function readServerSetting() {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(serverSettingsPath(), "utf8"));
+    return typeof parsed?.serverUrl === "string" ? parsed.serverUrl.trim() : "";
+  } catch { return ""; }
+}
 function serverUrl() {
-  const configured = String(process.env.HIVE_SERVER_URL || DEFAULT_SERVER_URL).trim();
+  const configured = String(process.env.HIVE_SERVER_URL || readServerSetting() || DEFAULT_SERVER_URL).trim();
   try {
     const parsed = new URL(configured);
     if (!["https:", "http:"].includes(parsed.protocol)) throw new Error("unsupported protocol");
@@ -248,6 +261,130 @@ function openCacheSettings() {
   return cacheWindow;
 }
 
+function openServerSettings() {
+  if (settingsWindow && !settingsWindow.isDestroyed()) { settingsWindow.focus(); return settingsWindow; }
+  settingsWindow = new BrowserWindow({
+    width: 600, height: 430, resizable: false, show: false,
+    title: "Hive Beta · Connection settings", backgroundColor: "#08111c",
+    icon: path.join(__dirname, "..", "znws-map-mark.png"), autoHideMenuBar: true,
+    webPreferences: { preload: path.join(__dirname, "preload.js"), partition: SESSION_PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true }
+  });
+  windows.add(settingsWindow);
+  settingsWindow.once("ready-to-show", () => settingsWindow.show());
+  settingsWindow.on("closed", () => { windows.delete(settingsWindow); settingsWindow = null; });
+  settingsWindow.loadFile(path.join(__dirname, "settings.html"));
+  return settingsWindow;
+}
+
+function normalizeFsbWfo(value) {
+  const wfo = String(value || "").trim().toUpperCase().replace(/^K/, "");
+  if (!/^[A-Z0-9]{3}$/.test(wfo)) throw new Error("Enter a valid three-character WFO code");
+  return wfo;
+}
+
+function fsbUrl(rawWfo, windowId = crypto.randomUUID()) {
+  const wfo = normalizeFsbWfo(rawWfo);
+  const target = new URL("/hive-beta", hiveOrigin());
+  target.searchParams.set("fsb", windowId);
+  target.searchParams.set("wfo", wfo);
+  return target;
+}
+
+function openFsbWindow(rawWfo) {
+  const wfo = normalizeFsbWfo(rawWfo);
+  const target = fsbUrl(wfo);
+  const win = new BrowserWindow({
+    width: 1680, height: 1050, minWidth: 1100, minHeight: 680, show: false,
+    backgroundColor: "#0f1114", title: `Hive Beta · FSB · ${wfo}`,
+    icon: path.join(__dirname, "..", "znws-map-mark.png"), autoHideMenuBar: false,
+    webPreferences: { preload: path.join(__dirname, "preload.js"), partition: SESSION_PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true, spellcheck: false, webgl: true, backgroundThrottling: false }
+  });
+  fsbWindows.add(win); windows.add(win);
+  win.webContents.setUserAgent(`${win.webContents.getUserAgent()} ZASNetHiveBetaDesktop/${APP_VERSION}`);
+  win.once("ready-to-show", () => win.show());
+  win.on("closed", () => { fsbWindows.delete(win); windows.delete(win); });
+  win.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  win.webContents.on("will-navigate", (event, url) => {
+    if (isTrustedNavigation(url)) return;
+    event.preventDefault();
+    try { if (/^https?:$/i.test(new URL(url).protocol)) shell.openExternal(url).catch(() => {}); } catch { /* deny */ }
+  });
+  win.webContents.on("did-fail-load", (_event, errorCode, _description, validatedUrl, isMainFrame) => {
+    if (!isMainFrame || errorCode === -3 || validatedUrl.startsWith("file:")) return;
+    win.loadFile(path.join(__dirname, "offline.html"), { query: { target: serverUrl() } });
+  });
+  win.loadURL(target.toString());
+  return win;
+}
+
+function openFsbSetup() {
+  if (fsbSetupWindow && !fsbSetupWindow.isDestroyed()) { fsbSetupWindow.focus(); return fsbSetupWindow; }
+  fsbSetupWindow = new BrowserWindow({
+    width: 520, height: 360, resizable: false, show: false,
+    title: "Hive Beta · Full Service Backup", backgroundColor: "#08111c",
+    icon: path.join(__dirname, "..", "znws-map-mark.png"), autoHideMenuBar: true,
+    webPreferences: { preload: path.join(__dirname, "preload.js"), partition: SESSION_PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true }
+  });
+  windows.add(fsbSetupWindow);
+  fsbSetupWindow.once("ready-to-show", () => fsbSetupWindow.show());
+  fsbSetupWindow.on("closed", () => { windows.delete(fsbSetupWindow); fsbSetupWindow = null; });
+  fsbSetupWindow.loadFile(path.join(__dirname, "fsb.html"));
+  return fsbSetupWindow;
+}
+
+function serverSettingError(error, fallback = "Could not establish a workstation session on the selected server") {
+  const status = Number(error?.status || 0);
+  if (status === 401 || status === 403) return "The selected server did not accept this workstation credential";
+  if (status === 0 || /fetch|network|connect|timeout/i.test(String(error?.message || ""))) return "The selected Ops server could not be reached";
+  return error?.message || fallback;
+}
+
+async function applyServerUrl(rawUrl) {
+  if (process.env.HIVE_SERVER_URL) throw new Error("This installation's server is managed by HIVE_SERVER_URL");
+  const value = String(rawUrl || "").trim();
+  if (!value) throw new Error("Enter an Ops server URL");
+  let parsed;
+  try { parsed = new URL(value); } catch { throw new Error("Enter a valid http:// or https:// URL"); }
+  if (!["http:", "https:"].includes(parsed.protocol)) throw new Error("Only HTTP and HTTPS URLs are supported");
+  if (!APPROVED_OPS_HOSTS.has(parsed.hostname.toLowerCase())) throw new Error("Use the approved ZASNet Ops address");
+  if (!parsed.pathname || parsed.pathname === "/") parsed.pathname = "/hive-beta";
+  parsed.search = ""; parsed.hash = "";
+  const normalized = parsed.toString().replace(/\/$/, "");
+  fs.mkdirSync(path.dirname(serverSettingsPath()), { recursive: true });
+  fs.writeFileSync(serverSettingsPath(), JSON.stringify({ serverUrl: normalized }, null, 2) + "\n", { mode: 0o600 });
+  connectivityGeneration += 1;
+  setConnectivity({ state: "reconnecting", reachable: false, issuanceReady: false, detail: "Switching operational server" });
+  cacheManager = new DesktopCacheManager(
+    path.join(app.getPath("userData")), hiveOrigin(),
+    (url, init) => { const cacheSession = session.fromPartition(SESSION_PARTITION); return typeof cacheSession.fetch === "function" ? cacheSession.fetch(url, init) : fetch(url, init); }
+  );
+  // Cookies are origin-bound. Rebuild the trusted workstation session before
+  // reloading Hive so an internal-address switch never falls through to SSO.
+  const credential = loadCredential();
+  if (credential) {
+    try {
+      await bootstrapWorkstationSession(credential);
+    } catch (error) {
+      const detail = serverSettingError(error);
+      setAuthState({ method: "workstation", state: "disconnected", detail });
+      log("Server switch workstation session failed", detail);
+    }
+  }
+  for (const win of [...windows]) {
+    if (win.isDestroyed() || win === settingsWindow || win === cacheWindow || win === enrollmentWindow) continue;
+    if (fsbWindows.has(win)) {
+      const previous = new URL(win.webContents.getURL() || serverUrl());
+      const wfo = previous.searchParams.get("wfo") || "OHX";
+      const fsbId = previous.searchParams.get("fsb") || crypto.randomUUID();
+      win.loadURL(fsbUrl(wfo, fsbId).toString());
+    } else {
+      win.loadURL(serverUrl());
+    }
+  }
+  void checkServer();
+  return { serverUrl: normalized };
+}
+
 function broadcastConnectivity() {
   for (const win of windows) {
     if (!win.isDestroyed()) win.webContents.send("hive:connectivity", { ...connectivity });
@@ -375,7 +512,8 @@ function installMenu() {
     { label: "Hive Beta", submenu: [
       { label: "Open Hive Beta", accelerator: "CmdOrCtrl+Shift+H", click: () => createWindow() },
       { label: "New Window", accelerator: "CmdOrCtrl+Shift+N", click: () => createWindow() },
-      { type: "separator" }, { label: "Local data cache", click: () => openCacheSettings() }, { label: "Open in Browser", click: () => shell.openExternal(serverUrl()) },
+      { label: "Full Service Backup…", accelerator: "CmdOrCtrl+Shift+F", click: () => openFsbSetup() },
+      { type: "separator" }, { label: "Connection settings", click: () => openServerSettings() }, { label: "Local data cache", click: () => openCacheSettings() }, { label: "Open in Browser", click: () => shell.openExternal(serverUrl()) },
       { type: "separator" }, { role: "quit" }
     ] },
     { label: "View", submenu: [
@@ -393,6 +531,8 @@ ipcMain.handle("hive:reconnect", (event) => {
   if (win) { log("Manual reconnect requested"); win.loadURL(serverUrl()); }
 });
 ipcMain.handle("hive:server-url", () => serverUrl());
+ipcMain.handle("hive:server-settings", () => ({ serverUrl: serverUrl(), defaultServerUrl: DEFAULT_SERVER_URL, fromEnvironment: Boolean(process.env.HIVE_SERVER_URL) }));
+ipcMain.handle("hive:set-server-url", (_event, value) => applyServerUrl(value));
 ipcMain.handle("hive:cache-fetch", (_event, payload = {}) => cacheManager?.cacheFetch(payload.url, payload.init || {}) || null);
 ipcMain.handle("hive:cache-stats", () => cacheManager?.statsSnapshot() || null);
 ipcMain.handle("hive:clear-weather-cache", async () => { await cacheManager?.clearWeather(); return cacheManager?.statsSnapshot() || null; });
@@ -408,6 +548,13 @@ ipcMain.handle("hive:use-sso", (event) => {
   else createWindow();
 });
 ipcMain.handle("hive:open-enrollment", () => { createEnrollmentWindow("re-enroll"); return { opened: true }; });
+ipcMain.handle("hive:open-fsb", (_event, wfo) => {
+  return refreshStoredWorkstationSession().then(() => {
+  const win = openFsbWindow(wfo);
+  if (fsbSetupWindow && !fsbSetupWindow.isDestroyed()) fsbSetupWindow.close();
+  return { opened: true, wfo: normalizeFsbWfo(wfo) };
+  });
+});
 ipcMain.handle("hive:open-module", async (_event, moduleId) => {
   await refreshStoredWorkstationSession();
   return Boolean(openModuleWindow(String(moduleId || "").toLowerCase()));

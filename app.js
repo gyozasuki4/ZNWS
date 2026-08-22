@@ -2029,14 +2029,19 @@ const controls = {
 };
 
 const panelDock = document.querySelector("#panelDock");
-const dedicatedSpcDesk = new URLSearchParams(window.location.search).get("desk") === "spc";
+const hiveLaunchParams = new URLSearchParams(window.location.search);
+const dedicatedSpcDesk = hiveLaunchParams.get("desk") === "spc";
+const fsbWindowId = String(hiveLaunchParams.get("fsb") || "").trim();
+const fsbRequestedWfo = String(hiveLaunchParams.get("wfo") || "").trim().toUpperCase().replace(/^K/, "");
+const fsbWindowMode = Boolean(fsbWindowId && /^[A-Z0-9]{3}$/.test(fsbRequestedWfo));
+let fsbSharedPrimaryWfo = "";
 // The former Hive Beta is now the production Hive. Keep the legacy interface
 // explicitly addressable so operators can fall back without maintaining a
 // second copy of the application.
 const hiveLegacyMode = ["/hive-legacy", "/hive-legacy/"].includes(window.location.pathname);
 const hiveBetaPreviewRoute = ["/hive-beta", "/hive-beta/"].includes(window.location.pathname);
 const hiveBetaMode = !hiveLegacyMode;
-const hiveBetaMapPopoutMode = hiveBetaMode && new URLSearchParams(window.location.search).get("mapPopout") === "1";
+const hiveBetaMapPopoutMode = hiveBetaMode && hiveLaunchParams.get("mapPopout") === "1";
 const hiveBetaNativeFetch = window.fetch.bind(window);
 const hiveBetaFetchJobs = new Map();
 const hiveBetaPerformance = {
@@ -4187,7 +4192,17 @@ function applyServerPreferences(savedPreferences, fallbacks = {}) {
   }
 
   const savedPrimaryWfo = normalizeWfoCode(saved.primaryWfo || saved.opsDisplaySettings?.primaryWfo);
-  if (savedPrimaryWfo && wfoDefinitions[savedPrimaryWfo] && !mutualAidModeEnabled) {
+  if (fsbWindowMode) {
+    // FSB is a workstation-local issuance desk. Its WFO is deliberately never
+    // written to the shared account preference used by other Hive windows.
+    fsbSharedPrimaryWfo = savedPrimaryWfo || homeWfo || "OHX";
+    mutualAidModeEnabled = false;
+    mutualAidState = { enabled: false, wfo: "", radar: "" };
+    activeWfo = fsbRequestedWfo;
+    homeWfo = fsbRequestedWfo;
+    ensureWfoSelectOption(fsbRequestedWfo);
+    if (controls.wfoSelect) controls.wfoSelect.value = fsbRequestedWfo;
+  } else if (savedPrimaryWfo && wfoDefinitions[savedPrimaryWfo] && !mutualAidModeEnabled) {
     activeWfo = savedPrimaryWfo;
     homeWfo = savedPrimaryWfo;
     ensureWfoSelectOption(savedPrimaryWfo);
@@ -4216,7 +4231,7 @@ function buildPreferencesPayload(options = {}) {
   // cannot drop a just-collapsed section before the server save.
   syncLayerGroupStateFromDom();
   return {
-    primaryWfo: mutualAidModeEnabled ? homeWfo : activeWfo,
+    primaryWfo: fsbWindowMode ? (fsbSharedPrimaryWfo || "OHX") : (mutualAidModeEnabled ? homeWfo : activeWfo),
     layerUiState: {
       groups: normalizeLayerGroupState(layerGroupState),
       updatedAt: layerGroupStateUpdatedAt || Date.now()
@@ -8421,7 +8436,7 @@ function setActiveWfo(wfoId, options = {}) {
   homeWfo = mutualAidModeEnabled ? homeWfo : activeWfo;
   const primaryWfo = mutualAidModeEnabled ? homeWfo : activeWfo;
   // primaryWfo is server-backed via savePreferences / PUT primary-wfo.
-  if (!options.skipPreferenceSave) {
+  if (!options.skipPreferenceSave && !fsbWindowMode) {
     fetch("/api/preferences/primary-wfo", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -8473,7 +8488,7 @@ function setActiveWfo(wfoId, options = {}) {
   }
   radarFiles = [];
   if (controls.radarFileList) controls.radarFileList.innerHTML = "";
-  const modeNote = mutualAidModeEnabled ? "Mutual aid" : "WFO";
+  const modeNote = fsbWindowMode ? "FSB" : (mutualAidModeEnabled ? "Mutual aid" : "WFO");
   const destinationRadarEnabled = panelLayoutCount >= 2
     ? panelRadarEnabled.slice(0, panelLayoutCount).some(Boolean)
     : Boolean(radarLayerEnabled);
@@ -9667,6 +9682,44 @@ async function preloadSatFrameBlob(index, token, product) {
       renderSatelliteTimeline();
     }
     return false;
+  }
+}
+
+let satellitePrewarmStarted = false;
+/**
+ * Warm the common GeoColor loop after first paint without creating a map layer.
+ * The catalog stays network-fresh, while the newest plates are retained in both
+ * Cache Storage and the in-memory satellite cache for an immediate first toggle.
+ */
+async function prewarmSatelliteInBackground() {
+  if (!hiveBetaMode || satellitePrewarmStarted || activeSatelliteLayer !== "none") return;
+  satellitePrewarmStarted = true;
+  try {
+    const product = "geocolor";
+    const query = new URLSearchParams({ product, durationMinutes: "90", maxFrames: "8" });
+    const catalog = await fetch(`/api/weather/satellite-animated/frames?${query}`, { cache: "no-store" });
+    if (!catalog.ok) throw new Error(`catalog HTTP ${catalog.status}`);
+    const payload = await catalog.json();
+    const frames = (payload.frames || [])
+      .map((frame) => ({ time: Number(frame.time), realEarthTime: frame.realEarthTime || null }))
+      .filter((frame) => Number.isFinite(frame.time))
+      .sort((a, b) => a.time - b.time)
+      .slice(-6);
+    if (!frames.length) return;
+    captureSatLoopSession(map);
+    for (const frame of frames) {
+      if (activeSatelliteLayer !== "none") return;
+      const { url } = satLoopFrameImageUrl(product, frame, map);
+      if (getHiveBetaSatelliteBlob(url)) continue;
+      const response = await fetchHiveBetaPersistentFrame(url, { cache: "force-cache", credentials: "same-origin" });
+      if (!response.ok) continue;
+      const blob = await response.blob();
+      if (blob.size >= 200 && (blob.type || "").includes("image")) cacheHiveBetaSatelliteBlob(url, blob);
+    }
+    console.info("[sat] background GeoColor prewarm ready");
+  } catch (error) {
+    // Satellite remains optional; never affect map startup or the control state.
+    console.warn("[sat] background prewarm unavailable", error);
   }
 }
 
@@ -28831,7 +28884,7 @@ async function boot() {
     controls.wfoSelect.value = activeWfo;
   }
   loadPracticeModePreference();
-  if (!dedicatedSpcDesk) {
+  if (!dedicatedSpcDesk && !fsbWindowMode) {
     loadMutualAidPreference();
     populateMutualAidWfoList().catch((error) => console.warn("[mutual-aid] list init", error));
   }
@@ -28872,7 +28925,7 @@ async function boot() {
     controls.timelineRadarProductSelect.value = activeRadarProductId;
   }
   // Re-apply mutual-aid multi-radar list after server prefs (may include radarsByWfo).
-  if (mutualAidModeEnabled && mutualAidState.wfo) {
+  if (!fsbWindowMode && mutualAidModeEnabled && mutualAidState.wfo) {
     const sites = applyMutualAidRadarListToWfo(mutualAidState.wfo, mutualAidState.radar || mutualAidRadarOverrides[mutualAidState.wfo]);
     activeWfo = mutualAidState.wfo;
     ensureWfoSelectOption(activeWfo);
@@ -29058,6 +29111,11 @@ async function boot() {
     map.getCanvas().style.cursor = "";
   });
   if (!dedicatedSpcDesk) initializeOperationalWorkspaces();
+  if (hiveBetaMode && !dedicatedSpcDesk) {
+    const prewarm = () => void prewarmSatelliteInBackground();
+    if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(prewarm, { timeout: 12_000 });
+    else window.setTimeout(prewarm, 5_000);
+  }
   hiveBetaPerformance.mark("boot-ready", betaTimingStarted, { panels: panelLayoutCount });
 }
 

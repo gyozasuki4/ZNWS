@@ -68,6 +68,20 @@ npm run desktop:revoke -- native-DEVICE-ID
 | `HIVE_SERVER_URL` | `https://ops.zasnetwx.com/hive-beta` | Hive Beta entry URL |
 | `HIVE_DESKTOP_DEVTOOLS` | unset | Set `1` to always show DevTools menu |
 
+The packaged desktop app also provides **Hive Beta → Connection settings**, which
+stores a per-installation server URL and reconnects the open windows. For the
+office LAN, use `http://10.10.3.154:8080/hive-beta`. The app rebuilds its
+workstation-auth session for the selected server before reloading Hive, so this
+switch does not fall back to the SSO screen. A launch-time `HIVE_SERVER_URL`
+override intentionally locks this setting.
+
+## Full Service Backup (FSB)
+
+Use **Hive Beta → Full Service Backup…** (or `Ctrl/Cmd+Shift+F`) to open an
+independent issuance window for a WFO. Every FSB window keeps its selected WFO
+separate from the main Hive window and other FSB windows; changing it does not
+overwrite the account's normal primary WFO.
+
 ## Note on “native MapLibre” builds
 
 `dist-native/` MapLibre/Slint packages are a separate experimental track. They

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hive Beta · Connection settings</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #08111c; color: #e8f0f7; }
+    body { margin: 0; padding: 28px; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    p { color: #9eb0bf; line-height: 1.45; }
+    label { display: block; margin: 24px 0 7px; font-size: 13px; font-weight: 700; }
+    input { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #385064; border-radius: 7px; background: #101f2d; color: #fff; font-size: 14px; }
+    .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+    button { padding: 10px 16px; border: 0; border-radius: 6px; background: #2e9cff; color: #06111d; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #243746; color: #dce8f1; }
+    #status { min-height: 20px; margin-top: 14px; font-size: 13px; color: #9eb0bf; }
+    #status.error { color: #ff9b9b; }
+  </style>
+</head>
+<body>
+  <h1>Connection settings</h1>
+  <p>Choose the Hive Ops server this desktop app should use. On the office network, use the internal address, for example <code>http://10.10.3.154:8080/hive-beta</code>.</p>
+  <label for="serverUrl">Hive Ops server URL</label>
+  <input id="serverUrl" type="url" spellcheck="false" autocomplete="off" placeholder="https://ops.zasnetwx.com/hive-beta">
+  <div id="status" role="status"></div>
+  <div class="actions"><button class="secondary" id="reset" type="button">Use default</button><button id="save" type="button">Save and reconnect</button></div>
+  <script>
+    const input = document.getElementById("serverUrl");
+    const status = document.getElementById("status");
+    const setStatus = (text, error = false) => { status.textContent = text; status.className = error ? "error" : ""; };
+    (async () => { const settings = await window.hiveDesktop.getServerSettings(); input.value = settings.serverUrl; if (settings.fromEnvironment) { input.disabled = true; document.getElementById("save").disabled = true; document.getElementById("reset").disabled = true; setStatus("This installation is using HIVE_SERVER_URL from its launch environment."); } })();
+    document.getElementById("reset").addEventListener("click", () => { input.value = "https://ops.zasnetwx.com/hive-beta"; });
+    document.getElementById("save").addEventListener("click", async () => {
+      setStatus("Switching server…");
+      try { await window.hiveDesktop.setServerUrl(input.value); setStatus("Saved. Hive is reconnecting to the selected server."); }
+      catch (error) { setStatus(error.message || "Could not save the server URL.", true); }
+    });
+  </script>
+</body>
+</html>
