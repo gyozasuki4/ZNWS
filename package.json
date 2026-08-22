@@ -23,7 +23,8 @@
     "desktop:mac": "electron-builder --mac dmg zip --publish never",
     "desktop:provision": "node scripts/provision-desktop-workstation.js",
     "desktop:revoke": "node scripts/revoke-desktop-workstation.js",
-    "test:awips-gfe-publication": "node scripts/test-awips-gfe-publication.js"
+    "test:awips-gfe-publication": "node scripts/test-awips-gfe-publication.js",
+    "test:desktop-cache": "node scripts/test-desktop-cache.js"
   },
   "engines": {
     "node": ">=20"

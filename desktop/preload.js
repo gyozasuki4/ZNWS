@@ -9,6 +9,11 @@ contextBridge.exposeInMainWorld("hiveDesktop", Object.freeze({
   openEnrollment: () => ipcRenderer.invoke("hive:open-enrollment"),
   getConnectivity: () => ipcRenderer.invoke("hive:connectivity"),
   getAuthState: () => ipcRenderer.invoke("hive:auth-state"),
+  cacheFetch: (url, init) => ipcRenderer.invoke("hive:cache-fetch", { url, init }),
+  getCacheStats: () => ipcRenderer.invoke("hive:cache-stats"),
+  clearWeatherCache: () => ipcRenderer.invoke("hive:clear-weather-cache"),
+  clearMapTiles: () => ipcRenderer.invoke("hive:clear-map-tiles"),
+  openModule: (moduleId) => ipcRenderer.invoke("hive:open-module", moduleId),
   reportReadiness: (readiness) => ipcRenderer.invoke("hive:readiness", readiness),
   onConnectivityChange: (callback) => {
     if (typeof callback !== "function") return () => {};

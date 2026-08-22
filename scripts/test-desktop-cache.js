@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+"use strict";
+const assert = require("node:assert");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const { DesktopCacheManager } = require("../desktop/cache-manager");
+
+(async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "hive-cache-test-"));
+  let network = 0;
+  const fetcher = async (url) => { network += 1; return new Response(`payload-${network}`, { status: 200, headers: { "content-type": "application/octet-stream" } }); };
+  const first = new DesktopCacheManager(root, "https://ops.zasnetwx.com", fetcher);
+  const miss = await first.cacheFetch("https://ops.zasnetwx.com/api/radar/product?file=scan-a");
+  assert.equal(miss.cache, "network"); assert.equal(network, 1);
+  const memoryHit = await first.cacheFetch("https://ops.zasnetwx.com/api/radar/product?file=scan-a");
+  assert.equal(memoryHit.cache, "memory"); assert.equal(network, 1);
+  await first.cacheFetch("https://ops.zasnetwx.com/api/satellite/frame?file=goes-a");
+  await first.cacheFetch("https://ops.zasnetwx.com/api/public/models/gfs?cycle=00");
+  await first.cacheFetch("https://ops.zasnetwx.com/data/generated/awips/counties.geojson");
+  await first.cacheFetch("https://ops.zasnetwx.com/api/public/maps/tiles/1/2/3.pbf");
+  const second = new DesktopCacheManager(root, "https://ops.zasnetwx.com", fetcher);
+  const hit = await second.cacheFetch("https://ops.zasnetwx.com/api/radar/product?file=scan-a");
+  assert.equal(hit.cache, "disk"); assert.equal(network, 5);
+  assert.equal(second.statsSnapshot().stats.persistentHits, 1);
+  const modelKey = Object.keys(second.index.entries).find((key) => second.index.entries[key].category === "models");
+  second.index.entries[modelKey].expiresAt = Date.now() - 1;
+  await second.cleanup();
+  assert.equal(Object.values(second.index.entries).some((entry) => entry.category === "models"), false);
+  await second.clearWeather();
+  assert.equal(Object.keys(second.statsSnapshot().categories).includes("maps"), true);
+  assert.equal(Object.keys(second.statsSnapshot().categories).includes("tiles"), true);
+  const corruptKey = Object.keys(second.index.entries).find((key) => second.index.entries[key].category === "maps");
+  fs.writeFileSync(second.index.entries[corruptKey].file, "corrupt");
+  const fallback = await second.cacheFetch("https://ops.zasnetwx.com/data/generated/awips/counties.geojson");
+  assert.equal(fallback.cache, "network");
+  await second.clearTiles();
+  assert.equal(Object.values(second.index.entries).some((entry) => entry.category === "tiles"), false);
+  fs.rmSync(root, { recursive: true, force: true });
+  console.log("Desktop persistent cache restart/cleanup checks passed");
+})().catch((error) => { console.error(error); process.exitCode = 1; });

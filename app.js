@@ -2078,7 +2078,7 @@ if (hiveBetaMode) {
       observer.observe({ type: "longtask", buffered: true });
     } catch { /* Long Task API is optional. */ }
   }
-  window.fetch = (input, init = {}) => {
+  window.fetch = async (input, init = {}) => {
     const method = String(init.method || (input instanceof Request ? input.method : "GET")).toUpperCase();
     const rawUrl = input instanceof Request ? input.url : String(input);
     const url = new URL(rawUrl, window.location.href);
@@ -2086,6 +2086,13 @@ if (hiveBetaMode) {
     // could let one panel cancel another panel's otherwise valid request.
     if (method !== "GET" || url.origin !== window.location.origin || init.signal) {
       return hiveBetaNativeFetch(input, init);
+    }
+    if (window.hiveDesktop?.cacheFetch) {
+      const cached = await window.hiveDesktop.cacheFetch(url.href, { credentials: init.credentials || "same-origin" });
+      if (cached && !cached.error) {
+        const binary = Uint8Array.from(atob(cached.body || ""), (char) => char.charCodeAt(0));
+        return new Response(binary, { status: cached.status, statusText: cached.statusText, headers: cached.headers || {} });
+      }
     }
     const key = `${method}|${url.href}|${init.credentials || "same-origin"}`;
     if (!hiveBetaFetchJobs.has(key)) {
@@ -14486,6 +14493,11 @@ function syncRailMoreActive(panelId = document.querySelector(".tool-panel.is-act
 
 function handleRailPanelButton(button) {
   if (button.dataset.externalHref) {
+    if (button.dataset.externalHref === "/spc" && window.hiveDesktop?.openModule) {
+      window.hiveDesktop.openModule("spc");
+      setRailMoreOpen(false);
+      return;
+    }
     window.location.assign(button.dataset.externalHref);
     return;
   }
@@ -19515,6 +19527,9 @@ async function syncOpsProductsToServer(options = {}) {
     }
   } catch (error) {
     console.warn("Ops products sync failed", error);
+    if (options.strict) {
+      throw error;
+    }
   }
 }
 
@@ -24460,9 +24475,16 @@ function loadWatchesFromStorage() {
   activeWatches = [];
 }
 
-function saveWatchesToStorage(options = {}) {
+async function saveWatchesToStorage(options = {}) {
   // Name kept for existing callers; persistence is server-only.
-  syncOpsProductsToServer(options);
+  if (options.strict) {
+    // SPC issuance must not report success until the authoritative ops store
+    // has accepted the product.  Existing warning callers retain the legacy
+    // fire-and-forget behavior when strict is not requested.
+    await syncOpsProductsToServer(options);
+  } else {
+    void syncOpsProductsToServer(options);
+  }
   return publishWarningsToPublicSite(options);
 }
 
@@ -24634,9 +24656,31 @@ async function issueSpcWatch() {
   updateSpcMapGraphics();
   let distribution = null;
   if (!record.practice) {
-    await captureAndUploadMapSnapshot(record);
+    // A snapshot is supplementary distribution data.  It must not prevent
+    // the authoritative SPC product from being saved to the ops store.
+    try {
+      await captureAndUploadMapSnapshot(record);
+    } catch (error) {
+      console.warn("SPC map snapshot unavailable; continuing with product save", error);
+    }
   }
-  distribution = await saveWatchesToStorage({ focusIds: [record.id] });
+  try {
+    distribution = await saveWatchesToStorage({ focusIds: [record.id], strict: true });
+  } catch (error) {
+    // Do not leave a locally active product when the server rejected the
+    // authoritative save.  The operator can correct the issue and retry.
+    activeWatches = activeWatches.filter((w) => w.id !== record.id);
+    selectedSpcWatchId = null;
+    spcState.status = "draft";
+    spcState.action = "NEW";
+    spcState.issuedAt = null;
+    spcState.expiresAt = null;
+    updateSpcMapGraphics();
+    renderActiveWatchesList();
+    syncSpcFormFromState();
+    showBanner(`SPC issue failed: ${error.message || "server rejected the product"}`);
+    return;
+  }
   setSpcMode("idle");
   updateSpcMapGraphics();
   syncSpcFormFromState();
