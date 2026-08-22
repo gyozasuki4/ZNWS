@@ -94,6 +94,13 @@
     try {
       const saved = JSON.parse(localStorage.getItem(draftStorageKey) || "null");
       if (!saved || Date.now() - Number(saved.savedAt || 0) > 7 * 86400000) return false;
+      // Never reopen an active watch as the editor's implicit draft after an
+      // Electron/browser restart. Active watches remain available in the
+      // inventory for an explicit CON/CAN selection; startup should be NEW.
+      if (saved.state?.status === "active" || saved.state?.watchId) {
+        localStorage.removeItem(draftStorageKey);
+        return false;
+      }
       state = Object.assign(window.SpcDesk.createState(), saved.state || {});
       const desiredCodes=new Set([...(saved.includedFips||[]),...(saved.resolvedFips||[]),...(saved.removedFips||[])].map(String));
       const records = new Map([...desiredCodes].map((code) => [code,window.SpcDesk.countyRecordFromFips(code,counties,{})]).filter(([,record])=>record));
