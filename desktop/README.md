@@ -33,7 +33,15 @@ The bearer token is handled only by Electron main-process code and is encrypted
 with Electron `safeStorage` at the platform user-data location. It is never
 passed to `app.js` or stored in local/session storage.
 
-Provision on the trusted operations host (the token is printed once):
+For normal desktop enrollment, an operations administrator creates a native
+workstation enrollment code at `https://ops.zasnetwx.com/admin`. On first
+launch, enter that single-use code in the Electron setup window. The server
+uses the same native-workstation record and returns the credential directly to
+Electron's main process; it is encrypted with `safeStorage` and never exposed
+to the Hive renderer.
+
+Trusted-host provisioning remains available for administration and recovery
+(the token is printed once):
 
 ```bash
 npm run desktop:provision -- --name "Zane Desktop" --wfo KRIW

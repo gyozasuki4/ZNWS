@@ -12,6 +12,7 @@ const DEFAULT_SERVER_URL = "https://ops.zasnetwx.com/hive-beta";
 const SESSION_PARTITION = "persist:hive-beta-desktop";
 const APP_VERSION = app.getVersion() || "1.0.0";
 const windows = new Set();
+let enrollmentWindow = null;
 const connectivity = { state: "reconnecting", reachable: false, issuanceReady: false, checkedAt: null, detail: "Starting" };
 let connectivityTimer = null;
 let connectivityGeneration = 0;
@@ -84,6 +85,65 @@ async function bootstrapWorkstationSession(token) {
   if (!value) throw new Error("Desktop session cookie was not returned");
   await session.fromPartition(SESSION_PARTITION).cookies.set({ url: hiveOrigin(), name: "zncave_session", value, path: "/", secure: new URL(serverUrl()).protocol === "https:", httpOnly: true, sameSite: "lax" });
   setAuthState({ method: "workstation", state: "authenticated", workstation: payload.workstation || null, detail: "Workstation session established" });
+}
+
+function enrollmentError(error, fallback = "Workstation enrollment failed") {
+  const status = Number(error?.status || 0);
+  if (status === 403) return { state: "invalid-code", message: error.message || "Enrollment code is invalid, expired, or already used" };
+  if (status === 429) return { state: "server-error", message: error.message || "Too many attempts; try again later" };
+  if (status === 0) return { state: "server-unreachable", message: "The operational server could not be reached" };
+  return { state: "server-error", message: error.message || fallback };
+}
+
+async function enrollWorkstation(code, name) {
+  const normalizedCode = String(code || "").trim();
+  const normalizedName = String(name || "").trim().slice(0, 80);
+  if (normalizedCode.length < 10) return { ok: false, state: "invalid-code", message: "Enter the complete enrollment code" };
+  setAuthState({ method: "workstation", state: "enrolling", detail: "Validating enrollment code" });
+  try {
+    const response = await fetch(new URL("/api/native/enroll", hiveOrigin()), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ code: normalizedCode, deviceName: normalizedName })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(payload.error || `HTTP ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
+    const token = String(payload.token || "");
+    if (!/^hive_native_[A-Za-z0-9_-]{32,}$/.test(token)) throw new Error("Server returned an invalid workstation credential");
+    // The credential remains entirely in the main process and is encrypted before
+    // any workstation UI is opened. It is never returned through IPC.
+    saveCredential(token);
+    await bootstrapWorkstationSession(token);
+    setAuthState({ method: "workstation", state: "authenticated", detail: "Workstation enrolled and session established" });
+    closeEnrollmentWindow();
+    createWindow();
+    return { ok: true, workstation: authState.workstation };
+  } catch (error) {
+    const result = enrollmentError(error);
+    const authFailure = result.state === "invalid-code" ? "auth-failed" : result.state;
+    setAuthState({ method: "workstation", state: authFailure, detail: result.message });
+    return { ok: false, ...result };
+  }
+}
+
+async function retryStoredWorkstation() {
+  const token = loadCredential();
+  if (!token) return { ok: false, state: "not-provisioned", message: "No workstation credential is stored" };
+  setAuthState({ method: "workstation", state: "reconnecting", detail: "Retrying workstation session" });
+  try {
+    await bootstrapWorkstationSession(token);
+    closeEnrollmentWindow();
+    createWindow();
+    return { ok: true, workstation: authState.workstation };
+  } catch (error) {
+    const result = enrollmentError(error, "Workstation session could not be established");
+    setAuthState({ method: "workstation", state: result.state === "invalid-code" ? "revoked" : result.state, detail: result.message });
+    return { ok: false, ...result };
+  }
 }
 
 function isTrustedNavigation(rawUrl) {
@@ -183,6 +243,36 @@ function createWindow(initialUrl = null) {
   return win;
 }
 
+function closeEnrollmentWindow() {
+  const setupWindow = enrollmentWindow;
+  enrollmentWindow = null;
+  if (setupWindow && !setupWindow.isDestroyed()) setupWindow.close();
+}
+
+function createEnrollmentWindow(reason = "not-provisioned") {
+  if (enrollmentWindow && !enrollmentWindow.isDestroyed()) {
+    enrollmentWindow.focus();
+    enrollmentWindow.webContents.send("hive:enrollment-reason", reason);
+    return enrollmentWindow;
+  }
+  enrollmentWindow = new BrowserWindow({
+    width: 520, height: 610, minWidth: 440, minHeight: 540, resizable: false,
+    show: false, backgroundColor: "#08111c", title: "Hive Beta workstation setup",
+    icon: path.join(__dirname, "..", "znws-map-mark.png"), autoHideMenuBar: true,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"), partition: SESSION_PARTITION,
+      contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true
+    }
+  });
+  windows.add(enrollmentWindow);
+  enrollmentWindow.once("ready-to-show", () => enrollmentWindow.show());
+  const setupWindow = enrollmentWindow;
+  enrollmentWindow.on("closed", () => { windows.delete(setupWindow); if (enrollmentWindow === setupWindow) enrollmentWindow = null; });
+  enrollmentWindow.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  enrollmentWindow.loadFile(path.join(__dirname, "enroll.html"), { query: { reason } });
+  return enrollmentWindow;
+}
+
 function installMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     { label: "Hive Beta", submenu: [
@@ -211,8 +301,14 @@ ipcMain.handle("hive:auth-state", () => ({ ...authState }));
 ipcMain.handle("hive:use-sso", (event) => {
   setAuthState({ method: "sso", state: "sso-fallback", detail: "Explicit Authentik fallback selected" });
   const win = BrowserWindow.fromWebContents(event.sender);
-  if (win) win.loadURL(serverUrl());
+  const setupWindow = win && win === enrollmentWindow;
+  if (setupWindow) closeEnrollmentWindow();
+  if (!setupWindow && win) win.loadURL(serverUrl());
+  else createWindow();
 });
+ipcMain.handle("hive:open-enrollment", () => { createEnrollmentWindow("re-enroll"); return { opened: true }; });
+ipcMain.handle("hive:enroll-workstation", (_event, payload = {}) => enrollWorkstation(payload.code, payload.name));
+ipcMain.handle("hive:retry-workstation", () => retryStoredWorkstation());
 ipcMain.handle("hive:store-workstation-token", (_event, token) => {
   const value = String(token || "").trim();
   if (!/^hive_native_[A-Za-z0-9_-]{32,}$/.test(value)) throw new Error("Invalid workstation credential");
@@ -257,13 +353,15 @@ else {
       catch (error) {
         const state = error.status === 401 || error.status === 403 ? (error.status === 403 ? "revoked" : "auth-failed") : "disconnected";
         setAuthState({ method: "workstation", state, detail: error.message });
+        if (state === "revoked" || state === "auth-failed") createEnrollmentWindow(state);
       }
     } else {
-      setAuthState({ method: "sso", state: "not-provisioned", detail: "No workstation credential configured; Authentik remains available" });
+      setAuthState({ method: "workstation", state: "not-provisioned", detail: "No workstation credential configured" });
+      createEnrollmentWindow("not-provisioned");
     }
     log("Loading remote Hive UI", `origin=${hiveOrigin()}`);
     startConnectivityMonitor();
-    createWindow();
+    if (credential && ["authenticated", "disconnected"].includes(authState.state)) createWindow();
   });
   app.on("activate", () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
   app.on("window-all-closed", () => { if (process.platform !== "darwin") app.quit(); });

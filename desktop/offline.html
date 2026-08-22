@@ -21,16 +21,19 @@
     <h1>Hive Beta is offline</h1>
     <p id="status">The operational server could not be reached. Hive will retry automatically.</p>
     <button type="button" id="retry">Retry now</button>
+    <button type="button" id="reenroll" hidden>Re-enroll workstation</button>
     <button type="button" id="sso" hidden>Use Authentik SSO</button>
   </main>
   <script>
     (() => {
       const status = document.querySelector("#status");
       const retry = document.querySelector("#retry");
+      const reenroll = document.querySelector("#reenroll");
       const sso = document.querySelector("#sso");
       const reason = new URLSearchParams(location.search).get("reason");
       if (reason === "revoked" || reason === "auth-failed") {
         status.textContent = reason === "revoked" ? "This workstation credential is revoked or disabled." : "Workstation authentication failed.";
+        reenroll.hidden = false;
         sso.hidden = false;
       }
       let timer;
@@ -42,6 +45,7 @@
         timer = window.setTimeout(() => { retry.disabled = false; status.textContent = "Still unavailable. Retrying automatically…"; }, 4000);
       };
       retry.addEventListener("click", reconnect);
+      reenroll.addEventListener("click", () => window.hiveDesktop.openEnrollment());
       sso.addEventListener("click", () => window.hiveDesktop.useSso());
       timer = window.setTimeout(reconnect, 5000);
       window.hiveDesktop.onConnectivityChange((state) => {
