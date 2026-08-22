@@ -23,9 +23,9 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Build macOS desktop app
-        run: npm run desktop:mac
-      - name: Validate macOS application bundle
+      - name: Build unpacked macOS desktop app
+        run: npx electron-builder --mac dir --arm64 --publish never
+      - name: Sign and validate unpacked macOS application
         shell: bash
         run: |
           set -euo pipefail
@@ -36,24 +36,32 @@ jobs:
           fi
           EXECUTABLE="${APP_PATH}/Contents/MacOS/ZASNet Hive Beta"
           file "${EXECUTABLE}"
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${APP_PATH}/Contents/Info.plist"
-          CODESIGN_DETAILS="$(codesign -dv --verbose=4 "${APP_PATH}" 2>&1 || true)"
-          printf '%s\n' "${CODESIGN_DETAILS}"
-          if printf '%s\n' "${CODESIGN_DETAILS}" | grep -Fq 'code has no resources but signature indicates they must be present'; then
-            echo "Invalid partial macOS signature detected" >&2
-            exit 1
-          fi
-          if codesign --verify --deep --strict --verbose=4 "${APP_PATH}"; then
-            echo "macOS bundle signature verification passed"
-          else
-            VERIFY_OUTPUT="$(codesign --verify --deep --strict --verbose=4 "${APP_PATH}" 2>&1 || true)"
-            printf '%s\n' "${VERIFY_OUTPUT}"
-            if printf '%s\n' "${VERIFY_OUTPUT}" | grep -Fq 'code has no resources but signature indicates they must be present'; then
-              echo "Invalid partial macOS signature detected" >&2
-              exit 1
-            fi
-            echo "Unsigned macOS bundle accepted; no invalid partial signature present"
-          fi
+          BUNDLE_ID="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${APP_PATH}/Contents/Info.plist")"
+          [[ "${BUNDLE_ID}" == "com.zasnet.hivebeta" ]] || { echo "Unexpected bundle identifier: ${BUNDLE_ID}" >&2; exit 1; }
+          codesign --force --deep --sign - "${APP_PATH}"
+          codesign --verify --deep --strict --verbose=4 "${APP_PATH}"
+          codesign -dv --verbose=4 "${APP_PATH}" 2>&1
+      - name: Package validated macOS application
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP_PATH="$(find dist-desktop -type d -name '*.app' -print -quit)"
+          npx electron-builder --prepackaged "${APP_PATH}" --mac dmg zip --publish never
+      - name: Validate application inside macOS DMG
+        shell: bash
+        run: |
+          set -euo pipefail
+          DMG_PATH="$(find dist-desktop -maxdepth 1 -type f -name '*.dmg' -print -quit)"
+          [[ -n "${DMG_PATH}" ]] || { echo "No macOS DMG found" >&2; exit 1; }
+          MOUNT_POINT="${RUNNER_TEMP}/znws-dmg"
+          mkdir -p "${MOUNT_POINT}"
+          hdiutil attach -nobrowse -readonly -mountpoint "${MOUNT_POINT}" "${DMG_PATH}"
+          trap 'hdiutil detach "${MOUNT_POINT}" >/dev/null || true' EXIT
+          DMG_APP="${MOUNT_POINT}/ZASNet Hive Beta.app"
+          [[ -d "${DMG_APP}" ]] || { echo "No application found in mounted DMG" >&2; exit 1; }
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${DMG_APP}/Contents/Info.plist"
+          codesign --verify --deep --strict --verbose=4 "${DMG_APP}"
+          codesign -dv --verbose=4 "${DMG_APP}" 2>&1
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
