@@ -18,7 +18,11 @@ let cacheManager = null;
 let cacheCleanupTimer = null;
 let cacheWindow = null;
 const moduleWindows = new Map();
-const MODULE_DEFINITIONS = Object.freeze({ spc: { title: "Hive Beta · SPC Watch Operations", query: { desk: "spc" } } });
+const MODULE_DEFINITIONS = Object.freeze({
+  // SPC is a standalone operational page. Keep it explicit so a workstation
+  // configured with a beta landing path cannot accidentally open /spc-beta.
+  spc: { title: "Hive Beta · SPC Watch Operations", path: "/spc" }
+});
 const connectivity = { state: "reconnecting", reachable: false, issuanceReady: false, checkedAt: null, detail: "Starting" };
 let connectivityTimer = null;
 let connectivityGeneration = 0;
@@ -190,8 +194,7 @@ function openModuleWindow(moduleId, rawUrl = null) {
   if (!definition) return null;
   const existing = moduleWindows.get(moduleId);
   if (existing && !existing.isDestroyed()) { existing.show(); existing.focus(); return existing; }
-  const target = new URL(rawUrl || serverUrl());
-  if (!rawUrl) Object.entries(definition.query || {}).forEach(([key, value]) => target.searchParams.set(key, value));
+  const target = new URL(moduleId === "spc" ? definition.path : (rawUrl || definition.path || serverUrl()), hiveOrigin());
   const saved = readModuleBounds(moduleId);
   const win = new BrowserWindow({
     ...saved, show: false, title: definition.title, backgroundColor: "#0f1114", icon: path.join(__dirname, "..", "znws-map-mark.png"),
@@ -207,7 +210,12 @@ function openModuleWindow(moduleId, rawUrl = null) {
   win.on("unmaximize", () => saveModuleBounds(moduleId, win));
   win.on("closed", () => { saveModuleBounds(moduleId, win); moduleWindows.delete(moduleId); windows.delete(win); });
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (isTrustedNavigation(url)) { const parsed = new URL(url); if (parsed.searchParams.get("desk") === "spc") openModuleWindow("spc", url); else createWindow(url); return { action: "deny" }; }
+    if (isTrustedNavigation(url)) {
+      const parsed = new URL(url);
+      if (parsed.pathname === "/spc" || parsed.searchParams.get("desk") === "spc") openModuleWindow("spc", url);
+      else createWindow(url);
+      return { action: "deny" };
+    }
     try { if (/^https?:$/i.test(new URL(url).protocol)) shell.openExternal(url).catch(() => {}); } catch {}
     return { action: "deny" };
   });
@@ -295,7 +303,7 @@ function createWindow(initialUrl = null) {
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (isTrustedNavigation(url)) {
       const parsed = new URL(url);
-      if (parsed.searchParams.get("desk") === "spc") openModuleWindow("spc", url);
+      if (parsed.pathname === "/spc" || parsed.searchParams.get("desk") === "spc") openModuleWindow("spc", url);
       else createWindow(url);
       return { action: "deny" };
     }
