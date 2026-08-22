@@ -1801,6 +1801,10 @@ function isPublicUnauthenticatedPath(pathname, request) {
     p === "/models.js" ||
     p === "/models.css" ||
     p === "/models-animation.css" ||
+    p === "/gfe" ||
+    p === "/gfe.html" ||
+    p === "/gfe.js" ||
+    p === "/gfe.css" ||
     p === "/public-gif.js" ||
     p === "/public-gif.worker.js" ||
     p === "/model-status" ||
@@ -18726,6 +18730,8 @@ function resolveRequestPath(urlPath, request) {
           ? "/weather-maps.html"
         : cleanPath === "/models"
           ? "/models.html"
+        : cleanPath === "/gfe"
+          ? "/gfe.html"
         : cleanPath === "/model-status"
           ? "/model-status.html"
         : cleanPath === "/model-operations"

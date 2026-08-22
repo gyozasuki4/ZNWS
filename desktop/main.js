@@ -21,7 +21,8 @@ const moduleWindows = new Map();
 const MODULE_DEFINITIONS = Object.freeze({
   // SPC is a standalone operational page. Keep it explicit so a workstation
   // configured with a beta landing path cannot accidentally open /spc-beta.
-  spc: { title: "Hive Beta · SPC Watch Operations", path: "/spc" }
+  spc: { title: "Hive Beta · SPC Watch Operations", path: "/spc" },
+  gfe: { title: "Hive Beta · GFE Model Workstation", path: "/gfe" }
 });
 const connectivity = { state: "reconnecting", reachable: false, issuanceReady: false, checkedAt: null, detail: "Starting" };
 let connectivityTimer = null;
@@ -56,6 +57,17 @@ function loadCredential() {
     if (!safeStorage.isEncryptionAvailable()) return null;
     return safeStorage.decryptString(fs.readFileSync(credentialPath()));
   } catch { return null; }
+}
+async function refreshStoredWorkstationSession() {
+  const token = loadCredential();
+  if (!token) return false;
+  try {
+    await bootstrapWorkstationSession(token);
+    return true;
+  } catch (error) {
+    log("Stored workstation session refresh failed", error.message || "unknown error");
+    return false;
+  }
 }
 function saveCredential(token) {
   if (!safeStorage.isEncryptionAvailable()) throw new Error("Electron secure storage is unavailable");
@@ -213,6 +225,7 @@ function openModuleWindow(moduleId, rawUrl = null) {
     if (isTrustedNavigation(url)) {
       const parsed = new URL(url);
       if (parsed.pathname === "/spc" || parsed.searchParams.get("desk") === "spc") openModuleWindow("spc", url);
+      else if (parsed.pathname === "/gfe" || parsed.searchParams.get("desk") === "gfe") openModuleWindow("gfe", url);
       else createWindow(url);
       return { action: "deny" };
     }
@@ -304,6 +317,7 @@ function createWindow(initialUrl = null) {
     if (isTrustedNavigation(url)) {
       const parsed = new URL(url);
       if (parsed.pathname === "/spc" || parsed.searchParams.get("desk") === "spc") openModuleWindow("spc", url);
+      else if (parsed.pathname === "/gfe" || parsed.searchParams.get("desk") === "gfe") openModuleWindow("gfe", url);
       else createWindow(url);
       return { action: "deny" };
     }
@@ -394,7 +408,10 @@ ipcMain.handle("hive:use-sso", (event) => {
   else createWindow();
 });
 ipcMain.handle("hive:open-enrollment", () => { createEnrollmentWindow("re-enroll"); return { opened: true }; });
-ipcMain.handle("hive:open-module", (_event, moduleId) => Boolean(openModuleWindow(String(moduleId || "").toLowerCase())));
+ipcMain.handle("hive:open-module", async (_event, moduleId) => {
+  await refreshStoredWorkstationSession();
+  return Boolean(openModuleWindow(String(moduleId || "").toLowerCase()));
+});
 ipcMain.handle("hive:enroll-workstation", (_event, payload = {}) => enrollWorkstation(payload.code, payload.name));
 ipcMain.handle("hive:retry-workstation", () => retryStoredWorkstation());
 ipcMain.handle("hive:store-workstation-token", (_event, token) => {

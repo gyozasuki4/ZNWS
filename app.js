@@ -12724,6 +12724,10 @@ async function setPanelLayout(layout, options = {}) {
         syncMapViews(map, map4);
       }
       if (!wasMultiPanel) {
+        // A newly opened Dual view gets the operational two-product starting
+        // pair: Level 3 base reflectivity on the primary pane and Level 3
+        // velocity on the secondary pane.  Existing multi-pane layouts are
+        // left alone, so this only applies when entering from Single.
         const primaryPreferences = normalizePreferences(JSON.parse(JSON.stringify(layerPreferences)));
         panelLayerPreferences = [0, 1, 2, 3].map((_, index) =>
           mainPlusThreeLayout && index > 0
@@ -12738,7 +12742,11 @@ async function setPanelLayout(layout, options = {}) {
         );
         panelRadarSources = [0, 1, 2, 3].map((index) => index < count ? opsRadarSource : "local");
         if (count >= 2) {
-          panel2ProductId = panel1ProductId;
+          panel1ProductId = "reflectivitylevel3";
+          panel2ProductId = "velocitylevel3";
+          activeRadarProductId = panel1ProductId;
+          if (controls.radarProductSelect) controls.radarProductSelect.value = panel1ProductId;
+          if (controls.timelineRadarProductSelect) controls.timelineRadarProductSelect.value = panel1ProductId;
           panelSiteIds[1] = panelSiteIds[0] || controls.radarSiteSelect?.value || controls.radarSiteInput?.value || "";
         }
         if (count >= 4) {
@@ -13956,7 +13964,8 @@ async function refreshRadarLoop(options = {}) {
     const quaternarySite = panelSiteIds[3] || site;
 
     const response = await fetch(
-      `/api/radar/recent?site=${encodeURIComponent(site)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(primaryProductId)}`
+      `/api/radar/recent?site=${encodeURIComponent(site)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(primaryProductId)}`,
+      { cache: "no-store" }
     );
 
     if (!response.ok) {
@@ -13990,7 +13999,8 @@ async function refreshRadarLoop(options = {}) {
 
     if (secondaryProductId && (secondaryProductId !== primaryProductId || secondarySite !== site)) {
       const secondaryResponse = await fetch(
-        `/api/radar/recent?site=${encodeURIComponent(secondarySite)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(secondaryProductId)}`
+        `/api/radar/recent?site=${encodeURIComponent(secondarySite)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(secondaryProductId)}`,
+        { cache: "no-store" }
       );
       if (secondaryResponse.ok) {
         const secondaryPayload = await secondaryResponse.json();
@@ -14057,7 +14067,8 @@ async function refreshRadarLoop(options = {}) {
     if (tertiaryProductId && !isMrmsRadarProduct(tertiaryProductId)) {
       try {
         const r = await fetch(
-          `/api/radar/recent?site=${encodeURIComponent(tertiarySite)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(tertiaryProductId)}`
+          `/api/radar/recent?site=${encodeURIComponent(tertiarySite)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(tertiaryProductId)}`,
+          { cache: "no-store" }
         );
         if (r.ok) {
           tertiaryFiles = (await r.json()).files || [];
@@ -14069,7 +14080,8 @@ async function refreshRadarLoop(options = {}) {
     if (quaternaryProductId && !isMrmsRadarProduct(quaternaryProductId)) {
       try {
         const r = await fetch(
-          `/api/radar/recent?site=${encodeURIComponent(quaternarySite)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(quaternaryProductId)}`
+          `/api/radar/recent?site=${encodeURIComponent(quaternarySite)}&minutes=${radarLoopWindowMinutes}&product=${encodeURIComponent(quaternaryProductId)}`,
+          { cache: "no-store" }
         );
         if (r.ok) {
           quaternaryFiles = (await r.json()).files || [];
@@ -14528,6 +14540,11 @@ function handleRailPanelButton(button) {
   if (button.dataset.externalHref) {
     if (button.dataset.externalHref === "/spc" && window.hiveDesktop?.openModule) {
       window.hiveDesktop.openModule("spc");
+      setRailMoreOpen(false);
+      return;
+    }
+    if (button.dataset.externalHref === "/gfe" && window.hiveDesktop?.openModule) {
+      window.hiveDesktop.openModule("gfe");
       setRailMoreOpen(false);
       return;
     }
@@ -16373,7 +16390,9 @@ function ensureWarnMapLayers(targetMap = map) {
       filter: ["==", ["get", "kind"], "location"],
       paint: {
         "circle-radius": 7,
-        "circle-color": "#5ac8fa",
+        // Red is the current storm location; historical/refinement motion
+        // points remain blue in storm-motion-points below.
+        "circle-color": "#ff3b30",
         "circle-stroke-color": "#fff",
         "circle-stroke-width": 2
       }
@@ -25493,12 +25512,18 @@ function handleWarnMapMouseDown(event) {
       return;
     }
   }
-  if (hazSelectedProduct?.engine === "polygon" && document.querySelector("#hazardsPanel")?.classList.contains("is-active") && warnState.polygon) {
-    const current = ensureHazMotionTrackPoint();
+  const hazardProductCode = hazSelectedProduct?.code || warnState?.product;
+  if (document.querySelector("#hazardsPanel")?.classList.contains("is-active") && warnState.polygon && hazardServicesUsesStormTrack(hazardProductCode)) {
+    // In edit mode the active radar scan is often newer than the scan stored
+    // with the issued warning.  The red storm marker must remain draggable in
+    // that case, so seed a current-frame track point only after the press is
+    // confirmed to be on the red location marker.
+    const nearStormLocation = warnState.location && mapPointDistancePx(m, lngLat, warnState.location) <= 24;
+    const current = ensureHazMotionTrackPoint(nearStormLocation ? { create: true, lngLat: warnState.location } : {});
     const currentIndex = current ? warnState.motionTrack.indexOf(current) : -1;
     // Each explicitly marked frame can be refined later. Its file/timestamp
     // remain fixed; dragging changes only that frame's storm coordinates.
-    if (current && currentIndex >= 0 && mapPointDistancePx(m, lngLat, current.lngLat) <= 24) {
+    if (current && currentIndex >= 0 && (nearStormLocation || mapPointDistancePx(m, lngLat, current.lngLat) <= 24)) {
       // A refresh that began before mousedown can otherwise finish mid-drag
       // and rebuild the radar timeline underneath this point.
       window.clearInterval(radarLoopRefreshTimer);
@@ -25993,7 +26018,7 @@ function currentRadarFrameMeta() {
 }
 
 function ensureHazMotionTrackPoint(options = {}) {
-  if (!hazardServicesUsesStormTrack(hazSelectedProduct?.code)) return null;
+  if (!hazardServicesUsesStormTrack(hazSelectedProduct?.code || warnState?.product)) return null;
   if (!document.querySelector("#hazardsPanel")?.classList.contains("is-active")) return null;
   // Need a seed: explicit location, zone/poly centroid, or map center for SMW zone pre-select
   let seed = warnState?.location || (warnState?.polygon ? geometryCentroid(warnState.polygon) : null);
@@ -26249,6 +26274,7 @@ function isWarnMapDrawingActive() {
     "traceLine",
     "editPoly",
     "placeStorm",
+    "setStormLocation",
     "selectMarineZones",
     "markLocation",
     "lineStart",
@@ -26315,8 +26341,32 @@ function handleWarnMapClick(event) {
   // never creates a point by itself.
   const hazardTrackActive = Boolean(
     document.querySelector("#hazardsPanel")?.classList.contains("is-active") &&
-    hazardServicesUsesStormTrack(hazSelectedProduct?.code)
+    hazardServicesUsesStormTrack(hazSelectedProduct?.code || warnState?.product)
   );
+  if (warnState.mode === "setStormLocation") {
+    warnState.location = [...lngLat];
+    warnState.locationOverride = "";
+    if (hazardTrackActive) {
+      const point = ensureHazMotionTrackPoint({ create: true, lngLat });
+      if (point) {
+        point.lngLat = [...lngLat];
+        point.adjusted = true;
+      } else {
+        const track = (warnState.motionTrack || []).filter((item) => item?.lngLat);
+        const latest = track.sort((a, b) => Number(a.timestampMs) - Number(b.timestampMs)).at(-1);
+        if (latest) {
+          latest.lngLat = [...lngLat];
+          latest.adjusted = true;
+        }
+      }
+      recomputeWarnLocation();
+    }
+    updateWarnMapGraphics();
+    setWarnMode("editPoly");
+    syncWarnFormFromState();
+    showBanner("Storm location updated. The red marker is now at the selected map point.");
+    return;
+  }
   if (warnState.mode === "traceLine") {
     warnState.lineTrace = Array.isArray(warnState.lineTrace) ? warnState.lineTrace : [];
     warnState.lineTrace.push(lngLat);
@@ -26622,6 +26672,14 @@ function handleWarnKeydown(event) {
   // workflow instead of the retired Motion 1 / Motion 2 tools. event.code makes
   // the number row and numpad reliable across Safari and keyboard layouts.
   if (warnPanelActive && !event.repeat && !event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey && warnState) {
+    if (event.key.toLowerCase() === "l" && document.querySelector("#hazardsPanel")?.classList.contains("is-active") && hazardServicesUsesStormTrack(hazSelectedProduct?.code || warnState.product)) {
+      event.preventDefault();
+      event.stopPropagation();
+      setWarnMode("setStormLocation");
+      updateWarnMapGraphics();
+      showBanner("Update storm location by clicking the storm on the map.");
+      return;
+    }
     const code = event.code;
     const digit = /^(?:Digit|Numpad)([1-5])$/.exec(code)?.[1] || event.key;
     if (digit === "1") {
