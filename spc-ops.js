@@ -538,7 +538,10 @@
   async function saveAuthoritativeRecord(record) {
     activeLoadVersion += 1;
     const response = await fetch("/api/ops/products", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ warnings: [record] }) });
-    if (!response.ok) throw new Error(`Ops store HTTP ${response.status}`);
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      throw new Error(payload.error || `Ops store HTTP ${response.status}`);
+    }
   }
   function acceptSavedRecord(record) {
     const index = active.findIndex((watch) => watch.id === record.id);
@@ -547,6 +550,9 @@
   }
   async function issue() {
     syncForm();
+    const draftBeforeIssue = structuredClone(state);
+    const areaResolvedBeforeIssue = areaResolved;
+    const removedBeforeIssue = structuredClone(removed);
     if (state.polygon && !areaResolved) await resolveCounties();
     if (!areaResolved || !state.counties.length) return notice("No counties were resolved. Adjust the box and press Resolve counties before issuing.", true);
     await generate(); if (!state.text) return;
@@ -565,7 +571,15 @@
       acceptSavedRecord(record);
       notice(record.practice ? `Issued ${record.productId} in Practice Mode. Editor cleared.` : `Issued ${record.productId}. Authoritative save confirmed; delivery is running in the background.`);
       if (!record.practice) queueDistribution(record);
-    } catch (error) { notice(`Issue failed: ${error.message}`, true); } finally { render(); }
+    } catch (error) {
+      // NEW becomes active locally before the authoritative PUT so the
+      // generated record can be built. If that PUT fails, restore the draft
+      // instead of marooning the editor in CON/CAN mode.
+      state = draftBeforeIssue;
+      areaResolved = areaResolvedBeforeIssue;
+      removed = removedBeforeIssue;
+      notice(`Issue failed: ${error.message}`, true);
+    } finally { render(); }
   }
   function lifecycleRecord(action, now, expire) {
     state.action = action; state.status = action === "CAN" ? "cancelled" : "active"; state.expiresAt = expire.toISOString(); state.segment = (Number(state.segment) || 0) + 1;
