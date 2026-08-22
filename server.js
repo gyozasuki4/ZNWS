@@ -1806,6 +1806,7 @@ function isPublicUnauthenticatedPath(pathname, request) {
     p === "/gfe.js" ||
     p === "/gfe.css" ||
     p === "/gfe-wfo.js" ||
+    p === "/gfe-legend.js" ||
     p === "/public-gif.js" ||
     p === "/public-gif.worker.js" ||
     p === "/model-status" ||
