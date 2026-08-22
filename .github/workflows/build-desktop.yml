@@ -25,6 +25,35 @@ jobs:
         run: npm ci
       - name: Build macOS desktop app
         run: npm run desktop:mac
+      - name: Validate macOS application bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP_PATH="$(find dist-desktop -type d -name '*.app' -print -quit)"
+          if [[ -z "${APP_PATH}" ]]; then
+            echo "No macOS .app bundle found" >&2
+            exit 1
+          fi
+          EXECUTABLE="${APP_PATH}/Contents/MacOS/ZASNet Hive Beta"
+          file "${EXECUTABLE}"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${APP_PATH}/Contents/Info.plist"
+          CODESIGN_DETAILS="$(codesign -dv --verbose=4 "${APP_PATH}" 2>&1 || true)"
+          printf '%s\n' "${CODESIGN_DETAILS}"
+          if printf '%s\n' "${CODESIGN_DETAILS}" | grep -Fq 'code has no resources but signature indicates they must be present'; then
+            echo "Invalid partial macOS signature detected" >&2
+            exit 1
+          fi
+          if codesign --verify --deep --strict --verbose=4 "${APP_PATH}"; then
+            echo "macOS bundle signature verification passed"
+          else
+            VERIFY_OUTPUT="$(codesign --verify --deep --strict --verbose=4 "${APP_PATH}" 2>&1 || true)"
+            printf '%s\n' "${VERIFY_OUTPUT}"
+            if printf '%s\n' "${VERIFY_OUTPUT}" | grep -Fq 'code has no resources but signature indicates they must be present'; then
+              echo "Invalid partial macOS signature detected" >&2
+              exit 1
+            fi
+            echo "Unsigned macOS bundle accepted; no invalid partial signature present"
+          fi
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:

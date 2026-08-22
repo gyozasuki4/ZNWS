@@ -60,6 +60,7 @@
     },
     "mac": {
       "target": ["dmg"],
+      "identity": null,
       "category": "public.app-category.weather",
       "artifactName": "ZASNet-Hive-Beta-${version}-macOS-${arch}.${ext}"
     },
