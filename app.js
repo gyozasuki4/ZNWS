@@ -2089,7 +2089,7 @@ if (hiveBetaMode) {
     if (method !== "GET" || url.origin !== window.location.origin || init.signal) {
       return hiveBetaNativeFetch(input, init);
     }
-    if (window.hiveDesktop?.cacheFetch) {
+    if (window.hiveDesktop?.cacheFetch && String(init.cache || "").toLowerCase() !== "no-store") {
       const cached = await window.hiveDesktop.cacheFetch(url.href, { credentials: init.credentials || "same-origin" });
       if (cached && !cached.error) {
         const binary = Uint8Array.from(atob(cached.body || ""), (char) => char.charCodeAt(0));

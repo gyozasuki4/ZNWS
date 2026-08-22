@@ -80,7 +80,10 @@ class DesktopCacheManager {
   async cacheFetch(rawUrl, init = {}) {
     const url = new URL(rawUrl, this.origin).toString();
     const category = this.categoryFor(url);
-    if (!category || String(init.method || "GET").toUpperCase() !== "GET") return null;
+    // The renderer uses no-store for newest radar scans, health checks, and
+    // other freshness-critical reads. Never let the persistent desktop cache
+    // override that explicit request policy.
+    if (!category || String(init.method || "GET").toUpperCase() !== "GET" || String(init.cache || "").toLowerCase() === "no-store") return null;
     const key = this.keyFor(url);
     const prior = this.index.entries[key];
     const now = Date.now();

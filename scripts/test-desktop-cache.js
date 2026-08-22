@@ -15,6 +15,8 @@ const { DesktopCacheManager } = require("../desktop/cache-manager");
   assert.equal(miss.cache, "network"); assert.equal(network, 1);
   const memoryHit = await first.cacheFetch("https://ops.zasnetwx.com/api/radar/product?file=scan-a");
   assert.equal(memoryHit.cache, "memory"); assert.equal(network, 1);
+  const fresh = await first.cacheFetch("https://ops.zasnetwx.com/api/radar/product?file=scan-a", { cache: "no-store" });
+  assert.equal(fresh, null);
   await first.cacheFetch("https://ops.zasnetwx.com/api/satellite/frame?file=goes-a");
   await first.cacheFetch("https://ops.zasnetwx.com/api/public/models/gfs?cycle=00");
   await first.cacheFetch("https://ops.zasnetwx.com/data/generated/awips/counties.geojson");
