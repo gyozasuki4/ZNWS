@@ -514,10 +514,11 @@ async function loadNativeWorkstations() {
 nativeEnrollmentForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const name = String(document.querySelector("#nativeWorkstationName")?.value || "").trim();
+  const wfos = String(document.querySelector("#nativeWorkstationWfos")?.value || "").trim();
   const button = nativeEnrollmentForm.querySelector("button[type=submit]");
   button.disabled = true;
   try {
-    const response = await fetch("/api/ops/admin/native-workstations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name }) });
+    const response = await fetch("/api/ops/admin/native-workstations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, wfos }) });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
     nativeEnrollmentCodeValue.textContent = data.code;
