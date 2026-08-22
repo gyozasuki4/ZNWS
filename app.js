@@ -2046,6 +2046,7 @@ const hiveBetaPerformance = {
   longTasks: [],
   navigation: { fps: 0, frames: 0, durationMs: 0, sampledAt: 0 },
   cacheStats: { radarHits: 0, radarMisses: 0, modelHits: 0, modelMisses: 0, satelliteHits: 0, satelliteMisses: 0, persistentHits: 0, persistentMisses: 0 },
+  gpu: { uploads: 0, uploadBytes: 0, uploadMs: 0 },
   mark(name, startedAt, detail = {}) {
     if (!hiveBetaMode) return;
     this.timings.push({ name, durationMs: Math.round((performance.now() - startedAt) * 10) / 10, at: Date.now(), ...detail });
@@ -2060,6 +2061,7 @@ const hiveBetaPerformance = {
         total: performance.memory.totalJSHeapSize,
         limit: performance.memory.jsHeapSizeLimit
       } : null,
+      gpu: { ...this.gpu },
       caches: { radarProducts: hiveBetaRadarProductJobs?.size || 0, gates: polarGateCache?.size || 0, meshes: polarMeshCache?.size || 0 }
     };
   }
@@ -8113,6 +8115,12 @@ function createPolarRadarLayer(mesh, layerId = "active-radar-polar") {
   let positionBuffer;
   let colorBuffer;
   let mapRef;
+  let glRef;
+  let uMatrix;
+  let aPos;
+  let aColor;
+  let positionCapacity = 0;
+  let colorCapacity = 0;
   let vertexCount = mesh.vertexCount;
 
   const vertexSource = `
@@ -8150,6 +8158,7 @@ function createPolarRadarLayer(mesh, layerId = "active-radar-polar") {
     renderingMode: "2d",
     onAdd(mapInstance, gl) {
       mapRef = mapInstance;
+      glRef = gl;
       const vs = compile(gl, gl.VERTEX_SHADER, vertexSource);
       const fs = compile(gl, gl.FRAGMENT_SHADER, fragmentSource);
       program = gl.createProgram();
@@ -8159,13 +8168,18 @@ function createPolarRadarLayer(mesh, layerId = "active-radar-polar") {
       if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
         throw new Error(gl.getProgramInfoLog(program) || "program link failed");
       }
+      uMatrix = gl.getUniformLocation(program, "u_matrix");
+      aPos = gl.getAttribLocation(program, "a_pos");
+      aColor = gl.getAttribLocation(program, "a_color");
 
       positionBuffer = gl.createBuffer();
       colorBuffer = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, mesh.positions, gl.STATIC_DRAW);
+      positionCapacity = mesh.positions.byteLength;
       gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, mesh.colors, gl.STATIC_DRAW);
+      colorCapacity = mesh.colors.byteLength;
     },
     render(gl, args) {
       if (!program || !vertexCount) {
@@ -8187,11 +8201,7 @@ function createPolarRadarLayer(mesh, layerId = "active-radar-polar") {
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
       gl.useProgram(program);
-      const uMatrix = gl.getUniformLocation(program, "u_matrix");
       gl.uniformMatrix4fv(uMatrix, false, matrix);
-
-      const aPos = gl.getAttribLocation(program, "a_pos");
-      const aColor = gl.getAttribLocation(program, "a_color");
 
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
       gl.enableVertexAttribArray(aPos);
@@ -8222,13 +8232,24 @@ function createPolarRadarLayer(mesh, layerId = "active-radar-polar") {
     updateMesh(nextMesh, gl) {
       mesh = nextMesh;
       vertexCount = nextMesh.vertexCount;
-      if (!gl || !positionBuffer) {
+      const context = gl || glRef;
+      if (!context || !positionBuffer) {
         return;
       }
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, nextMesh.positions, gl.STATIC_DRAW);
-      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, nextMesh.colors, gl.STATIC_DRAW);
+      const startedAt = performance.now();
+      context.bindBuffer(context.ARRAY_BUFFER, positionBuffer);
+      if (nextMesh.positions.byteLength <= positionCapacity) context.bufferSubData(context.ARRAY_BUFFER, 0, nextMesh.positions);
+      else { context.bufferData(context.ARRAY_BUFFER, nextMesh.positions, context.STATIC_DRAW); positionCapacity = nextMesh.positions.byteLength; }
+      context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+      if (nextMesh.colors.byteLength <= colorCapacity) context.bufferSubData(context.ARRAY_BUFFER, 0, nextMesh.colors);
+      else { context.bufferData(context.ARRAY_BUFFER, nextMesh.colors, context.STATIC_DRAW); colorCapacity = nextMesh.colors.byteLength; }
+      context.bindBuffer(context.ARRAY_BUFFER, null);
+      const elapsed = performance.now() - startedAt;
+      if (window.hiveBetaPerformance?.gpu) {
+        window.hiveBetaPerformance.gpu.uploads += 1;
+        window.hiveBetaPerformance.gpu.uploadBytes += nextMesh.positions.byteLength + nextMesh.colors.byteLength;
+        window.hiveBetaPerformance.gpu.uploadMs += elapsed;
+      }
     }
   };
 }
@@ -13094,11 +13115,14 @@ async function addRadarProductToMap(product, options = {}) {
           : "active-radar-polar");
   const clearOthers = options.clearOthers !== false && !options.map;
   const appendLayer = options.append === true;
+  const trackedLayers = polarLayersByMap.get(targetMap);
+  const trackedList = Array.isArray(trackedLayers) ? trackedLayers : trackedLayers ? [trackedLayers] : [];
+  const canReusePolar = !appendLayer && product.renderer === "polar-bins" && targetMap.getLayer(layerId) && trackedList.some((layer) => layer.id === layerId && typeof layer.updateMesh === "function");
 
   if (!appendLayer) {
     if (clearOthers) {
       removeActiveRadarProduct();
-    } else {
+    } else if (!canReusePolar) {
       removePolarFromMap(targetMap);
     }
   }
@@ -13133,6 +13157,7 @@ async function addRadarProductToMap(product, options = {}) {
     polarSampleByMap.set(targetMap, { product, gateBytes });
 
     if (!mesh.vertexCount && product.noSignal) {
+      if (canReusePolar) removePolarFromMap(targetMap);
       if (targetMap === map) {
         activeRadarProduct = product;
       }
@@ -13143,8 +13168,16 @@ async function addRadarProductToMap(product, options = {}) {
       throw new Error("Polar product had no drawable gates");
     }
 
-    const polarLayer = createPolarRadarLayer(mesh, layerId);
     const tracked = polarLayersByMap.get(targetMap);
+    const existingLayer = (Array.isArray(tracked) ? tracked : tracked ? [tracked] : []).find((layer) => layer.id === layerId);
+    if (canReusePolar && existingLayer?.updateMesh) {
+      existingLayer.updateMesh(mesh);
+      polarSampleByMap.set(targetMap, { product, gateBytes });
+      if (targetMap === map) activeRadarProduct = product;
+      targetMap.triggerRepaint();
+      return;
+    }
+    const polarLayer = createPolarRadarLayer(mesh, layerId);
     polarLayersByMap.set(targetMap, Array.isArray(tracked) ? [...tracked, polarLayer] : tracked ? [tracked, polarLayer] : [polarLayer]);
     // Keep polar under basemap overlays + city labels (RadarScope-style stack).
     const beforeLayerId = targetMap.getLayer("states-line")
@@ -31819,7 +31852,9 @@ function initializeHiveBetaDataOverview() {
     const fpsState = navigation.fps >= 50 ? "smooth" : navigation.fps >= 35 ? "fair" : navigation.fps > 0 ? "slow" : "idle";
     navigationSummary.className = `beta-navigation-summary is-${fpsState}`;
     navigationSummary.innerHTML = `<span><small>Navigation FPS</small><strong>${navigation.fps ? navigation.fps.toFixed(1) : "Move map"}</strong></span><span><small>Long tasks · 60s</small><strong>${recentLongTasks.length}</strong></span><span><small>Rendering panes</small><strong>${initializedMaps.length - suspendedMaps}/${initializedMaps.length}</strong></span>`;
-    cacheSummary.textContent = `Cache · radar ${hiveBetaRadarProductJobs.size} · model ${hiveBetaModelBlobCache.size} · satellite ${hiveBetaSatelliteBlobCache.size} · persistent hits ${stats.persistentHits}`;
+    const gpu = hiveBetaPerformance.gpu;
+    const uploadMs = gpu.uploads ? (gpu.uploadMs / gpu.uploads).toFixed(1) : "0.0";
+    cacheSummary.textContent = `Cache · radar ${hiveBetaRadarProductJobs.size} · model ${hiveBetaModelBlobCache.size} · satellite ${hiveBetaSatelliteBlobCache.size} · persistent hits ${stats.persistentHits} · GPU updates ${gpu.uploads} (${uploadMs} ms avg)`;
   };
   section.addEventListener("click", (event) => {
     const button = event.target.closest("[data-beta-feed-retry]");
