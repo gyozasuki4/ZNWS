@@ -59,7 +59,7 @@
         <p class="intro">Create a single-use code on an authorized workstation, then enter it once in Hive Native. Codes expire after 15 minutes. Enrolled devices reconnect automatically until revoked here.</p>
         <form class="native-enrollment-form" id="nativeEnrollmentForm">
           <label>Workstation name<input id="nativeWorkstationName" maxlength="80" placeholder="CLE Operations Desk 1" required></label>
-          <label>Authorized WFOs / centers<input id="nativeWorkstationWfos" maxlength="120" placeholder="SPC, CYS" value="SPC, CYS" required><small>Comma-separated authorization scopes. Use SPC for SPC watch operations and WFO codes for local warning operations.</small></label>
+          <label>Authorized WFOs / centers<input id="nativeWorkstationWfos" maxlength="120" value="ALL" required><small>Use ALL to authorize every WFO and SPC, or enter a comma-separated restricted scope.</small></label>
           <button type="submit">Create enrollment code</button>
         </form>
         <div class="native-enrollment-code" id="nativeEnrollmentCode" hidden>

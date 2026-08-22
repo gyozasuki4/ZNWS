@@ -891,7 +891,7 @@ function sessionAllowsWorkstationWfo(session, wfo) {
   if (session?.via !== "workstation") return true;
   const wanted = String(wfo || "").trim().toUpperCase();
   const allowed = Array.isArray(session.workstationWfos) && session.workstationWfos.length ? session.workstationWfos : session.workstationWfo ? [session.workstationWfo] : [];
-  return Boolean(wanted && allowed.includes(wanted));
+  return Boolean(wanted && (allowed.includes(wanted) || allowed.includes("ALL")));
 }
 
 function loadHazardTemplates() {
@@ -15764,7 +15764,7 @@ async function handleApi(request, response) {
       const payload = JSON.parse((await readRequestBody(request)) || "{}");
       requestedWfo = String(payload.wfo || "").trim().toUpperCase().slice(0, 8);
     } catch { /* optional body */ }
-    if (requestedWfo && workstation.wfos.length && !workstation.wfos.includes(requestedWfo)) {
+    if (requestedWfo && workstation.wfos.length && !workstation.wfos.includes(requestedWfo) && !workstation.wfos.includes("ALL")) {
       try { recordAccessEvent(request, { ...workstation, authenticated: false }, "desktop-workstation-wfo-denied", { warningWfo: requestedWfo }); } catch { /* preserve response */ }
       sendJson(response, 403, { error: "Workstation is not authorized for the requested WFO", authMethod: "workstation", wfos: workstation.wfos });
       return true;
