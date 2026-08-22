@@ -27213,7 +27213,18 @@ if (controls.spcClearAllButton) {
   controls.spcClearAllButton.addEventListener("click", clearSpcAll);
 }
 if (controls.spcIssueButton) {
-  controls.spcIssueButton.addEventListener("click", issueSpcWatch);
+  controls.spcIssueButton.addEventListener("click", () => {
+    controls.spcIssueButton.disabled = true;
+    void issueSpcWatch()
+      .catch((error) => {
+        console.error("SPC issue failed before server save", error);
+        showBanner(`SPC issue failed: ${error?.message || "check the watch box and counties, then retry"}`);
+      })
+      .finally(() => {
+        updateSpcLifecycleButtons();
+        if (spcState?.status === "draft") controls.spcIssueButton.disabled = false;
+      });
+  });
 }
 if (controls.spcUpdateButton) {
   controls.spcUpdateButton.addEventListener("click", () => updateSpcWatch("CON"));
