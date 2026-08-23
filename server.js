@@ -6255,7 +6255,7 @@ function isSpcWatchProduct(w) {
 /**
  * Flatten product geometry history into placefile segments.
  * Prefer explicit timeline[]; fall back to issuedAt→expiresAt for legacy records.
- * @param {{ animated?: boolean, hoursBack?: number, productFilter?: 'all'|'warnings'|'watches' }} options
+ * @param {{ animated?: boolean, hoursBack?: number, productFilter?: 'all'|'warnings'|'watches'|'sps' }} options
  */
 function collectPlacefileSegments(store, { animated = true, hoursBack = 12, productFilter = "all" } = {}) {
   const cutoff = Date.now() - Math.max(1, hoursBack) * 3600_000;
@@ -6265,6 +6265,7 @@ function collectPlacefileSegments(store, { animated = true, hoursBack = 12, prod
     if (!w) {
       return;
     }
+    const productCode = String(w.product || "").toUpperCase();
     // Zone-based GFE hazards share the shaded watches placefile. Polygon
     // WarnGen products remain in the warnings outline feed.
     const isWatch = isSpcWatchProduct(w) || w.kind === "gfe-hazard";
@@ -6272,6 +6273,9 @@ function collectPlacefileSegments(store, { animated = true, hoursBack = 12, prod
       return;
     }
     if (productFilter === "warnings" && isWatch) {
+      return;
+    }
+    if (productFilter === "sps" && productCode !== "SPS") {
       return;
     }
     // Cancelled / expired watches must not keep shading the map or GR placefile
@@ -6285,7 +6289,7 @@ function collectPlacefileSegments(store, { animated = true, hoursBack = 12, prod
     }
 
     const etn = formatEtnPublic(w.etn || w.watchNumber);
-    const product = w.product || "SVR";
+    const product = productCode || "SVR";
     const productId =
       w.productId ||
       (isWatch
@@ -6384,7 +6388,7 @@ function collectPlacefileSegments(store, { animated = true, hoursBack = 12, prod
 /**
  * GRLevelX placefile with TimeRange so geometries animate with radar frames.
  *
- * @param {{ baseUrl?: string, animated?: boolean, hoursBack?: number, productFilter?: 'all'|'warnings'|'watches' }} options
+ * @param {{ baseUrl?: string, animated?: boolean, hoursBack?: number, productFilter?: 'all'|'warnings'|'watches'|'sps' }} options
  *   - warnings → outline polygons (threat boxes) via Line:
  *   - SPC watches → shaded county fills with a light outline
  *   - zone hazards → shaded fills only, without borders
@@ -6396,11 +6400,11 @@ function buildGrlevelPlacefile(
   const segments = collectPlacefileSegments(store, { animated, hoursBack, productFilter });
   const lines = [];
   const filterLabel =
-    productFilter === "watches" ? "Watches" : productFilter === "warnings" ? "Warnings" : "Products";
+    productFilter === "watches" ? "Watches" : productFilter === "warnings" ? "Warnings" : productFilter === "sps" ? "Special Weather Statements" : "Products";
   const styleNote =
     productFilter === "watches"
       ? "shaded county fills (Polygon:)"
-      : productFilter === "warnings"
+      : productFilter === "warnings" || productFilter === "sps"
         ? "threat polygon outlines (Line:)"
         : "mixed outlines + fills";
 
@@ -6415,6 +6419,9 @@ function buildGrlevelPlacefile(
     } else if (productFilter === "warnings") {
       lines.push(`; Warnings (outlines): ${baseUrl}/api/public/placefile/warnings`);
       lines.push(`; Watches (shaded): ${baseUrl}/api/public/placefile/watches`);
+      lines.push(`; SPS only: ${baseUrl}/api/public/placefile/sps`);
+    } else if (productFilter === "sps") {
+      lines.push(`; SPS only (outlines): ${baseUrl}/api/public/placefile/sps`);
     } else {
       lines.push(`; Combined: ${baseUrl}/api/public/placefile`);
       lines.push(`; Prefer separate feeds: …/placefile/warnings and …/placefile/watches`);
@@ -6447,7 +6454,7 @@ function buildGrlevelPlacefile(
     const rings = polygonRingsLatLon(seg.polygon);
     // Watches → filled counties; warnings → outline polys only
     const useFill = productFilter === "watches" || (productFilter === "all" && seg.isWatch);
-    const useOutline = productFilter === "warnings" || (productFilter === "all" && !seg.isWatch) || (useFill&&!seg.isZoneHazard);
+    const useOutline = productFilter === "warnings" || productFilter === "sps" || (productFilter === "all" && !seg.isWatch) || (useFill&&!seg.isZoneHazard);
 
     rings.forEach((ring, ringIndex) => {
       if (ring.length < 3) {
@@ -18097,9 +18104,12 @@ async function handleApi(request, response) {
     (requestUrl.pathname === "/api/public/placefile" ||
       requestUrl.pathname === "/api/public/placefile/animated" ||
       requestUrl.pathname === "/api/public/placefile/warnings" ||
+      requestUrl.pathname === "/api/public/placefile/sps" ||
       requestUrl.pathname === "/api/public/placefile/watches" ||
       requestUrl.pathname === "/placefile/warnings.txt" ||
       requestUrl.pathname === "/placefile/warnings" ||
+      requestUrl.pathname === "/placefile/sps" ||
+      requestUrl.pathname === "/placefile/sps.txt" ||
       requestUrl.pathname === "/placefile/warnings_animated.txt" ||
       requestUrl.pathname === "/placefile/watches.txt" ||
       requestUrl.pathname === "/placefile/watches")
@@ -18119,6 +18129,8 @@ async function handleApi(request, response) {
       productFilter = "watches";
     } else if (pathLower.includes("warning")) {
       productFilter = "warnings";
+    } else if (pathLower.includes("sps")) {
+      productFilter = "sps";
     } else {
       // Query override: ?type=watches|warnings|all
       const typeParam = (requestUrl.searchParams.get("type") || "").toLowerCase();
@@ -18126,6 +18138,8 @@ async function handleApi(request, response) {
         productFilter = "watches";
       } else if (typeParam === "warnings" || typeParam === "warning") {
         productFilter = "warnings";
+      } else if (typeParam === "sps") {
+        productFilter = "sps";
       }
     }
     const body = buildGrlevelPlacefile(store, {
